@@ -22,16 +22,26 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->hideMenu(false);
         $window->maximize('main');
         MenuBar::create()
+            ->showDockIcon()
             ->onlyShowContextMenu()
             ->withContextMenu(
                 Menu::new()
                     ->label('Open Sketch')
                     ->separator()
-                    ->link('https://nativephp.com', 'Learn more…')
-                    ->link('https://nativephp.com', 'Contribute')
+                    ->link('https://github.com/kpicaza/open-sketch', 'Learn more…')
+                    ->link('https://github.com/sponsors/kpicaza', 'Contribute')
                     ->separator()
                     ->quit()
-            );
+            )
+            ->icon(storage_path('app/images/logo.png'))
+        ;
+
+        Menu::new()
+            ->appMenu()
+            ->editMenu()
+            ->viewMenu()
+            ->windowMenu()
+            ->register();
     }
 
     /**

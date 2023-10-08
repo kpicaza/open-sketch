@@ -5,16 +5,18 @@ import {customElement, property, query} from "lit/decorators.js";
 export class SketchCanvas extends LitElement {
   static styles = css`
     :host {
-      min-width: 960px;
-      width: 100%;
+      height: 80vh;
     }
     canvas {
+      width: 120vh;
       background: #FFFFFF;
       cursor: crosshair;
-      overflow: scroll;
     }
     .pencil-tools {
-      display: block;
+      display: flex;
+      height: 125px;
+      align-items: center;
+      justify-content: center;
     }
   `
 
@@ -32,7 +34,7 @@ export class SketchCanvas extends LitElement {
     this.context!.fillStyle = this.color;
     this.context!.strokeStyle = this.color;
     this.context!.lineJoin = "round";
-    this.canvasWidth = this.parentElement!.offsetWidth;
+    this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
   }
 

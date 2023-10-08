@@ -14,7 +14,7 @@
                 background-color: #ededed;
             }
         </style>
-        <title>open-sketch</title>
+        <title>Open Sketch</title>
     </head>
     <body class="antialiased">
         <open-sketch></open-sketch>
