@@ -36,6 +36,7 @@ export class SketchCanvas extends LitElement {
     this.context!.fillStyle = this.color;
     this.context!.strokeStyle = this.color;
     this.context!.lineJoin = "round";
+
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
   }
@@ -81,7 +82,16 @@ export class SketchCanvas extends LitElement {
   }
 
   protected stopDrawing(event: MouseEvent) {
+    if (!this.painting) {
+      return;
+    }
     this.painting = false;
+    this.dispatchEvent(new CustomEvent(
+      'sketchbooksaved',
+      {
+        detail: new URL(this.canvas.toDataURL("image/png"))
+      }
+    ))
   }
 
   protected render() {

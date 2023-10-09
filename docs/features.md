@@ -9,6 +9,7 @@
 
 ## Sketch Book
 
-* [ ] Create Sketch Book
-* [ ] Add new Sketch to the Sketch Book
+* [x] Create Default Sketch Book
+* [x] Add new Sketch to the Sketch Book
 * [ ] Save and reload Sketches on Sketch Book
+* [ ] Allow selecting and creating new Sketch Books

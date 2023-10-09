@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {query, property, customElement} from 'lit/decorators.js';
 import "./components/canvas/SketchCanvas";
 import "./components/sketch-book/AddSketch";
+import {SketchBookRepository} from "./domain/SketchBookRepository";
 
 
 @customElement('open-sketch')
@@ -64,21 +65,47 @@ export class OpenSketch extends LitElement {
 
   @query("main") sketchWrapper: HTMLDivElement;
   @property() sketchNumber: Array<number> = [1];
+  @property() sketchBookRepository: SketchBookRepository;
+  @property() sketchBookId: string;
+
+  constructor() {
+    super();
+    this.sketchBookRepository = new SketchBookRepository();
+    const url = URL.createObjectURL(new Blob());
+    this.sketchBookId = url.substring(url.lastIndexOf('/') + 1);
+  }
 
   protected appendSketch(event: CustomEvent) {
     this.sketchNumber.push(this.sketchNumber.length + 1);
     this.requestUpdate();
   }
 
+  protected saveSketchBook(event: CustomEvent) {
+    const sketch = event.target as HTMLDivElement;
+
+    this.sketchBookRepository.save({
+      id: this.sketchBookId,
+      sketches: [
+        {
+          id: sketch.dataset.id as number,
+          image: event.detail
+        }
+      ]
+    })
+  }
+
   render() {
     return html`
       <main>
         <div class="horizontal-scroll-wrapper">
-          ${this.sketchNumber.map(() => {
+          ${this.sketchNumber.map((id: number) => {
             return html`
               <div class="sketches">
                 <div class="sketch">
-                  <sketch-canvas></sketch-canvas>
+                  <sketch-canvas
+                    data-id=${id}
+                    @sketchbooksaved=${this.saveSketchBook}
+                  ></sketch-canvas>
                 </div>
               </div>
             `;
