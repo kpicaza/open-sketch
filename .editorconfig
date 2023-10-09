@@ -16,3 +16,12 @@ indent_size = 2
 
 [docker-compose.yml]
 indent_size = 4
+
+[*.{json,ts,js,html}]
+indent_size = 2
+
+[*.{html,js,md}]
+block_comment_start = /**
+block_comment = *
+block_comment_end = */
+

@@ -7,11 +7,13 @@ export class SketchCanvas extends LitElement {
     :host {
       height: 80vh;
     }
+
     canvas {
       width: 120vh;
       background: #FFFFFF;
       cursor: crosshair;
     }
+
     .pencil-tools {
       display: flex;
       height: 125px;
@@ -22,7 +24,7 @@ export class SketchCanvas extends LitElement {
 
   @query("#sheet") canvas!: HTMLCanvasElement;
 
-  @property() context: CanvasRenderingContext2D|null = null;
+  @property() context: CanvasRenderingContext2D | null = null;
   @property() painting: boolean = false;
   @property() lineWidth: number = 3;
   @property() canvasWidth: number = 960;
@@ -86,7 +88,7 @@ export class SketchCanvas extends LitElement {
     return html`
       <div class="pencil-tools">
         <input type="color" @input=${this.changeColor}/>
-        <input type="range" min="1" max="100" @input=${this.changeLineSize} value=${this.lineWidth} />
+        <input type="range" min="1" max="100" @input=${this.changeLineSize} value=${this.lineWidth}/>
       </div>
       <canvas
         id="sheet"

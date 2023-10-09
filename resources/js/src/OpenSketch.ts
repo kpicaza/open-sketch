@@ -1,12 +1,12 @@
-import { LitElement, html, css } from 'lit';
-import { query, property, customElement } from 'lit/decorators.js';
+import {LitElement, html, css} from 'lit';
+import {query, property, customElement} from 'lit/decorators.js';
 import "./components/canvas/SketchCanvas";
 import "./components/sketch-book/AddSketch";
 
 
 @customElement('open-sketch')
 export class OpenSketch extends LitElement {
-  @property({ type: String }) header = 'My app';
+  @property({type: String}) header = 'My app';
 
   static styles = css`
     :host {
@@ -22,34 +22,34 @@ export class OpenSketch extends LitElement {
     }
 
     main {
-        flex-grow: 1;
+      flex-grow: 1;
     }
 
     .horizontal-scroll-wrapper {
-        display: flex;
-        overflow-x: hidden;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
+      display: flex;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
     }
 
     .horizontal-scroll-wrapper > .sketches {
-        display: flex;
-        flex: 0 0 auto;
+      display: flex;
+      flex: 0 0 auto;
     }
 
     .horizontal-scroll-wrapper > .sketches > .sketch {
-        flex-direction: column;
-        flex-wrap: wrap;
-        height: 80vh;
-        margin-left: 65px;
-        margin-right: 65px;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 80vh;
+      margin-left: 65px;
+      margin-right: 65px;
     }
 
     .sketch-book-controls {
-        position: fixed;
-        right: 0;
-        z-index: 10;
+      position: fixed;
+      right: 0;
+      z-index: 10;
     }
 
     .app-footer {
@@ -66,30 +66,30 @@ export class OpenSketch extends LitElement {
   @property() sketchNumber: Array<number> = [1];
 
   protected appendSketch(event: CustomEvent) {
-      this.sketchNumber.push(this.sketchNumber.length + 1);
-      this.requestUpdate();
+    this.sketchNumber.push(this.sketchNumber.length + 1);
+    this.requestUpdate();
   }
 
   render() {
     return html`
       <main>
-          <div class="horizontal-scroll-wrapper">
-              ${this.sketchNumber.map(() => {
-                  return html`
-                      <div class="sketches">
-                          <div class="sketch">
-                              <sketch-canvas></sketch-canvas>
-                          </div>
-                      </div>
-                  `;
-              })}
-          </div>
+        <div class="horizontal-scroll-wrapper">
+          ${this.sketchNumber.map(() => {
+            return html`
+              <div class="sketches">
+                <div class="sketch">
+                  <sketch-canvas></sketch-canvas>
+                </div>
+              </div>
+            `;
+          })}
+        </div>
       </main>
 
       <aside class="sketch-book-controls">
-          <add-sketch
-              @sketchadded=${this.appendSketch}
-          ></add-sketch>
+        <add-sketch
+          @sketchadded=${this.appendSketch}
+        ></add-sketch>
       </aside>
 
       <footer class="app-footer">
