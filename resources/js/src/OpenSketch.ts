@@ -1,8 +1,10 @@
 import {LitElement, html, css} from 'lit';
 import {query, property, customElement} from 'lit/decorators.js';
+import {SketchBookRepository} from "./domain/SketchBookRepository";
+import {Brush} from "./domain/model/Brush";
 import "./components/canvas/SketchCanvas";
 import "./components/sketch-book/AddSketch";
-import {SketchBookRepository} from "./domain/SketchBookRepository";
+import "./components/drawing-tools/BrushOptions";
 
 
 @customElement('open-sketch')
@@ -22,7 +24,18 @@ export class OpenSketch extends LitElement {
       background-color: var(--open-sketch-background-color);
     }
 
+    .brush-tools {
+      display: flex;
+      position: fixed;
+      top: 0;
+      height: 125px;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
     main {
+      margin-top: 125px;
       flex-grow: 1;
     }
 
@@ -67,6 +80,10 @@ export class OpenSketch extends LitElement {
   @property() sketchNumber: Array<number> = [1];
   @property() sketchBookRepository: SketchBookRepository;
   @property() sketchBookId: string;
+  @property() brush: Brush = {
+    lineWidth: 3,
+    color: '#000000'
+  };
 
   constructor() {
     super();
@@ -75,9 +92,16 @@ export class OpenSketch extends LitElement {
     this.sketchBookId = url.substring(url.lastIndexOf('/') + 1);
   }
 
-  protected appendSketch(event: CustomEvent) {
+  protected async appendSketch(event: CustomEvent) {
+    const body = this.parentElement.parentElement;
     this.sketchNumber.push(this.sketchNumber.length + 1);
-    this.requestUpdate();
+    await this.requestUpdate();
+    const scrollWidth = body.scrollWidth + 100;
+    body.scroll({
+      top: 0,
+      left: scrollWidth,
+      behavior: "smooth",
+    })
   }
 
   protected saveSketchBook(event: CustomEvent) {
@@ -94,8 +118,35 @@ export class OpenSketch extends LitElement {
     })
   }
 
+  protected changeBrushLineWidth(event: CustomEvent) {
+    this.brush = {
+      lineWidth: event.detail,
+      color: this.brush.color
+    }
+  }
+
+  protected changeBrushColor(event: CustomEvent) {
+    this.brush = {
+      lineWidth: this.brush.lineWidth,
+      color: event.detail
+    }
+  }
+
   render() {
     return html`
+      <menu class="brush-tools">
+        <brush-options
+          @linewidthchanged=${this.changeBrushLineWidth}
+          @colorchanged=${this.changeBrushColor}
+        ></brush-options>
+      </menu>
+
+      <aside class="sketch-book-controls">
+        <add-sketch
+          @sketchadded=${this.appendSketch}
+        ></add-sketch>
+      </aside>
+
       <main>
         <div class="horizontal-scroll-wrapper">
           ${this.sketchNumber.map((id: number) => {
@@ -103,6 +154,8 @@ export class OpenSketch extends LitElement {
               <div class="sketches">
                 <div class="sketch">
                   <sketch-canvas
+                    .lineWidth=${this.brush.lineWidth}
+                    .color=${this.brush.color}
                     data-id=${id}
                     @sketchbooksaved=${this.saveSketchBook}
                   ></sketch-canvas>
@@ -112,12 +165,6 @@ export class OpenSketch extends LitElement {
           })}
         </div>
       </main>
-
-      <aside class="sketch-book-controls">
-        <add-sketch
-          @sketchadded=${this.appendSketch}
-        ></add-sketch>
-      </aside>
 
       <footer class="app-footer">
       </footer>

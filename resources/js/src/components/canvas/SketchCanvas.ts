@@ -13,13 +13,6 @@ export class SketchCanvas extends LitElement {
       background: #FFFFFF;
       cursor: crosshair;
     }
-
-    .pencil-tools {
-      display: flex;
-      height: 125px;
-      align-items: center;
-      justify-content: center;
-    }
   `
 
   @query("#sheet") canvas!: HTMLCanvasElement;
@@ -33,12 +26,17 @@ export class SketchCanvas extends LitElement {
 
   protected firstUpdated() {
     this.context = this.canvas.getContext("2d")
-    this.context!.fillStyle = this.color;
-    this.context!.strokeStyle = this.color;
     this.context!.lineJoin = "round";
+    this.setBrush();
 
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
+  }
+
+  protected setBrush() {
+    this.context!.lineWidth = this.lineWidth;
+    this.context!.fillStyle = this.color;
+    this.context!.strokeStyle = this.color;
   }
 
   protected draw(event: MouseEvent) {
@@ -46,19 +44,6 @@ export class SketchCanvas extends LitElement {
       this.context!.lineTo(event.offsetX, event.offsetY);
       this.context!.stroke();
     }
-  }
-
-  protected changeLineSize(event: InputEvent) {
-    const input: HTMLInputElement = event.target as HTMLInputElement;
-    this.lineWidth = input.value as unknown as number / Math.PI
-    this.context!.lineWidth = this.lineWidth
-  }
-
-  protected changeColor(event: InputEvent) {
-    const input: HTMLInputElement = event.target as HTMLInputElement;
-    this.color = input.value;
-    this.context!.fillStyle = this.color;
-    this.context!.strokeStyle = this.color;
   }
 
   protected dash(event: MouseEvent) {
@@ -75,6 +60,7 @@ export class SketchCanvas extends LitElement {
   }
 
   protected startDrawing(event: MouseEvent) {
+    this.setBrush()
     this.dash(event);
     this.context!.beginPath();
     this.context!.moveTo(event.offsetX, event.offsetY);
@@ -96,10 +82,6 @@ export class SketchCanvas extends LitElement {
 
   protected render() {
     return html`
-      <div class="pencil-tools">
-        <input type="color" @input=${this.changeColor}/>
-        <input type="range" min="1" max="100" @input=${this.changeLineSize} value=${this.lineWidth}/>
-      </div>
       <canvas
         id="sheet"
         width=${this.canvasWidth}
