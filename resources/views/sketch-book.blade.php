@@ -17,7 +17,7 @@
         <title>Open Sketch</title>
     </head>
     <body class="antialiased">
-        <open-sketch></open-sketch>
-        @vite(['resources/css/app.css', 'resources/js/app.ts'])
+        <open-sketch sketchBookId="{{$sketchBookId}}"></open-sketch>
+        @vite(['resources/css/app.css', 'resources/js/src/pages/OpenSketch.ts'])
     </body>
 </html>

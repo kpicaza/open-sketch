@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\DocumentOpened;
+use App\Events\DocumentSaved;
 use Native\Laravel\Facades\MenuBar;
 use Native\Laravel\Facades\Window;
 use Native\Laravel\Contracts\ProvidesPhpIni;
@@ -16,17 +18,16 @@ class NativeAppServiceProvider implements ProvidesPhpIni
      */
     public function boot(): void
     {
-        /** @var WindowManager $window */
-        $window = Window::getFacadeRoot();
-        $window->open()
-            ->hideMenu(false);
-        $window->maximize('main');
         MenuBar::create()
             ->showDockIcon()
             ->onlyShowContextMenu()
             ->withContextMenu(
                 Menu::new()
                     ->label('Open Sketch')
+                    ->submenu('File', Menu::new()
+                        ->event(DocumentOpened::class, 'Open Recent')
+                        ->event(DocumentSaved::class, 'New Sketch Book')
+                    )
                     ->separator()
                     ->link('https://github.com/kpicaza/open-sketch', 'Learn more…')
                     ->link('https://github.com/sponsors/kpicaza', 'Contribute')
@@ -35,13 +36,23 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             )
             ->icon(storage_path('app/images/logo.png'))
         ;
-
         Menu::new()
-            ->appMenu()
-            ->editMenu()
-            ->viewMenu()
+            ->submenu('Open Sketch', Menu::new()
+                ->link('https://nativephp.com', 'Documentation')
+            )
+            ->submenu('File', Menu::new()
+                ->event(\App\Events\DocumentOpened::class, 'Open Recent')
+                ->event(DocumentSaved::class, 'New Sketch Book')
+            )
             ->windowMenu()
             ->register();
+
+        /** @var WindowManager $window */
+        $window = Window::getFacadeRoot();
+
+        $window->open('welcome')
+            ->hideMenu(false);
+        $window->resize(800, 600, 'welcome');
     }
 
     /**

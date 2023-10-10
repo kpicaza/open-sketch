@@ -18,6 +18,12 @@ export const sketchBookState: SketchBookState = {
 
 const sketchBookRepository = new SketchBookRepository();
 
+export const loadSketchBook = async (state: SketchBookState, sketchBookId: string) => {
+  const sketchBook = await sketchBookRepository.get(sketchBookId);
+  state.id = sketchBook.id;
+  state.sketches = sketchBook.sketches;
+}
+
 export const saveSketchBook = async (state: SketchBookState, sketchBook: SketchBook)  => {
   state.id = sketchBook.id;
   state.sketches = sketchBook.sketches;

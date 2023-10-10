@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Native\Laravel\Dialog;
+use Native\Laravel\Facades\Window;
+use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
+use Ramsey\Uuid\Uuid;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +20,19 @@ use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::put('/sketch-books', [PutSketchBook::class, 'handle']);
+Route::get('/sketch-books/{id}', [GetSketchBook::class, 'handle']);
+
+Route::post('/sketch-books/open', function () {
+
+    \App\Events\DocumentOpened::dispatch();
+
+    return new JsonResponse([], 201);
 });
 
-Route::put('/sketch-books', [PutSketchBook::class, 'handle']);
+Route::post('/sketch-books/save', function () {
+
+    \App\Events\DocumentSaved::dispatch();
+
+    return new JsonResponse([], 201);
+});

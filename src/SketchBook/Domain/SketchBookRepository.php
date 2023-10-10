@@ -9,4 +9,5 @@ use OpenSketch\SketchBook\Domain\Model\SketchBook;
 interface SketchBookRepository
 {
     public function save(SketchBook $sketchBook): void;
+    public function get(string $sketchBookId): SketchBook;
 }

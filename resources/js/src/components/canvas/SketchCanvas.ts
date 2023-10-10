@@ -23,15 +23,26 @@ export class SketchCanvas extends LitElement {
   @property() canvasWidth: number = 960;
   @property() canvasHeight: number = 0;
   @property() color: string = "#000000";
+  @property() image?: string;
 
   protected firstUpdated() {
     this.context = this.canvas.getContext("2d")
     this.context!.lineJoin = "round";
     this.setBrush();
-
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
-    this.saveSketchBook();
+    if (this.image) {
+      this.setImage();
+    }
+    setTimeout(() => this.setImage(), 500);
+  }
+
+  protected setImage() {
+    const img = new Image();
+    img.onload = () => {
+          this.context!.drawImage(img, 0, 0);
+    };
+    img.src = this.image;
   }
 
   protected setBrush() {

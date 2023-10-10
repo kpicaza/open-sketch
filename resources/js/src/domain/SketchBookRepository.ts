@@ -11,4 +11,15 @@ export class SketchBookRepository
       body: JSON.stringify(sketchBook),
     });
   }
+
+  public async get(sketchBookId: string): Promise<SketchBook> {
+    const response = await fetch('/api/sketch-books/' + sketchBookId, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+      },
+    });
+
+    return await response.json() as unknown as SketchBook;
+  }
 }

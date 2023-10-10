@@ -1,15 +1,15 @@
 import {LitElement, html, css} from 'lit';
 import {query, property, customElement} from 'lit/decorators.js';
 import {StoreSubscriber} from "lit-svelte-stores";
-import {saveSketchBook, SketchBookState} from "./store/SketchBookState";
-import {SketchBookStore} from "./store/AppState";
-import {SketchBook} from "./domain/model/SketchBook";
-import {Sketch} from "./domain/model/Sketch";
-import {Brush} from "./domain/model/Brush";
-import "./components/canvas/SketchCanvas";
-import "./components/sketch-book/AddSketch";
-import "./components/sketch-book/SketchPreview";
-import "./components/drawing-tools/BrushOptions";
+import {loadSketchBook, saveSketchBook, SketchBookState} from "./../store/SketchBookState";
+import {SketchBookStore} from "./../store/AppState";
+import {SketchBook} from "./../domain/model/SketchBook";
+import {Sketch} from "./../domain/model/Sketch";
+import {Brush} from "./../domain/model/Brush";
+import "./../components/canvas/SketchCanvas";
+import "./../components/sketch-book/AddSketch";
+import "./../components/sketch-book/SketchPreview";
+import "./../components/drawing-tools/BrushOptions";
 
 
 @customElement('open-sketch')
@@ -21,7 +21,7 @@ export class OpenSketch extends LitElement {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       font-size: calc(10px + 2vmin);
       color: #1a2b42;
       width: 100%;
@@ -41,11 +41,15 @@ export class OpenSketch extends LitElement {
 
     main {
       margin-top: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
       flex-grow: 1;
     }
 
     .horizontal-scroll-wrapper {
       display: flex;
+      width: 100%;
       overflow-x: hidden;
       overflow-y: hidden;
       flex-wrap: nowrap;
@@ -67,6 +71,7 @@ export class OpenSketch extends LitElement {
 
     .sketch-book-controls {
       position: fixed;
+      top: 1vh;
       right: 0;
       z-index: 10;
     }
@@ -114,6 +119,7 @@ export class OpenSketch extends LitElement {
   @query("main") sketchWrapper: HTMLDivElement;
   @query("footer") sketchFooter: HTMLDivElement;
   @property() sketchNumber: number = 1;
+  @property() sketchBookId: string = '';
   @property() previewScrollPosition: number = 0;
   @property() brush: Brush = {
     lineWidth: 3,
@@ -134,17 +140,21 @@ export class OpenSketch extends LitElement {
   constructor() {
     super();
     const url = URL.createObjectURL(new Blob());
-    this.sketchBook.id = url.substring(url.lastIndexOf('/') + 1);
+    this.sketchBookId = url.substring(url.lastIndexOf('/') + 1);
     this.sketchBookStore = new StoreSubscriber(this, () => SketchBookStore);
+  }
+
+  protected async firstUpdated() {
+    await loadSketchBook(this.sketchBookStore.value, this.sketchBookId);
+    this.sketchBook = this.sketchBookStore.value as SketchBook;
   }
 
   protected async appendSketch(event: CustomEvent) {
     const body = this.parentElement.parentElement;
-    this.sketchNumber++;
 
     const sketches = this.sketchBook.sketches;
     sketches.push({
-      id: this.sketchNumber,
+      id: this.sketchBook.sketches.length + 1,
       image: new URL("data:,")
     })
 
@@ -284,6 +294,7 @@ export class OpenSketch extends LitElement {
                     class="sketch-${sketch.id}"
                     .lineWidth=${this.brush.lineWidth}
                     .color=${this.brush.color}
+                    .image=${sketch.image}
                     data-id=${sketch.id}
                     @sketchbooksaved=${this.saveSketchBook}
                   ></sketch-canvas>

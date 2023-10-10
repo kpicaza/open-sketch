@@ -6,7 +6,7 @@
 
 * [Introduction](#Introduction)
 * [Features](#Features)
-* [Getting Started](#Getting Started)
+* [Getting Started](#Getting-Started)
   * [Prerequisites](#Prerequisites)
   * [Installation](#Installation)
 * [Usage](#Usage)
@@ -25,6 +25,11 @@ Open Sketch Screenshot
 
 > 🚧 We are at early development stage, every contribution of every type will be welcome and properly attributed.
 
+### Sketch Book Manager
+
+* [x] Open New Sketch Books
+* [x] Open Existing Sketch Books
+
 ### Simple Paint
 
 * [x] Static size painting canvas
@@ -37,11 +42,14 @@ Open Sketch Screenshot
 * [x] Create Default Sketch Book
 * [x] Add new Sketch to the Sketch Book
 * [x] Add Sketch navigator inside Sketch Book
-* [ ] Allow selecting and creating new Sketch Books
 
 ### Export Sketches
 
 * [ ] Add Export to PNG, WEBP, JPG..
+
+### Edit Sketches
+
+* [ ] Undo/Redo - CtrlOrCmd+Z
 
 ## Getting Started
 

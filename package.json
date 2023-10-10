@@ -9,6 +9,7 @@
         "lit": "^2.0.2"
     },
     "devDependencies": {
+        "@material/web": "^1.0.0",
         "laravel-vite-plugin": "^0.8.0",
         "lit-svelte-stores": "^0.2.5",
         "svelte": "^4.2.1",

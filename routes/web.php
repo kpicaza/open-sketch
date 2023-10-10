@@ -14,5 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('sketch-book-manager');
+})->name('sketch-book-manager');
+
+
+Route::get('/sketch-book/{id}', function (string $id) {
+    return view('sketch-book', [
+        'sketchBookId' => $id,
+    ]);
+})->name('sketch-book');

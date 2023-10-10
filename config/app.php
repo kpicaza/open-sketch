@@ -1,7 +1,47 @@
 <?php
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Js;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 return [
 
@@ -155,20 +195,34 @@ return [
     |
     */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
+    'providers' => [
         /*
          * Package Service Providers...
          */
+        \Illuminate\Bus\BusServiceProvider::class,
+        \Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        \Illuminate\Cache\CacheServiceProvider::class,
+        \Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        \Illuminate\Database\DatabaseServiceProvider::class,
+        \Illuminate\Encryption\EncryptionServiceProvider::class,
+        \Illuminate\Filesystem\FilesystemServiceProvider::class,
+        \Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        \Illuminate\Hashing\HashServiceProvider::class,
+        \Illuminate\Notifications\NotificationServiceProvider::class,
+        \Illuminate\Pipeline\PipelineServiceProvider::class,
+        \Illuminate\Queue\QueueServiceProvider::class,
+        \Illuminate\Redis\RedisServiceProvider::class,
+        \Illuminate\Translation\TranslationServiceProvider::class,
+        \Illuminate\Validation\ValidationServiceProvider::class,
+        \Illuminate\View\ViewServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
+        \App\Providers\AppServiceProvider::class,
+        \App\Providers\EventServiceProvider::class,
+        \App\Providers\RouteServiceProvider::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -181,8 +235,42 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
+    'aliases' => [
+        'App' => App::class,
+        'Arr' => Arr::class,
+        'Artisan' => Artisan::class,
+        'Blade' => Blade::class,
+        'Broadcast' => Broadcast::class,
+        'Bus' => Bus::class,
+        'Cache' => Cache::class,
+        'Config' => Config::class,
+        'Crypt' => Crypt::class,
+        'Date' => Date::class,
+        'DB' => DB::class,
+        'Eloquent' => Model::class,
+        'Event' => Event::class,
+        'File' => File::class,
+        'Gate' => Gate::class,
+        'Hash' => Hash::class,
+        'Http' => Http::class,
+        'Js' => Js::class,
+        'Lang' => Lang::class,
+        'Log' => Log::class,
+        'Notification' => Notification::class,
+        'Process' => Process::class,
+        'Queue' => Queue::class,
+        'RateLimiter' => RateLimiter::class,
+        'Redirect' => Redirect::class,
+        'Request' => Request::class,
+        'Response' => Response::class,
+        'Route' => Route::class,
+        'Schema' => Schema::class,
+        'Storage' => Storage::class,
+        'Str' => Str::class,
+        'URL' => URL::class,
+        'Validator' => Validator::class,
+        'View' => View::class,
+        'Vite' => Vite::class,
+    ],
 
 ];
