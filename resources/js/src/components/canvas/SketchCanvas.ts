@@ -31,6 +31,7 @@ export class SketchCanvas extends LitElement {
 
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
+    this.saveSketchBook();
   }
 
   protected setBrush() {
@@ -72,12 +73,17 @@ export class SketchCanvas extends LitElement {
       return;
     }
     this.painting = false;
+    this.saveSketchBook();
+  }
+
+  protected saveSketchBook() {
     this.dispatchEvent(new CustomEvent(
       'sketchbooksaved',
       {
         detail: new URL(this.canvas.toDataURL("image/png"))
       }
     ))
+
   }
 
   protected render() {

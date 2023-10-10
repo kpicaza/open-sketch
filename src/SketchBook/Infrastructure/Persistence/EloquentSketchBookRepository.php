@@ -16,10 +16,7 @@ class EloquentSketchBookRepository implements SketchBookRepository
             'id' => $sketchBook->id(),
         ]);
 
-        $changedSketch = $sketchBook->sketches()[array_key_first($sketchBook->sketches())];
-        $newSketches = $persistentSketchBook->sketches;
-        $newSketches[$changedSketch->id - 1] = $changedSketch;
-        $persistentSketchBook->sketches = $newSketches;
+        $persistentSketchBook->sketches = $sketchBook->sketches();
         $persistentSketchBook->save();
     }
 }

@@ -22,6 +22,7 @@ export class AddSketch extends LitElement {
       font-weight: 700;
       color: #FFFFFF;
       background-color: #9ca3af;
+      opacity: 0.5;
     }
 
     button:hover {
