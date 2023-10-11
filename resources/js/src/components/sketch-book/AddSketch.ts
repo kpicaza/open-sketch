@@ -23,10 +23,21 @@ export class AddSketch extends LitElement {
       color: #FFFFFF;
       background-color: #9ca3af;
       opacity: 0.5;
+      animation:rippleOut .25s;
     }
 
     button:hover {
+      animation:ripple .25s;
       background-color: #4a5568;
+    }
+
+    @keyframes ripple{
+      from {background-color: #9ca3af;}
+      to{background-color: #4a5568;}
+    }
+    @keyframes rippleOut{
+      from {background-color: #4a5568;}
+      to {background-color: #9ca3af;}
     }
   `
 

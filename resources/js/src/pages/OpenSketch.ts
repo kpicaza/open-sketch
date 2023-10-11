@@ -30,9 +30,10 @@ export class OpenSketch extends LitElement {
     }
 
     .brush-tools {
-      display: flex;
+      display: Block;
       position: fixed;
       top: 0;
+      left: 400px;
       height: 100px;
       width: 100%;
       align-items: center;
@@ -40,7 +41,7 @@ export class OpenSketch extends LitElement {
     }
 
     main {
-      margin-top: 100px;
+      margin-top: 130px;
       position: absolute;
       top: 0;
       left: 0;
@@ -71,9 +72,11 @@ export class OpenSketch extends LitElement {
 
     .sketch-book-controls {
       position: fixed;
-      top: 1vh;
+      top: 0;
       right: 0;
+      width: 125px;
       z-index: 10;
+      background: #2e3748;
     }
 
     .app-footer {
@@ -123,7 +126,8 @@ export class OpenSketch extends LitElement {
   @property() previewScrollPosition: number = 0;
   @property() brush: Brush = {
     lineWidth: 3,
-    color: '#000000'
+    color: '#000000',
+    type: 'pen'
   };
   @property() sketchBookStore: StoreSubscriber<SketchBookState>;
   @property() sketchBook: SketchBook = {
@@ -191,14 +195,24 @@ export class OpenSketch extends LitElement {
   protected changeBrushLineWidth(event: CustomEvent) {
     this.brush = {
       lineWidth: event.detail,
-      color: this.brush.color
+      color: this.brush.color,
+      type: this.brush.type,
     }
   }
 
   protected changeBrushColor(event: CustomEvent) {
     this.brush = {
       lineWidth: this.brush.lineWidth,
-      color: event.detail
+      color: event.detail,
+      type: this.brush.type,
+    }
+  }
+
+  private changeBrush(event: CustomEvent) {
+    this.brush = {
+      lineWidth: this.brush.lineWidth,
+      color: this.brush.color,
+      type: event.detail,
     }
   }
 
@@ -275,6 +289,8 @@ export class OpenSketch extends LitElement {
         <brush-options
           @linewidthchanged=${this.changeBrushLineWidth}
           @colorchanged=${this.changeBrushColor}
+          @brushselected=${this.changeBrush}
+          .brushType=${this.brush.type}
         ></brush-options>
       </menu>
 
@@ -295,6 +311,7 @@ export class OpenSketch extends LitElement {
                     .lineWidth=${this.brush.lineWidth}
                     .color=${this.brush.color}
                     .image=${sketch.image}
+                    .brush=${this.brush.type}
                     data-id=${sketch.id}
                     @sketchbooksaved=${this.saveSketchBook}
                   ></sketch-canvas>

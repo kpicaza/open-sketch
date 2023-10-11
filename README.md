@@ -19,7 +19,7 @@ Welcome to Open Sketch! This is a versatile and user-friendly sketching applicat
 creativity on a digital canvas. Whether you're an artist, designer, or just looking to express yourself, Open Sketch 
 provides the tools you need.
 
-Open Sketch Screenshot
+![App Screenshot](./storage/app/images/app-screenshot.png)
 
 ## Features
 
@@ -33,9 +33,18 @@ Open Sketch Screenshot
 ### Simple Paint
 
 * [x] Static size painting canvas
-* [x] Default "Pencil" Brush
+* [x] Default "Pen" Brush
 * [x] Brush Color
 * [x] Brush Size
+
+### Drawing Palette
+
+* [x] "Pen" Brush
+* [x] "Pencil" Brush
+* [x] "Eraser" Brush
+* [x] Brush Color
+* [x] Brush Size
+* [ ] Store Drawing settings
 
 ### Sketch Book
 

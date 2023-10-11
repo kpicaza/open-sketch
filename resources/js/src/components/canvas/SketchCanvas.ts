@@ -24,10 +24,12 @@ export class SketchCanvas extends LitElement {
   @property() canvasHeight: number = 0;
   @property() color: string = "#000000";
   @property() image?: string;
+  @property() brush: string = 'pen';
 
   protected firstUpdated() {
     this.context = this.canvas.getContext("2d")
     this.context!.lineJoin = "round";
+    this.context!.lineCap = "round";
     this.setBrush();
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
@@ -46,9 +48,26 @@ export class SketchCanvas extends LitElement {
   }
 
   protected setBrush() {
-    this.context!.lineWidth = this.lineWidth;
+    if(this.brush === "pencil"){
+      this.context!.lineWidth = this.lineWidth / 4;
+      this.context!.shadowBlur = this.lineWidth / 2;
+      this.context!.shadowColor = this.color;
+    } else {
+      this.context!.lineWidth = this.lineWidth;
+      this.context!.shadowBlur = 0;
+
+    }
+
     this.context!.fillStyle = this.color;
     this.context!.strokeStyle = this.color;
+
+    if(this.brush === "eraser"){
+      this.context!.lineWidth = this.lineWidth;
+      this.context!.shadowBlur = this.lineWidth;
+      this.context!.globalCompositeOperation="destination-out";
+    }else{
+      this.context!.globalCompositeOperation="source-over";
+    }
   }
 
   protected draw(event: MouseEvent) {
@@ -63,17 +82,16 @@ export class SketchCanvas extends LitElement {
     this.context!.arc(
       event.offsetX,
       event.offsetY,
-      this.lineWidth / 2,
+      this.lineWidth / Math.PI,
       0,
-      2 * Math.PI
+      0
     );
-    this.context!.fill();
-    this.painting = false;
+    this.context!.stroke();
   }
 
   protected startDrawing(event: MouseEvent) {
     this.setBrush()
-    this.dash(event);
+   // this.dash(event);
     this.context!.beginPath();
     this.context!.moveTo(event.offsetX, event.offsetY);
     this.painting = true;
@@ -98,6 +116,7 @@ export class SketchCanvas extends LitElement {
   }
 
   protected render() {
+    console.log(this.brush)
     return html`
       <canvas
         id="sheet"
