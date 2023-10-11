@@ -3,30 +3,23 @@
 namespace App\Listeners;
 
 use App\Events\DocumentOpened;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Dialog;
 use Native\Laravel\Facades\Window;
 
 class OpenDocumentWindow
 {
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     */
     public function handle(DocumentOpened $event): void
     {
+        $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+        Log::debug($storagePath);
         /** @var \Native\Laravel\Windows\WindowManager $window */
         $window = Window::getFacadeRoot();
         $path = Dialog::new()
             ->title('Open Sketch Book')
             ->asSheet()
+            ->defaultPath($storagePath)
             ->open();
 
         if (null === $path) {
