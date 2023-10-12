@@ -50,6 +50,7 @@ provides the tools you need.
 
 * [x] Create Default Sketch Book
 * [x] Add new Sketch to the Sketch Book
+* [x] Remove Sketch from the Sketch Book
 * [x] Add Sketch navigator inside Sketch Book
 
 ### Export Sketches

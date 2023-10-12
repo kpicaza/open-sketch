@@ -20,6 +20,6 @@ export class SketchBookRepository
       },
     });
 
-    return await response.json() as unknown as SketchBook;
+    return await response.json() as SketchBook;
   }
 }

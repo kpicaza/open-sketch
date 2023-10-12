@@ -227,6 +227,16 @@ export class OpenSketch extends LitElement {
     })
   }
 
+  protected async deleteSketch(event: CustomEvent) {
+    const sketches = this.sketchBook.sketches;
+    sketches.splice(event.detail as number - 1, 1);
+    this.sketchBook = {
+      id: this.sketchBook.id,
+      sketches: sketches
+    };
+    await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
+  }
+
   protected async movePreviewsToLeft(event: MouseEvent) {
     const button = event.target as HTMLButtonElement
     const previewMenu = button.parentElement.querySelector('.horizontal-scroll-wrapper');
@@ -331,6 +341,7 @@ export class OpenSketch extends LitElement {
                   .sketchId=${sketch.id}
                   .image=${sketch.image}
                   @sketchselected=${this.goToSelectedSketch}
+                  @sketchdeleted=${this.deleteSketch}
                 ></sketch-preview>
               </div>
             `;

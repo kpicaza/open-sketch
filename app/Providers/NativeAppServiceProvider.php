@@ -34,8 +34,8 @@ class NativeAppServiceProvider implements ProvidesPhpIni
                     ->separator()
                     ->quit()
             )
-            ->icon(storage_path('app/images/logo.png'))
-        ;
+            ->icon(storage_path('app/images/logo.png'));
+
         Menu::new()
             ->submenu('Open Sketch', Menu::new()
                 ->link('https://nativephp.com', 'Documentation')

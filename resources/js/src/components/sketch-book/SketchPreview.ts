@@ -1,9 +1,15 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
+import '@material/web/iconbutton/filled-icon-button.js';
+import '@material/web/icon/icon.js';
 
 @customElement('sketch-preview')
 export class SketchPreview extends LitElement {
   static styles = css`
+    :host {
+      --md-icon-button-icon-color: #ffffff;
+      --md-sys-color-primary: #4a5568;
+    }
     .image {
       cursor: pointer;
       margin-top: 20px;
@@ -13,6 +19,11 @@ export class SketchPreview extends LitElement {
       height: 85px;
       width: 150px;
       background: #FFFFFF;
+    }
+    .close-button {
+      position: absolute;
+      top: 0;
+      margin-left: -40px;
     }
   `
 
@@ -29,6 +40,28 @@ export class SketchPreview extends LitElement {
     ));
   }
 
+  protected deleteSketch(event: MouseEvent) {
+    const sketch = event.target as HTMLDivElement;
+    this.dispatchEvent(new CustomEvent(
+      'sketchdeleted',
+    {
+      detail: sketch.dataset.id
+    }
+    ));
+  }
+
+  private renderCloseButton()
+  {
+    return html`
+      <md-filled-icon-button
+        class="close-button"
+        @click=${this.deleteSketch}
+      >
+        <md-icon>close</md-icon>
+      </md-filled-icon-button>
+    `;
+  }
+
   protected render() {
     if ("data:," === this.image.toString()) {
       return html`
@@ -37,6 +70,7 @@ export class SketchPreview extends LitElement {
           data-id=${this.sketchId}
           @click=${this.selectSketch}
         ></div>
+        ${this.renderCloseButton()}
       `;
     }
 
@@ -48,6 +82,7 @@ export class SketchPreview extends LitElement {
         @click=${this.selectSketch}
         height="85"
       />
+      ${this.renderCloseButton()}
     `;
   }
 }
