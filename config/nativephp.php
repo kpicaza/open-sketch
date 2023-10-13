@@ -51,7 +51,8 @@ return [
         'NATIVEPHP_APPLE_ID',
         'NATIVEPHP_APPLE_ID_PASS',
         'NATIVEPHP_APPLE_TEAM_ID',
-    ],
+        'GITHUB_*',
+        ],
 
     /**
      * The NativePHP updater configuration.
@@ -71,6 +72,16 @@ return [
         'default' => env('NATIVEPHP_UPDATER_PROVIDER', 'spaces'),
 
         'providers' => [
+            'github' => [
+                'driver' => 'github',
+                'repo' => env('GITHUB_REPO'),
+                'owner' => env('GITHUB_OWNER'),
+                'token' => env('GITHUB_TOKEN'),
+                'vPrefixedTagName' => env('GITHUB_V_PREFIXED_TAG_NAME', true),
+                'private' => env('GITHUB_PRIVATE', false),
+                'channel' => env('GITHUB_CHANNEL', 'latest'),
+                'releaseType' => env('GITHUB_RELEASE_TYPE', 'draft'),
+            ],
             's3' => [
                 'driver' => 's3',
                 'key' => env('AWS_ACCESS_KEY_ID'),

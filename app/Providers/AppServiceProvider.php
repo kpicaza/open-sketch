@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Persistence\EloquentSketchBookRepository;
+use OpenSketch\SketchBook\Infrastructure\Persistence\FileSystemSketchBookRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,21 +20,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             SketchBookRepository::class,
-            EloquentSketchBookRepository::class
+            FileSystemSketchBookRepository::class
         );
 
-        $this->app->bind(
-            PutSketchBook::class,
-            fn(Application $app) => new PutSketchBook(
-                $this->app->make(SketchBookRepository::class)
-            )
-        );
-        $this->app->bind(
-            GetSketchBook::class,
-            fn(Application $app) => new GetSketchBook(
-                $this->app->make(SketchBookRepository::class)
-            )
-        );
+        $this->app->bind(PutSketchBook::class);
+        $this->app->bind(GetSketchBook::class);
     }
 
     /**

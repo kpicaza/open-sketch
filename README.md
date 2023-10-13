@@ -29,13 +29,11 @@ provides the tools you need.
 
 * [x] Open New Sketch Books
 * [x] Open Existing Sketch Books
+* [x] Portable Sketch Book format
 
 ### Simple Paint
 
 * [x] Static size painting canvas
-* [x] Default "Pen" Brush
-* [x] Brush Color
-* [x] Brush Size
 
 ### Drawing Palette
 

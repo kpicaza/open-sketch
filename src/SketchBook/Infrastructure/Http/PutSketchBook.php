@@ -6,14 +6,16 @@ namespace OpenSketch\SketchBook\Infrastructure\Http;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use OpenSketch\SketchBook\Domain\Command\SaveSketchBookCommand;
+use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-class PutSketchBook
+final readonly class PutSketchBook
 {
     public function __construct(
-        private readonly SketchBookRepository $sketchBookRepository
+        private SaveSketchBook $saveSketchBook
     ) {
     }
 
@@ -21,15 +23,10 @@ class PutSketchBook
     {
         $sketchBookData = $request->json()->all();
 
-        $sketchBook = new SketchBook(
+        $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
             $sketchBookData['id'],
-            array_map(
-                fn(array $sketch) => new Sketch((int)$sketch['id'], $sketch['image']),
-                $sketchBookData['sketches']
-            )
-        );
-
-        $this->sketchBookRepository->save($sketchBook);
+            $sketchBookData['sketches'],
+        ));
 
         return new Response(null, 200);
     }

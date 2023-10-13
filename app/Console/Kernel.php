@@ -7,6 +7,10 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        \Native\Laravel\Commands\LoadStartupConfigurationCommand::class,
+    ];
+
     /**
      * Define the application's command schedule.
      */

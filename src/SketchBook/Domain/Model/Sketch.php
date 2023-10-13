@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace OpenSketch\SketchBook\Domain\Model;
 
-class Sketch
+final readonly class Sketch
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $image
+        public int $id,
+        public string $image
     ) {
     }
 }
