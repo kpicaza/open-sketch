@@ -20,6 +20,7 @@ class OpenExistingSketchBookTest extends TestCase
     public function testTheApplicationReturnsASuccessfulResponse(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
+        Storage::fake('user_documents');
 
         $sketchBookId = Uuid::uuid4()->toString();
         Storage::fake();
@@ -48,8 +49,7 @@ class OpenExistingSketchBookTest extends TestCase
     public function testTheApplicationReturnsASuccessfulResponseCancellingDialog(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
-
-        Storage::fake();
+        Storage::fake('user_documents');
 
         $response = $this->post('/api/sketch-books/open');
 

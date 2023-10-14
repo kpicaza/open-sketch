@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Filesystem;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Native\Laravel\Dialog;
 use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -34,6 +38,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Storage::extend('inmemory', function () {
+            $adapter = new InMemoryFilesystemAdapter();
+
+            return new FilesystemAdapter(
+                new Filesystem($adapter),
+                $adapter
+            );
+        });
     }
 }

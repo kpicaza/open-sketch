@@ -18,8 +18,7 @@ class CreateNewSketchBookTest extends TestCase
     public function testTheApplicationReturnsASuccessfulResponse(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
-        Storage::fake();
-
+        Storage::fake('user_documents');
         $dialog = $this->getFakeDialog();
         $this->app->bind(Dialog::class, fn() => $dialog);
         $response = $this->post('/api/sketch-books/save');
@@ -30,7 +29,7 @@ class CreateNewSketchBookTest extends TestCase
     public function testTheApplicationReturnsASuccessfulResponseCancellingDialog(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
-        Storage::fake();
+        Storage::fake('user_documents');
 
         $response = $this->post('/api/sketch-books/save');
 

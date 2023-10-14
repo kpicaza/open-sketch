@@ -18,7 +18,7 @@ class GetSketchBookTest extends TestCase
     public function testTheApplicationReturnsASuccessfulResponse(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
-        Storage::fake();
+        Storage::fake('user_documents');
 
         $sketchBookId = Uuid::uuid4()->toString();
         $sketches = [

@@ -47,7 +47,19 @@ jobs:
         if: ${{ matrix.dependencies == 'locked' }}
         run: "composer install --no-interaction --no-progress --no-suggest"
 
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/open_sketch_test.sqlite
+
       - name: "Tests"
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/open_sketch_test.sqlite
+          FILESYSTEM_DISK: memory
         run: "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml"
 
       - name: "Send codecov report0"
