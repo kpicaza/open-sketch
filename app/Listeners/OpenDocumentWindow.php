@@ -6,13 +6,21 @@ use App\Events\DocumentOpened;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Dialog;
 use Native\Laravel\Facades\Window;
+use OpenSketch\SketchBook\Domain\Command\CreateNewSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Command\ResetSketchBookLocationCommand;
+use OpenSketch\SketchBook\Domain\Command\SaveSketchBookCommand;
+use OpenSketch\SketchBook\Domain\Exception\MissedSketchBookReference;
+use OpenSketch\SketchBook\Domain\Handler\CreateNewSketchBook;
 use OpenSketch\SketchBook\Domain\Handler\ResetSketchBookLocation;
+use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
+use Ramsey\Uuid\Uuid;
 
 class OpenDocumentWindow
 {
     public function __construct(
         private ResetSketchBookLocation $resetSketchBookLocation,
+        private CreateNewSketchBook $createNewSketchBook,
+        private SaveSketchBook $saveSketchBook,
         private Dialog $dialog
     ) {
     }
@@ -26,24 +34,41 @@ class OpenDocumentWindow
             ->defaultPath($storagePath)
             ->open();
 
-        $path = Storage::get(str_replace(
+        $path = str_replace(
             storage_path('app'),
             '',
             $path
-        ));
+        );
+        if ('' === $path) {
+            return;
+        }
 
-        if (null === $path || '' === $path) {
+        $fileContents = Storage::get($path);
+
+        if (null === $fileContents || '' === $fileContents) {
             return;
         }
 
         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-        $sketchBookData = json_decode($path, true, 512, JSON_THROW_ON_ERROR);
+        $sketchBookData = json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
         $command = ResetSketchBookLocationCommand::withIdAndPath(
             $sketchBookData['id'],
             $path
         );
 
-        $sketchBookId =  $this->resetSketchBookLocation->handle($command);
+        try {
+            $sketchBookId =  $this->resetSketchBookLocation->handle($command);
+        } catch (MissedSketchBookReference) {
+            $sketchBookId = Uuid::uuid4()->toString();
+            $this->createNewSketchBook->handle(CreateNewSketchBookCommand::withIdAndPath(
+                $sketchBookId,
+                $path
+            ));
+            $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
+                $sketchBookId,
+                $sketchBookData['sketches'],
+            ));
+        }
 
         /** @var \Native\Laravel\Windows\WindowManager $window */
         $window = Window::getFacadeRoot();

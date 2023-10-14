@@ -121,7 +121,6 @@ export class OpenSketch extends LitElement {
 
   @query("main") sketchWrapper: HTMLDivElement;
   @query("footer") sketchFooter: HTMLDivElement;
-  @property() sketchNumber: number = 1;
   @property() sketchBookId: string = '';
   @property() previewScrollPosition: number = 0;
   @property() brush: Brush = {
@@ -192,6 +191,25 @@ export class OpenSketch extends LitElement {
     await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
   }
 
+  protected async deleteSketch(event: CustomEvent) {
+    const sketches = this.sketchBook.sketches;
+    const newSketches = sketches.filter(
+      (sketch) => sketch.id != event.detail
+    ).map((sketch, key) => {
+      return {
+        id: key + 1,
+        image: sketch.image
+      } as Sketch
+    }).filter(() => true);
+
+    this.sketchBook = {
+      id: this.sketchBook.id,
+      sketches: newSketches
+    };
+
+    await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
+  }
+
   protected changeBrushLineWidth(event: CustomEvent) {
     this.brush = {
       lineWidth: event.detail,
@@ -225,16 +243,6 @@ export class OpenSketch extends LitElement {
       left: (event.detail * (position.width + 130)) - position.width,
       behavior: "smooth",
     })
-  }
-
-  protected async deleteSketch(event: CustomEvent) {
-    const sketches = this.sketchBook.sketches;
-    sketches.splice(event.detail as number - 1, 1);
-    this.sketchBook = {
-      id: this.sketchBook.id,
-      sketches: sketches
-    };
-    await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
   }
 
   protected async movePreviewsToLeft(event: MouseEvent) {
@@ -320,7 +328,7 @@ export class OpenSketch extends LitElement {
                     class="sketch-${sketch.id}"
                     .lineWidth=${this.brush.lineWidth}
                     .color=${this.brush.color}
-                    .image=${sketch.image}
+                    .image=${sketch.image as URL}
                     .brush=${this.brush.type}
                     data-id=${sketch.id}
                     @sketchbooksaved=${this.saveSketchBook}

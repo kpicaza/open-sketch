@@ -6,6 +6,7 @@ namespace OpenSketch\SketchBook\Infrastructure\Persistence;
 
 use App\Models\SketchBookReference;
 use Illuminate\Support\Facades\Storage;
+use OpenSketch\SketchBook\Domain\Exception\MissedSketchBookReference;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -30,7 +31,7 @@ final class FileSystemSketchBookRepository implements SketchBookRepository
         ]);
 
         if (null === $sketchBookReference->storage_path) {
-            throw new \Exception('Sketch Book not found.');
+            throw new MissedSketchBookReference('Sketch Book not found.');
         }
 
         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';

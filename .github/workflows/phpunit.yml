@@ -59,7 +59,6 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/open_sketch_test.sqlite
-          FILESYSTEM_DISK: memory
         run: "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml"
 
       - name: "Send codecov report0"

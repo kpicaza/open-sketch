@@ -23,20 +23,38 @@ export class SketchCanvas extends LitElement {
   @property() canvasWidth: number = 960;
   @property() canvasHeight: number = 0;
   @property() color: string = "#000000";
-  @property() image?: string;
+  @property() image?: URL;
   @property() brush: string = 'pen';
+  @property() clear: boolean = false;
 
   protected firstUpdated() {
     this.context = this.canvas.getContext("2d")
+    this.clearCanvas();
     this.context!.lineJoin = "round";
     this.context!.lineCap = "round";
     this.setBrush();
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
-    if (this.image) {
-      this.setImage();
-    }
+    this.setImage();
     setTimeout(() => this.setImage(), 500);
+  }
+
+  protected async updated(_changedProperties) {
+    super.updated(_changedProperties);
+    const image = _changedProperties.get('image');
+    if (typeof image == 'string') {
+      this.image = new URL(this.image);
+    }
+    if (typeof image == 'object') {
+      this.clearCanvas();
+      this.setImage();
+      await this.updateComplete
+    }
+  }
+
+  private clearCanvas() {
+    this.context?.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.setImage();
   }
 
   protected setImage() {
@@ -44,7 +62,7 @@ export class SketchCanvas extends LitElement {
     img.onload = () => {
           this.context!.drawImage(img, 0, 0);
     };
-    img.src = this.image;
+    setTimeout(() => img.src = this.image.toString(), 0);
   }
 
   protected setBrush() {
@@ -101,8 +119,9 @@ export class SketchCanvas extends LitElement {
     if (!this.painting) {
       return;
     }
-    this.painting = false;
+    this.context!.globalCompositeOperation="source-over";
     this.saveSketchBook();
+    this.painting = false;
   }
 
   protected saveSketchBook() {
@@ -116,7 +135,6 @@ export class SketchCanvas extends LitElement {
   }
 
   protected render() {
-    console.log(this.brush)
     return html`
       <canvas
         id="sheet"

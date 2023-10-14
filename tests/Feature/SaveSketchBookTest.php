@@ -21,6 +21,7 @@ class SaveSketchBookTest extends TestCase
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
+        Storage::fake('local');
 
         $sketchBookId = Uuid::uuid4()->toString();
         $sketches = [

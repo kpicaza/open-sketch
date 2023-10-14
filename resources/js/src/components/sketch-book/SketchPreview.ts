@@ -40,12 +40,11 @@ export class SketchPreview extends LitElement {
     ));
   }
 
-  protected deleteSketch(event: MouseEvent) {
-    const sketch = event.target as HTMLDivElement;
+  protected deleteSketch() {
     this.dispatchEvent(new CustomEvent(
       'sketchdeleted',
     {
-      detail: sketch.dataset.id
+      detail: this.sketchId
     }
     ));
   }

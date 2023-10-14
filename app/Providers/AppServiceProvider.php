@@ -38,13 +38,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Storage::extend('inmemory', function () {
-            $adapter = new InMemoryFilesystemAdapter();
-
-            return new FilesystemAdapter(
-                new Filesystem($adapter),
-                $adapter
-            );
-        });
     }
 }
