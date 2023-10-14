@@ -2,6 +2,11 @@
 
 ![Open Sketch Logo](./storage/app/images/open-sketch-logo.png)
 
+[![Check Coding Standards](https://github.com/kpicaza/open-sketch/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/coding-standards.yml)
+[![PHPUnit tests](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml)
+[![Static Analysis by PHPStan](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml)
+[![Mutation tests](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml)
+
 ## Table of Contents
 
 * [Introduction](#Introduction)

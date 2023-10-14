@@ -139,7 +139,6 @@ export class OpenSketch extends LitElement {
     ]
   };
 
-
   constructor() {
     super();
     const url = URL.createObjectURL(new Blob());
