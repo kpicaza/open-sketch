@@ -7,6 +7,7 @@ use App\Models\SketchBookReference;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Client\Client;
 use Native\Laravel\Dialog;
+use Native\Laravel\Facades\Window;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 

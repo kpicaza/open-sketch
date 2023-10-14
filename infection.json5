@@ -2,14 +2,9 @@
     "$schema": "vendor/infection/infection/resources/schema.json",
     "source": {
         "directories": [
-            "src"
+            "src",
+            "app/Listeners"
         ],
-        "excludes": [
-            "app/Exceptions",
-            "app/Console",
-            "app/Http",
-            "app/Providers"
-        ]
     },
     logs: {
         "text": "infection.log"

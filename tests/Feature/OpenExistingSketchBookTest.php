@@ -7,7 +7,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Client\Client;
 use Native\Laravel\Dialog;
+use Native\Laravel\Facades\Window;
+use Native\Laravel\Windows\WindowManager;
 use Ramsey\Uuid\Uuid;
+use Tests\Feature\Facades\SetUpWindow;
 use Tests\TestCase;
 
 class OpenExistingSketchBookTest extends TestCase
@@ -22,6 +25,7 @@ class OpenExistingSketchBookTest extends TestCase
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
         Storage::fake('local');
+        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
 
         $sketchBookId = Uuid::uuid4()->toString();
         Storage::fake()->put('/test.json', json_encode([
@@ -50,6 +54,7 @@ class OpenExistingSketchBookTest extends TestCase
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
+        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
 
         $response = $this->post('/api/sketch-books/open');
 

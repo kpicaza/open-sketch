@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\SketchBook\Domain\Model;
+namespace Tests\Unit\SketchBook\Domain\Model;
 
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;

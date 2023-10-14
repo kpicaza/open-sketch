@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\SketchBook\Domain\Handler;
 
+use Native\Laravel\Facades\Window;
 use OpenSketch\SketchBook\Domain\Command\CreateNewSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Handler\CreateNewSketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;

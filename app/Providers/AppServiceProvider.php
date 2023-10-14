@@ -2,19 +2,16 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use League\Flysystem\Filesystem;
-use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Native\Laravel\Dialog;
-use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
-use OpenSketch\SketchBook\Infrastructure\Persistence\EloquentSketchBookRepository;
 use OpenSketch\SketchBook\Infrastructure\Persistence\FileSystemSketchBookRepository;
+use OpenSketch\Window\Domain\DialogProvider;
+use OpenSketch\Window\Domain\WindowProvider;
+use OpenSketch\Window\Infrastructure\Electron\LaravelDialogProvider;
+use OpenSketch\Window\Infrastructure\Electron\LaravelWindowProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SketchBookRepository::class,
             FileSystemSketchBookRepository::class
+        );
+        $this->app->bind(
+            WindowProvider::class,
+            LaravelWindowProvider::class
+        );
+        $this->app->bind(
+            DialogProvider::class,
+            LaravelDialogProvider::class
         );
 
         $this->app->bind(PutSketchBook::class);
