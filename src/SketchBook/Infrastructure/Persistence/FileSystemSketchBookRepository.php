@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenSketch\SketchBook\Infrastructure\Persistence;
 
-use App\Models\SketchBook as PersistentSketchBook;
 use App\Models\SketchBookReference;
 use Illuminate\Support\Facades\Storage;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
