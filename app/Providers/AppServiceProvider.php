@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Native\Laravel\Dialog;
 use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(PutSketchBook::class);
         $this->app->bind(GetSketchBook::class);
+        $this->app->bind(Dialog::class, fn() => Dialog::new());
     }
 
     /**

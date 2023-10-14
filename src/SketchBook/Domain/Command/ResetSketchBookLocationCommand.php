@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace OpenSketch\SketchBook\Domain\Command;
 
-final readonly class ResetSketchBookLocationCommand
+final class ResetSketchBookLocationCommand
 {
     private function __construct(
-        public string $sketchBookId,
-        public string $storagePath
+        public readonly string $sketchBookId,
+        public readonly string $storagePath
     ) {
     }
 

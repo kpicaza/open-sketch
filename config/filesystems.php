@@ -39,14 +39,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
 
         'user_documents' => [
             'driver' => 'local',
-            'root' => env('NATIVEPHP_DOCUMENTS_PATH' ,''),
+            'root' => env('NATIVEPHP_DOCUMENTS_PATH', ''),
             'throw' => false,
         ],
 

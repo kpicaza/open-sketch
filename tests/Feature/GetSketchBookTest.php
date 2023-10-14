@@ -15,7 +15,7 @@ class GetSketchBookTest extends TestCase
     /**
      * A basic test example.
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function testTheApplicationReturnsASuccessfulResponse(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake();
@@ -32,7 +32,7 @@ class GetSketchBookTest extends TestCase
             'id' => $sketchBookId,
             'storage_path' => '/home/fake/sketch-book.json',
             'sketches' => $sketches
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         SketchBookReference::firstOrNew([
             'id' => $sketchBookId,

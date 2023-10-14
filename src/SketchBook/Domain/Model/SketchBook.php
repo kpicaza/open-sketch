@@ -13,14 +13,13 @@ final class SketchBook implements JsonSerializable
     /** @param Sketch[] $sketches */
     public function __construct(
         public readonly string $id,
-        private string $storagePath,
+        public string $storagePath,
         private array $sketches
     ) {
         if ([] === $this->sketches) {
-            $this->sketches = [[
-                'id' => 1,
-                'image' => 'data:,'
-            ]];
+            $this->sketches = [
+                new Sketch(1, 'data:,')
+            ];
         }
     }
 
@@ -31,11 +30,6 @@ final class SketchBook implements JsonSerializable
             $storagePath,
             $this->sketches
         );
-    }
-
-    public function storagePath(): string
-    {
-        return $this->storagePath;
     }
 
     /** @return Sketch[] */

@@ -11,17 +11,20 @@ use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
+use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class PutSketchBook
+final class PutSketchBook
 {
     public function __construct(
-        private SaveSketchBook $saveSketchBook
+        private readonly SaveSketchBook $saveSketchBook
     ) {
     }
 
     public function handle(Request $request): Response
     {
-        $sketchBookData = $request->json()->all();
+        /** @var InputBag $jsonRequest */
+        $jsonRequest = $request->json();
+        $sketchBookData = $jsonRequest->all();
 
         $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
             $sketchBookData['id'],

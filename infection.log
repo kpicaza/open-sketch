@@ -1,0 +1,311 @@
+Escaped mutants:
+================
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/GetSketchBook.php:17    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SketchBookRepository $sketchBookRepository)
+     {
+     }
+-    public function handle(string $id) : JsonResponse
++    protected function handle(string $id) : JsonResponse
+     {
+         $sketchBook = $this->sketchBookRepository->get($id);
+         return new JsonResponse($sketchBook);
+     }
+ }
+
+
+2) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:23    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     public function __construct(private readonly SaveSketchBook $saveSketchBook)
+     {
+     }
+-    public function handle(Request $request) : Response
++    protected function handle(Request $request) : Response
+     {
+         /** @var InputBag $jsonRequest */
+         $jsonRequest = $request->json();
+
+
+3) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:29    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         /** @var InputBag $jsonRequest */
+         $jsonRequest = $request->json();
+         $sketchBookData = $jsonRequest->all();
+-        $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
++        
+         return new Response(null, 200);
+     }
+ }
+
+
+4) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:34    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         $jsonRequest = $request->json();
+         $sketchBookData = $jsonRequest->all();
+         $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
+-        return new Response(null, 200);
++        return new Response(null, 199);
+     }
+ }
+
+
+5) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:34    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         $jsonRequest = $request->json();
+         $sketchBookData = $jsonRequest->all();
+         $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
+-        return new Response(null, 200);
++        return new Response(null, 201);
+     }
+ }
+
+
+6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] UnwrapStrReplace
+
+--- Original
++++ New
+@@ @@
+ {
+     public function save(SketchBook $sketchBook) : void
+     {
+-        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
++        $path = $sketchBook->storagePath . '.json';
+         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+
+
+7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] Concat
+
+--- Original
++++ New
+@@ @@
+ {
+     public function save(SketchBook $sketchBook) : void
+     {
+-        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
++        $path = '.json' . str_replace('.json', '', $sketchBook->storagePath);
+         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+
+
+8) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] ConcatOperandRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function save(SketchBook $sketchBook) : void
+     {
+-        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
++        $path = '.json';
+         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+
+
+9) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] ConcatOperandRemoval
+
+--- Original
++++ New
+@@ @@
+ {
+     public function save(SketchBook $sketchBook) : void
+     {
+-        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
++        $path = str_replace('.json', '', $sketchBook->storagePath);
+         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+
+
+10) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:19    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     public function save(SketchBook $sketchBook) : void
+     {
+         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
+-        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
++        SketchBookReference::firstOrNew(['storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+     public function get(string $sketchBookId) : SketchBook
+
+
+11) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:19    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     public function save(SketchBook $sketchBook) : void
+     {
+         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
+-        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
++        
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+     public function get(string $sketchBookId) : SketchBook
+
+
+12) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:20    [M] ArrayItem
+
+--- Original
++++ New
+@@ @@
+     public function save(SketchBook $sketchBook) : void
+     {
+         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
+-        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
++        SketchBookReference::firstOrNew(['id' > $sketchBook->id, 'storage_path' => $path])->save();
+         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
+     }
+     public function get(string $sketchBookId) : SketchBook
+
+
+13) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:24    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
+         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
+-        Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
++        
+     }
+     public function get(string $sketchBookId) : SketchBook
+     {
+
+
+14) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:29    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function get(string $sketchBookId) : SketchBook
+     {
+-        $sketchBookReference = SketchBookReference::firstOrNew(['id' => $sketchBookId]);
++        $sketchBookReference = SketchBookReference::firstOrNew([]);
+         if (null === $sketchBookReference->storage_path) {
+             throw new \Exception('Sketch Book not found.');
+         }
+
+
+15) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:33    [M] Identical
+
+--- Original
++++ New
+@@ @@
+     public function get(string $sketchBookId) : SketchBook
+     {
+         $sketchBookReference = SketchBookReference::firstOrNew(['id' => $sketchBookId]);
+-        if (null === $sketchBookReference->storage_path) {
++        if (null !== $sketchBookReference->storage_path) {
+             throw new \Exception('Sketch Book not found.');
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+
+
+16) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:34    [M] Throw_
+
+--- Original
++++ New
+@@ @@
+     {
+         $sketchBookReference = SketchBookReference::firstOrNew(['id' => $sketchBookId]);
+         if (null === $sketchBookReference->storage_path) {
+-            throw new \Exception('Sketch Book not found.');
++            new \Exception('Sketch Book not found.');
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+
+
+17) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:37    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+         if (null === $sketchBookReference->storage_path) {
+             throw new \Exception('Sketch Book not found.');
+         }
+-        $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
++        $content = '[]' ?? Storage::get($sketchBookReference->storage_path);
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
+     }
+ }
+
+
+18) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+-        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
++        $sketchBookSerialized = json_decode($content, true, 511, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
+     }
+ }
+
+
+19) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+-        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
++        $sketchBookSerialized = json_decode($content, true, 513, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
+     }
+ }
+
+
+20) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:45    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+-        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
++        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches([] ?? $sketchBookSerialized['sketches']));
+     }
+ }

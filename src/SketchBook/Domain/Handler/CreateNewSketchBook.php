@@ -8,10 +8,10 @@ use OpenSketch\SketchBook\Domain\Command\CreateNewSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-final readonly class CreateNewSketchBook
+final class CreateNewSketchBook
 {
     public function __construct(
-        private SketchBookRepository $repository
+        private readonly SketchBookRepository $repository
     ) {
     }
 

@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SketchBook extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
+    use HasUuids;
 
     public $timestamps = false;
     protected $table = 'sketch_books';
@@ -22,5 +23,4 @@ class SketchBook extends Model
     protected $casts = [
         'sketches' => AsArrayObject::class,
     ];
-
 }

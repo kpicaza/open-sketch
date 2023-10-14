@@ -8,10 +8,10 @@ use OpenSketch\SketchBook\Domain\Command\SaveSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-final readonly class SaveSketchBook
+final class SaveSketchBook
 {
     public function __construct(
-        private SketchBookRepository $repository
+        private readonly SketchBookRepository $repository
     ) {
     }
 
@@ -19,12 +19,10 @@ final readonly class SaveSketchBook
     {
         $sketchBook = $this->repository->get($command->sketchBookId);
 
-        $sketchBook->updateSketches(array_map(
-            fn(array $sketch) => new Sketch((int)$sketch['id'], $sketch['image']),
+        $sketchBook->updateSketches(Sketch::fromNormalizedSketches(
             $command->sketches
         ));
 
         $this->repository->save($sketchBook);
-
     }
 }

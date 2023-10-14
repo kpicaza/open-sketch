@@ -12,31 +12,32 @@ use OpenSketch\SketchBook\Domain\Handler\ResetSketchBookLocation;
 class OpenDocumentWindow
 {
     public function __construct(
-        private ResetSketchBookLocation $resetSketchBookLocation
+        private ResetSketchBookLocation $resetSketchBookLocation,
+        private Dialog $dialog
     ) {
     }
 
     public function handle(DocumentOpened $event): void
     {
         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-        $path = Dialog::new()
+        $path = $this->dialog
             ->title('Open Sketch Book')
             ->asSheet('welcome')
             ->defaultPath($storagePath)
             ->open();
 
-        if (null === $path) {
+        $path = Storage::get(str_replace(
+            storage_path('app'),
+            '',
+            $path
+        ));
+
+        if (null === $path || '' === $path) {
             return;
         }
 
-        $sketchBookData = json_decode(
-            Storage::get(str_replace(
-                storage_path('app'),
-                '',
-                $path
-            )),
-            true
-        );
+        /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
+        $sketchBookData = json_decode($path, true, 512, JSON_THROW_ON_ERROR);
         $command = ResetSketchBookLocationCommand::withIdAndPath(
             $sketchBookData['id'],
             $path

@@ -26,8 +26,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
                     ->label('Open Sketch')
                     ->submenu('File', Menu::new()
                         ->event(DocumentOpened::class, 'Open Recent')
-                        ->event(DocumentSaved::class, 'New Sketch Book')
-                    )
+                        ->event(DocumentSaved::class, 'New Sketch Book'))
                     ->separator()
                     ->link('https://github.com/kpicaza/open-sketch', 'Learn more…')
                     ->link('https://github.com/sponsors/kpicaza', 'Contribute')
@@ -38,12 +37,10 @@ class NativeAppServiceProvider implements ProvidesPhpIni
 
         Menu::new()
             ->submenu('Open Sketch', Menu::new()
-                ->link('https://nativephp.com', 'Documentation')
-            )
+                ->link('https://nativephp.com', 'Documentation'))
             ->submenu('File', Menu::new()
                 ->event(\App\Events\DocumentOpened::class, 'Open Recent')
-                ->event(DocumentSaved::class, 'New Sketch Book')
-            )
+                ->event(DocumentSaved::class, 'New Sketch Book'))
             ->windowMenu()
             ->register();
 
@@ -56,7 +53,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     }
 
     /**
-     * Return an array of php.ini directives to be set.
+     * @return array<string, string>
      */
     public function phpIni(): array
     {

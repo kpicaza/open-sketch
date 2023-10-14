@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit;
+namespace Tests\Unit\SketchBook\Domain\Handler;
 
 use OpenSketch\SketchBook\Domain\Command\SaveSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
@@ -46,9 +46,9 @@ class SaveSketchBookTest extends TestCase
         $createNeSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
             $sketchBookId,
             [
-                ['id' => 1, 'image' => 'data:1'],
-                ['id' => 2, 'image' => 'data:2'],
-                ['id' => 3, 'image' => 'data:3'],
+                ['id' => '1', 'image' => 'data:1'],
+                ['id' => '2', 'image' => 'data:2'],
+                ['id' => '3', 'image' => 'data:3'],
             ]
         ));
     }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Open Sketch coding standard">
+    <description>Open Sketch standard</description>
+
+    <!-- display progress -->
+    <arg value="p"/>
+    <arg name="colors"/>
+
+    <!-- inherit rules from: -->
+    <rule ref="PSR12"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Paths to check -->
+    <file>src</file>
+    <file>app</file>
+    <file>tests</file>
+    <file>config</file>
+</ruleset>

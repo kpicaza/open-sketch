@@ -17,14 +17,15 @@ use Ramsey\Uuid\Uuid;
 class StoreDocument
 {
     public function __construct(
-        private CreateNewSketchBook $createNewSketchBook
+        private CreateNewSketchBook $createNewSketchBook,
+        private Dialog $dialog
     ) {
     }
 
     public function handle(DocumentSaved $event): void
     {
         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-        $path = Dialog::new()
+        $path = $this->dialog
             ->title('Save Sketch Book')
             ->asSheet('welcome')
             ->defaultPath($storagePath)

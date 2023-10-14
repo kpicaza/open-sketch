@@ -7,10 +7,10 @@ namespace OpenSketch\SketchBook\Domain\Handler;
 use OpenSketch\SketchBook\Domain\Command\ResetSketchBookLocationCommand;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-final readonly class ResetSketchBookLocation
+final class ResetSketchBookLocation
 {
     public function __construct(
-        private SketchBookRepository $repository
+        private readonly SketchBookRepository $repository
     ) {
     }
 

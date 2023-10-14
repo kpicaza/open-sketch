@@ -11,11 +11,11 @@ use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-final readonly class FileSystemSketchBookRepository implements SketchBookRepository
+final class FileSystemSketchBookRepository implements SketchBookRepository
 {
     public function save(SketchBook $sketchBook): void
     {
-        $path = str_replace('.json', '', $sketchBook->storagePath()) . '.json';
+        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
         SketchBookReference::firstOrNew([
             'id' => $sketchBook->id,
             'storage_path' => $path,
@@ -35,16 +35,14 @@ final readonly class FileSystemSketchBookRepository implements SketchBookReposit
         }
 
         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+        /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
 
         return new SketchBook(
             $sketchBookReference->id,
             $sketchBookReference->storage_path,
-            array_map(
-                static fn(array $sketch) => new Sketch($sketch['id'], $sketch['image']),
-                $sketchBookSerialized['sketches'] ?? []
-            )
+            Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? [])
         );
     }
 }

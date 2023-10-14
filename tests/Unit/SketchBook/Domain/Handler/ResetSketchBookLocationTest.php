@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\SketchBook\Domain\Handler;
 
 use OpenSketch\SketchBook\Domain\Command\ResetSketchBookLocationCommand;
 use OpenSketch\SketchBook\Domain\Handler\ResetSketchBookLocation;

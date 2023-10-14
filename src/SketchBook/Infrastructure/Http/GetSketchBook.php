@@ -7,10 +7,10 @@ namespace OpenSketch\SketchBook\Infrastructure\Http;
 use Illuminate\Http\JsonResponse;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
-final readonly class GetSketchBook
+final class GetSketchBook
 {
     public function __construct(
-        private SketchBookRepository $sketchBookRepository
+        private readonly SketchBookRepository $sketchBookRepository
     ) {
     }
 
