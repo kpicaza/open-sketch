@@ -31,11 +31,10 @@ export class SketchPreview extends LitElement {
   @property() image: URL = new URL("data:,");
 
   protected selectSketch(event: MouseEvent) {
-    const sketch = event.target as HTMLDivElement;
     this.dispatchEvent(new CustomEvent(
       'sketchselected',
     {
-      detail: sketch.dataset.id
+      detail: this.sketchId
     }
     ));
   }
@@ -66,7 +65,6 @@ export class SketchPreview extends LitElement {
       return html`
         <div
           class="image"
-          data-id=${this.sketchId}
           @click=${this.selectSketch}
         ></div>
         ${this.renderCloseButton()}
@@ -77,7 +75,6 @@ export class SketchPreview extends LitElement {
       <img
         class="image"
         src=${this.image.toString()}
-        data-id=${this.sketchId}
         @click=${this.selectSketch}
         height="85"
       />

@@ -75,22 +75,7 @@ Escaped mutants:
          }
 
 
-6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
-
---- Original
-+++ New
-@@ @@
-         }
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
--        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-+        $sketchBookSerialized = json_decode($content, true, 511, JSON_THROW_ON_ERROR);
-         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
-     }
- }
-
-
-7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
+6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
 
 --- Original
 +++ New
@@ -100,6 +85,21 @@ Escaped mutants:
          /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
 -        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 +        $sketchBookSerialized = json_decode($content, true, 513, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
+     }
+ }
+
+
+7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+-        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
++        $sketchBookSerialized = json_decode($content, true, 511, JSON_THROW_ON_ERROR);
          return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
      }
  }

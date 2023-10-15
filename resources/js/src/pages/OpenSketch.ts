@@ -1,21 +1,20 @@
 import {LitElement, html, css} from 'lit';
 import {query, property, customElement} from 'lit/decorators.js';
-import {StoreSubscriber} from "lit-svelte-stores";
-import {loadSketchBook, saveSketchBook, SketchBookState} from "./../store/SketchBookState";
-import {SketchBookStore} from "./../store/AppState";
-import {SketchBook} from "./../domain/model/SketchBook";
-import {Sketch} from "./../domain/model/Sketch";
-import {Brush} from "./../domain/model/Brush";
+import {provide} from "@lit/context";
+import {loadSketchBook, saveSketchBook} from "../store/SketchBookState";
+import {brushContext, sketchBookContext} from "../store/AppContext";
+import {SketchBook} from "../domain/model/SketchBook";
+import {Sketch} from "../domain/model/Sketch";
+import {Brush} from "../domain/model/Brush";
 import "./../components/canvas/SketchCanvas";
 import "./../components/sketch-book/AddSketch";
 import "./../components/sketch-book/SketchPreview";
+import "./../components/sketch-book/SketchNavigator";
+import "./../components/sketch-book/PaintingBoard";
 import "./../components/drawing-tools/BrushOptions";
-
 
 @customElement('open-sketch')
 export class OpenSketch extends LitElement {
-  @property({type: String}) header = 'My app';
-
   static styles = css`
     :host {
       display: flex;
@@ -48,28 +47,6 @@ export class OpenSketch extends LitElement {
       flex-grow: 1;
     }
 
-    .horizontal-scroll-wrapper {
-      display: flex;
-      width: 100%;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      flex-wrap: nowrap;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .horizontal-scroll-wrapper > .sketches {
-      display: flex;
-      flex: 0 0 auto;
-    }
-
-    .horizontal-scroll-wrapper > .sketches > .sketch {
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 80vh;
-      margin-left: 65px;
-      margin-right: 65px;
-    }
-
     .sketch-book-controls {
       position: fixed;
       top: 0;
@@ -79,7 +56,8 @@ export class OpenSketch extends LitElement {
       background: #2e3748;
     }
 
-    .app-footer {
+
+    footer {
       position: fixed;
       bottom: 0;
       width: 100%;
@@ -88,48 +66,14 @@ export class OpenSketch extends LitElement {
       z-index: 20;
     }
 
-    .arrow-button {
-      cursor: pointer;
-      color: #FFFFFF;
-      background-color: #9ca3af;
-      width: 60px;
-      height: 40px;
-      border-radius: 8px;
-      border: 1px;
-      border-color: #9ca3af;
-      font-size: 20px;
-      font-weight: 700;
-      opacity: 0.5;
-    }
-
-    .arrow-button:hover {
-      background-color: #4a5568;
-    }
-
-    .left-previews {
-      position: fixed;
-      left: 10px;
-      bottom: 50px;
-    }
-
-    .right-previews {
-      position: fixed;
-      right: 10px;
-      bottom: 50px;
-    }
   `;
 
-  @query("main") sketchWrapper: HTMLDivElement;
-  @query("footer") sketchFooter: HTMLDivElement;
-  @property() sketchBookId: string = '';
-  @property() previewScrollPosition: number = 0;
-  @property() brush: Brush = {
-    lineWidth: 3,
+  @provide({context: brushContext}) brush: Brush = {
+    lineWidth: 5,
     color: '#000000',
     type: 'pen'
-  };
-  @property() sketchBookStore: StoreSubscriber<SketchBookState>;
-  @property() sketchBook: SketchBook = {
+  }
+  @provide({context: sketchBookContext}) sketchBook: SketchBook = {
     id: "",
     sketches: [
       {
@@ -137,23 +81,19 @@ export class OpenSketch extends LitElement {
         image: new URL("data:,")
       }
     ]
-  };
-
-  constructor() {
-    super();
-    const url = URL.createObjectURL(new Blob());
-    this.sketchBookId = url.substring(url.lastIndexOf('/') + 1);
-    this.sketchBookStore = new StoreSubscriber(this, () => SketchBookStore);
   }
 
+  @query("painting-board") sketchWrapper: HTMLDivElement;
+  @query("footer") sketchFooter: HTMLDivElement;
+  @property() sketchBookId: string = '';
+  @property() previewScrollPosition: number = 0;
+  @property() resetCanvas: boolean = false;
+
   protected async firstUpdated() {
-    await loadSketchBook(this.sketchBookStore.value, this.sketchBookId);
-    this.sketchBook = this.sketchBookStore.value as SketchBook;
+    this.sketchBook = await loadSketchBook(this.sketchBookId);
   }
 
   protected async appendSketch(event: CustomEvent) {
-    const body = this.parentElement.parentElement;
-
     const sketches = this.sketchBook.sketches;
     sketches.push({
       id: this.sketchBook.sketches.length + 1,
@@ -163,31 +103,31 @@ export class OpenSketch extends LitElement {
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches: sketches
-    }
+    };
 
-    await this.updateComplete;
-
+    const body = this.parentElement.parentElement;
     const scrollWidth = body.scrollWidth + 100;
-    await body.scroll({
-      top: 0,
-      left: scrollWidth,
-      behavior: "smooth",
+    setTimeout(() => {
+      body.scroll({
+        top: 0,
+        left: scrollWidth,
+        behavior: "smooth",
+      })
     })
+
+    await saveSketchBook(this.sketchBook);
   }
 
   protected async saveSketchBook(event: CustomEvent) {
-    const sketch = event.target as HTMLDivElement;
     const sketches = this.sketchBook.sketches;
-    sketches[sketch.dataset.id as number - 1] = {
-      id: sketch.dataset.id as number,
-      image: event.detail
-    }
+    sketches[event.detail.id as number - 1].image = event.detail.image;
+
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches: sketches
     };
 
-    await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
+    await saveSketchBook(this.sketchBook);
   }
 
   protected async deleteSketch(event: CustomEvent) {
@@ -206,98 +146,35 @@ export class OpenSketch extends LitElement {
       sketches: newSketches
     };
 
-    await saveSketchBook(this.sketchBookStore.value, this.sketchBook);
+    this.resetCanvas = true;
+    await saveSketchBook(this.sketchBook);
   }
 
   protected changeBrushLineWidth(event: CustomEvent) {
-    this.brush = {
-      lineWidth: event.detail,
-      color: this.brush.color,
-      type: this.brush.type,
-    }
+    this.brush.lineWidth = event.detail
   }
 
   protected changeBrushColor(event: CustomEvent) {
-    this.brush = {
-      lineWidth: this.brush.lineWidth,
-      color: event.detail,
-      type: this.brush.type,
-    }
+    this.brush.color= event.detail;
   }
 
   private changeBrush(event: CustomEvent) {
-    this.brush = {
-      lineWidth: this.brush.lineWidth,
-      color: this.brush.color,
-      type: event.detail,
-    }
+    this.brush.type = event.detail;
+  }
+
+  private canvasReset(event: CustomEvent) {
+    this.resetCanvas = false;
   }
 
   protected async goToSelectedSketch(event: CustomEvent) {
     const body = this.parentElement.parentElement;
-    const sketch = this.sketchWrapper.querySelector(".sketch-" + event.detail)
+    const sketch = this.sketchWrapper.shadowRoot.querySelector(".sketch-" + event.detail)
     const position = sketch.getBoundingClientRect();
     await body.scroll({
       top: 0,
       left: (event.detail * (position.width + 130)) - position.width,
       behavior: "smooth",
     })
-  }
-
-  protected async movePreviewsToLeft(event: MouseEvent) {
-    const button = event.target as HTMLButtonElement
-    const previewMenu = button.parentElement.querySelector('.horizontal-scroll-wrapper');
-    this.previewScrollPosition = previewMenu.scrollLeft - 200;
-    await previewMenu.scroll({
-      top: 0,
-      left: this.previewScrollPosition,
-      behavior: "smooth",
-    })
-  }
-
-  protected async movePreviewsToRight(event: MouseEvent) {
-    const button = event.target as HTMLButtonElement
-    const previewMenu = button.parentElement.querySelector('.horizontal-scroll-wrapper');
-    this.previewScrollPosition = previewMenu.scrollLeft + 200;
-    await previewMenu.scroll({
-      top: 0,
-      left: this.previewScrollPosition,
-      behavior: "smooth",
-    })
-  }
-
-  protected renderPreviewArrows() {
-    if (1 === this.sketchBook.sketches.length) {
-      return html``;
-    }
-
-    const previewMenu = this.sketchFooter.querySelector('.horizontal-scroll-wrapper');
-    if (previewMenu.scrollWidth <= previewMenu.clientWidth) {
-      return html``;
-    }
-
-    let result;
-    if (this.previewScrollPosition > 0) {
-      result = html`
-        <button
-          @click=${this.movePreviewsToLeft}
-          class="left-previews arrow-button"
-        ><</button>
-      `
-    }
-
-    if ((this.previewScrollPosition + previewMenu.clientWidth) < previewMenu.scrollWidth) {
-      result = html`
-        ${result}
-        <button
-          @click=${this.movePreviewsToRight}
-          class="right-previews arrow-button"
-        >>
-        </button>
-      `
-    }
-
-    return result;
   }
 
   protected render() {
@@ -318,43 +195,20 @@ export class OpenSketch extends LitElement {
       </aside>
 
       <main>
-        <div class="horizontal-scroll-wrapper">
-          ${this.sketchBook.sketches.map((sketch: Sketch) => {
-            return html`
-              <div class="sketches">
-                <div class="sketch">
-                  <sketch-canvas
-                    class="sketch-${sketch.id}"
-                    .lineWidth=${this.brush.lineWidth}
-                    .color=${this.brush.color}
-                    .image=${sketch.image as URL}
-                    .brush=${this.brush.type}
-                    data-id=${sketch.id}
-                    @sketchbooksaved=${this.saveSketchBook}
-                  ></sketch-canvas>
-                </div>
-              </div>
-            `;
-          })}
-        </div>
+        <painting-board
+          @sketchbooksaved=${this.saveSketchBook}
+          @canvasreseted=${this.canvasReset}
+          .resetCanvas=${this.resetCanvas}
+        >
+        </painting-board>
       </main>
 
-      <footer class="app-footer">
-        <div  class="horizontal-scroll-wrapper">
-          ${this.sketchBook.sketches.map((sketch: Sketch) => {
-            return html`
-              <div class="sketches">
-                <sketch-preview
-                  .sketchId=${sketch.id}
-                  .image=${sketch.image}
-                  @sketchselected=${this.goToSelectedSketch}
-                  @sketchdeleted=${this.deleteSketch}
-                ></sketch-preview>
-              </div>
-            `;
-          })}
-        </div>
-        ${this.renderPreviewArrows()}
+      <footer>
+        <sketch-nav
+          @sketchselected=${this.goToSelectedSketch}
+          @sketchdeleted=${this.deleteSketch}
+        >
+        </sketch-nav>
       </footer>
     `;
   }
