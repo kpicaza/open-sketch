@@ -114,8 +114,6 @@ export class OpenSketch extends LitElement {
         behavior: "smooth",
       })
     })
-
-    await saveSketchBook(this.sketchBook);
   }
 
   protected async saveSketchBook(event: CustomEvent) {
@@ -187,13 +185,11 @@ export class OpenSketch extends LitElement {
           .brushType=${this.brush.type}
         ></brush-options>
       </menu>
-
       <aside class="sketch-book-controls">
         <add-sketch
           @sketchadded=${this.appendSketch}
         ></add-sketch>
       </aside>
-
       <main>
         <painting-board
           @sketchbooksaved=${this.saveSketchBook}
@@ -202,7 +198,6 @@ export class OpenSketch extends LitElement {
         >
         </painting-board>
       </main>
-
       <footer>
         <sketch-nav
           @sketchselected=${this.goToSelectedSketch}

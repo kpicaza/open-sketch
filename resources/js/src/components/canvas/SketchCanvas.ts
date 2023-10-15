@@ -4,6 +4,7 @@ import {consume} from "@lit/context";
 import {brushContext} from "../../store/AppContext";
 import {Brush} from "../../domain/model/Brush";
 import {Sketch} from "../../domain/model/Sketch";
+import {DrawingTool} from "../../domain/model/DrawingTool";
 
 @customElement('sketch-canvas')
 export class SketchCanvas extends LitElement {
@@ -34,121 +35,64 @@ export class SketchCanvas extends LitElement {
   @property({attribute: false})
   brush?: Brush
 
-  @property() canvasContext: CanvasRenderingContext2D | null = null;
-  @property() painting: boolean = false;
   @property() resetCanvas: boolean = false;
   @property() sketchId: string = '';
   @property() canvasWidth: number = 960;
   @property() canvasHeight: number = 0;
   @property() image?: URL;
+  @property() drawingTool: DrawingTool;
 
   protected firstUpdated() {
-    this.canvasContext = this.canvas.getContext("2d")
-    this.clearCanvas();
-    this.canvasContext!.lineJoin = "round";
-    this.canvasContext!.lineCap = "round";
     this.canvasWidth = this.offsetWidth;
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
-    this.setImage();
-    setTimeout(() => this.setImage(), 500);
-    this.setBrush();
+    this.drawingTool = new DrawingTool(this.canvas.getContext("2d"))
+    this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
+    this.drawingTool.setBrush(this.brush);
+    setTimeout(() => this.drawingTool.setImage(this.image), 500);
   }
 
   protected async updated(_changedProperties) {
     super.updated(_changedProperties);
+    this.drawingTool.setBrush(this.brush);
     const image = _changedProperties.get('image');
     if (typeof image == 'string') {
       this.image = new URL(this.image);
     }
     if (true === this.resetCanvas) {
-      this.clearCanvas();
-      this.setImage();
+      this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
+      this.drawingTool.setImage(this.image);
       this.resetCanvas = false;
       this.dispatchEvent(new CustomEvent('canvasreseted', {
         detail: this.sketchId
       }))
     }
-    this.setBrush();
-  }
-
-  private clearCanvas() {
-    this.canvasContext?.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    this.setImage();
-  }
-
-  protected setImage() {
-    const img = new Image();
-    img.onload = () => {
-          this.canvasContext!.drawImage(img, 0, 0);
-    };
-    setTimeout(() => img.src = this.image.toString(), 0);
-  }
-
-  protected setBrush() {
-    this.cursor.style.width = `${this.brush.lineWidth}px`;
-    this.cursor.style.height = `${this.brush.lineWidth}px`;
-    this.cursor.style.background = this.brush.color;
-
-    this.canvasContext!.shadowBlur = 0;
-    if(this.brush.type === "pencil"){
-      this.canvasContext!.lineWidth = this.brush.lineWidth / 4;
-      this.canvasContext!.shadowColor = this.brush.color;
-    } else {
-      this.canvasContext!.lineWidth = this.brush.lineWidth;
-    }
-
-    this.canvasContext!.fillStyle = this.brush.color;
-    this.canvasContext!.strokeStyle = this.brush.color;
-
-    if(this.brush.type === "eraser"){
-      this.canvasContext!.lineWidth = this.brush.lineWidth;
-      this.canvasContext!.shadowBlur = this.brush.lineWidth;
-      this.canvasContext!.globalCompositeOperation="destination-out";
-    }else{
-      this.canvasContext!.globalCompositeOperation="source-over";
-    }
   }
 
   protected moveCursor(event: MouseEvent) {
+    this.cursor.style.width = `${this.brush.lineWidth}px`;
+    this.cursor.style.height = `${this.brush.lineWidth}px`;
+    this.cursor.style.background = this.brush.color;
     const mouseY = event.offsetY - (this.brush.lineWidth / 2);
     const mouseX = event.offsetX - (this.brush.lineWidth / 2);
     this.cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
   }
 
   protected draw(event: MouseEvent) {
-    if (this.painting) {
-      this.canvasContext!.lineTo(event.offsetX, event.offsetY);
-      this.canvasContext!.stroke();
-    }
-
+    this.drawingTool.draw(event.offsetX, event.offsetY);
     this.moveCursor(event);
   }
 
-  protected dash(event: MouseEvent) {
-    this.canvasContext!.beginPath();
-    this.canvasContext!.arc(
-      event.offsetX,
-      event.offsetY,
-      this.brush.lineWidth / Math.PI,
-      0,
-      0
-    );
-    this.canvasContext!.stroke();
-  }
-
   protected startDrawing(event: MouseEvent) {
-    this.canvasContext = this.canvas.getContext("2d")
-    this.painting = true;
-    this.canvasContext!.beginPath();
+    if (!this.drawingTool.hasCurrentBrush(this.brush)) {
+      this.drawingTool.setBrush(this.brush);
+    }
+
+    this.drawingTool.startDrawing(event.offsetX, event.offsetY);
   }
 
   protected stopDrawing(event: MouseEvent) {
-    if (!this.painting) {
-      return;
-    }
-    this.canvasContext!.globalCompositeOperation="source-over";
+    this.drawingTool.stopDrawing();
     this.saveSketchBook();
-    this.painting = false;
   }
 
   protected saveSketchBook() {
@@ -179,7 +123,6 @@ export class SketchCanvas extends LitElement {
         @mouseover=${this.moveCursor}
         @mouseup=${this.stopDrawing}
         @mouseout=${this.stopDrawing}
-        @click=${this.dash}
       >
       </canvas>
     `;
