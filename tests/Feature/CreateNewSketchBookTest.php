@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Client\Client;
 use Native\Laravel\Dialog;
-use Native\Laravel\Facades\Window;
+use Native\Laravel\Windows\Window;
 use Tests\Feature\Facades\SetUpWindow;
 use Tests\TestCase;
 
@@ -21,7 +21,7 @@ class CreateNewSketchBookTest extends TestCase
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
-        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
+        SetUpWindow::setUpWindow($this->createMock(Window::class));
 
         $dialog = $this->getFakeDialog();
         $this->app->bind(Dialog::class, fn() => $dialog);
@@ -34,7 +34,7 @@ class CreateNewSketchBookTest extends TestCase
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
-        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
+        SetUpWindow::setUpWindow($this->createMock(Window::class));
 
         $response = $this->post('/api/sketch-books/save');
 
