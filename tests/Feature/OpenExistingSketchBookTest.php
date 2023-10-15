@@ -7,8 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Native\Laravel\Client\Client;
 use Native\Laravel\Dialog;
-use Native\Laravel\Facades\Window;
-use Native\Laravel\Windows\WindowManager;
+use Native\Laravel\Windows\Window;
 use Ramsey\Uuid\Uuid;
 use Tests\Feature\Facades\SetUpWindow;
 use Tests\TestCase;
@@ -25,7 +24,7 @@ class OpenExistingSketchBookTest extends TestCase
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
         Storage::fake('local');
-        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
+        SetUpWindow::setUpWindow($this->createMock(Window::class));
 
         $sketchBookId = Uuid::uuid4()->toString();
         Storage::fake()->put('/test.json', json_encode([
@@ -50,11 +49,37 @@ class OpenExistingSketchBookTest extends TestCase
         $response->assertStatus(201);
     }
 
+    public function testTheApplicationReturnsASuccessfulResponseWithMissingReference(): void
+    {
+        config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
+        Storage::fake('user_documents');
+        Storage::fake('local');
+        SetUpWindow::setUpWindow($this->createMock(Window::class));
+
+        $sketchBookId = Uuid::uuid4()->toString();
+        Storage::fake()->put('/test.json', json_encode([
+            'id' => $sketchBookId,
+            'storage_path' => '/test.json',
+            'sketches' => [
+                [
+                    'id' => 1,
+                    'image' => 'data:,'
+                ]
+            ]
+        ], JSON_THROW_ON_ERROR));
+
+        $dialog = $this->getFakeDialog();
+        $this->app->bind(Dialog::class, fn() => $dialog);
+        $response = $this->post('/api/sketch-books/open');
+
+        $response->assertStatus(201);
+    }
+
     public function testTheApplicationReturnsASuccessfulResponseCancellingDialog(): void
     {
         config()->set('nativephp-internal.api_url', 'https://jsonplaceholder.typicode.com/todos/1');
         Storage::fake('user_documents');
-        SetUpWindow::setUpWindow($this->createMock(\Native\Laravel\Windows\Window::class));
+        SetUpWindow::setUpWindow($this->createMock(Window::class));
 
         $response = $this->post('/api/sketch-books/open');
 

@@ -20,6 +20,8 @@ use Ramsey\Uuid\Uuid;
 
 final class OpenDocumentWindow
 {
+    private const JSON_DEPTH = 512;
+
     public function __construct(
         private readonly ResetSketchBookLocation $resetSketchBookLocation,
         private readonly CreateNewSketchBook $createNewSketchBook,
@@ -32,18 +34,20 @@ final class OpenDocumentWindow
     public function handle(DocumentOpened $event): void
     {
         $path = $this->openDialog->handle();
-        if ('' === $path) {
-            return;
-        }
 
         $fileContents = Storage::get($path);
 
-        if (null === $fileContents || '' === $fileContents) {
+        if (empty($fileContents)) {
             return;
         }
 
         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-        $sketchBookData = json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
+        $sketchBookData = json_decode(
+            $fileContents,
+            true,
+            self::JSON_DEPTH,
+            JSON_THROW_ON_ERROR
+        );
         $command = ResetSketchBookLocationCommand::withIdAndPath(
             $sketchBookData['id'],
             $path

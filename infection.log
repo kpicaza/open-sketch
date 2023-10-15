@@ -1,198 +1,7 @@
 Escaped mutants:
 ================
 
-Timed Out mutants:
-==================
-
-Skipped mutants:
-================
-
-Not Covered mutants:
-====================
-
-1) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:33    [M] PublicVisibility
-
---- Original
-+++ New
-@@ @@
-     public function __construct(private readonly ResetSketchBookLocation $resetSketchBookLocation, private readonly CreateNewSketchBook $createNewSketchBook, private readonly SaveSketchBook $saveSketchBook, private readonly OpenWindow $windowManager, private readonly Dialog $dialog)
-     {
-     }
--    public function handle(DocumentOpened $event) : void
-+    protected function handle(DocumentOpened $event) : void
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
-
-
-2) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:38    [M] Coalesce
-
---- Original
-+++ New
-@@ @@
-     public function handle(DocumentOpened $event) : void
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
--        $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
-+        $path = $this->dialog->title('Open Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->open();
-         $path = str_replace(storage_path('app'), '', $path ?? '');
-         if ('' === $path) {
-             return;
-
-
-3) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:42    [M] UnwrapStrReplace
-
---- Original
-+++ New
-@@ @@
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
--        $path = str_replace(storage_path('app'), '', $path ?? '');
-+        $path = $path ?? '';
-         if ('' === $path) {
-             return;
-         }
-
-
-4) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:45    [M] Coalesce
-
---- Original
-+++ New
-@@ @@
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
--        $path = str_replace(storage_path('app'), '', $path ?? '');
-+        $path = str_replace(storage_path('app'), '', '' ?? $path);
-         if ('' === $path) {
-             return;
-         }
-
-
-5) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:47    [M] Identical
-
---- Original
-+++ New
-@@ @@
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
-         $path = str_replace(storage_path('app'), '', $path ?? '');
--        if ('' === $path) {
-+        if ('' !== $path) {
-             return;
-         }
-         $fileContents = Storage::get($path);
-
-
-6) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:53    [M] Identical
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         $fileContents = Storage::get($path);
--        if (null === $fileContents || '' === $fileContents) {
-+        if (null !== $fileContents || '' === $fileContents) {
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-
-
-7) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:53    [M] Identical
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         $fileContents = Storage::get($path);
--        if (null === $fileContents || '' === $fileContents) {
-+        if (null === $fileContents || '' !== $fileContents) {
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-
-
-8) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:53    [M] LogicalOrAllSubExprNegation
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         $fileContents = Storage::get($path);
--        if (null === $fileContents || '' === $fileContents) {
-+        if (!(null === $fileContents) || !('' === $fileContents)) {
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-
-
-9) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:53    [M] LogicalOrNegation
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         $fileContents = Storage::get($path);
--        if (null === $fileContents || '' === $fileContents) {
-+        if (!(null === $fileContents || '' === $fileContents)) {
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
-
-
-10) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:58    [M] DecrementInteger
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
--        $sketchBookData = json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
-+        $sketchBookData = json_decode($fileContents, true, 511, JSON_THROW_ON_ERROR);
-         $command = ResetSketchBookLocationCommand::withIdAndPath($sketchBookData['id'], $path);
-         try {
-             $sketchBookId = $this->resetSketchBookLocation->handle($command);
-
-
-11) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:58    [M] IncrementInteger
-
---- Original
-+++ New
-@@ @@
-             return;
-         }
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
--        $sketchBookData = json_decode($fileContents, true, 512, JSON_THROW_ON_ERROR);
-+        $sketchBookData = json_decode($fileContents, true, 513, JSON_THROW_ON_ERROR);
-         $command = ResetSketchBookLocationCommand::withIdAndPath($sketchBookData['id'], $path);
-         try {
-             $sketchBookId = $this->resetSketchBookLocation->handle($command);
-
-
-12) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:68    [M] MethodCallRemoval
-
---- Original
-+++ New
-@@ @@
-             $sketchBookId = $this->resetSketchBookLocation->handle($command);
-         } catch (MissedSketchBookReference) {
-             $sketchBookId = Uuid::uuid4()->toString();
--            $this->createNewSketchBook->handle(CreateNewSketchBookCommand::withIdAndPath($sketchBookId, $path));
-+            
-             $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookId, $sketchBookData['sketches']));
-         }
-         $this->windowManager->handle(new OpenWindowCommand($sketchBookId, 'sketch-book', $path, 'sketch-book'));
-     }
- }
-
-
-13) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:74    [M] MethodCallRemoval
+1) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:66    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -203,12 +12,12 @@ Not Covered mutants:
 -            $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookId, $sketchBookData['sketches']));
 +            
          }
-         $this->windowManager->handle(new OpenWindowCommand($sketchBookId, 'sketch-book', $path, 'sketch-book'));
+         $this->openWindow->handle(new OpenWindowCommand($sketchBookId, 'sketch-book', $path, 'sketch-book'));
      }
  }
 
 
-14) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:82    [M] MethodCallRemoval
+2) /home/kpicaza/server/open.sketch/dev/app/Listeners/OpenDocumentWindow.php:74    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -216,58 +25,13 @@ Not Covered mutants:
              $this->createNewSketchBook->handle(CreateNewSketchBookCommand::withIdAndPath($sketchBookId, $path));
              $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookId, $sketchBookData['sketches']));
          }
--        $this->windowManager->handle(new OpenWindowCommand($sketchBookId, 'sketch-book', $path, 'sketch-book'));
+-        $this->openWindow->handle(new OpenWindowCommand($sketchBookId, 'sketch-book', $path, 'sketch-book'));
 +        
      }
  }
 
 
-15) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:26    [M] PublicVisibility
-
---- Original
-+++ New
-@@ @@
-     public function __construct(private readonly CreateNewSketchBook $createNewSketchBook, private readonly OpenWindow $windowManager, private readonly Dialog $dialog)
-     {
-     }
--    public function handle(DocumentSaved $event) : void
-+    protected function handle(DocumentSaved $event) : void
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Save Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
-
-
-16) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:32    [M] Coalesce
-
---- Original
-+++ New
-@@ @@
-     public function handle(DocumentSaved $event) : void
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
--        $path = $this->dialog->title('Save Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
-+        $path = $this->dialog->title('Save Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->save();
-         if (null === $path) {
-             return;
-         }
-
-
-17) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:37    [M] Identical
-
---- Original
-+++ New
-@@ @@
-     {
-         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Save Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
--        if (null === $path) {
-+        if (null !== $path) {
-             return;
-         }
-         $command = CreateNewSketchBookCommand::withIdAndPath(Uuid::uuid4()->toString(), $path);
-
-
-18) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:46    [M] MethodCallRemoval
+3) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:37    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -282,7 +46,7 @@ Not Covered mutants:
  }
 
 
-19) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:48    [M] MethodCallRemoval
+4) /home/kpicaza/server/open.sketch/dev/app/Listeners/StoreDocument.php:39    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -296,202 +60,7 @@ Not Covered mutants:
  }
 
 
-20) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/GetSketchBook.php:17    [M] PublicVisibility
-
---- Original
-+++ New
-@@ @@
-     public function __construct(private readonly SketchBookRepository $sketchBookRepository)
-     {
-     }
--    public function handle(string $id) : JsonResponse
-+    protected function handle(string $id) : JsonResponse
-     {
-         $sketchBook = $this->sketchBookRepository->get($id);
-         return new JsonResponse($sketchBook);
-     }
- }
-
-
-21) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:23    [M] PublicVisibility
-
---- Original
-+++ New
-@@ @@
-     public function __construct(private readonly SaveSketchBook $saveSketchBook)
-     {
-     }
--    public function handle(Request $request) : Response
-+    protected function handle(Request $request) : Response
-     {
-         /** @var InputBag $jsonRequest */
-         $jsonRequest = $request->json();
-
-
-22) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:29    [M] MethodCallRemoval
-
---- Original
-+++ New
-@@ @@
-         /** @var InputBag $jsonRequest */
-         $jsonRequest = $request->json();
-         $sketchBookData = $jsonRequest->all();
--        $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
-+        
-         return new Response(null, 200);
-     }
- }
-
-
-23) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:34    [M] DecrementInteger
-
---- Original
-+++ New
-@@ @@
-         $jsonRequest = $request->json();
-         $sketchBookData = $jsonRequest->all();
-         $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
--        return new Response(null, 200);
-+        return new Response(null, 199);
-     }
- }
-
-
-24) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Http/PutSketchBook.php:34    [M] IncrementInteger
-
---- Original
-+++ New
-@@ @@
-         $jsonRequest = $request->json();
-         $sketchBookData = $jsonRequest->all();
-         $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches($sketchBookData['id'], $sketchBookData['sketches']));
--        return new Response(null, 200);
-+        return new Response(null, 201);
-     }
- }
-
-
-25) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] UnwrapStrReplace
-
---- Original
-+++ New
-@@ @@
- {
-     public function save(SketchBook $sketchBook) : void
-     {
--        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
-+        $path = $sketchBook->storagePath . '.json';
-         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-
-
-26) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] Concat
-
---- Original
-+++ New
-@@ @@
- {
-     public function save(SketchBook $sketchBook) : void
-     {
--        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
-+        $path = '.json' . str_replace('.json', '', $sketchBook->storagePath);
-         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-
-
-27) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] ConcatOperandRemoval
-
---- Original
-+++ New
-@@ @@
- {
-     public function save(SketchBook $sketchBook) : void
-     {
--        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
-+        $path = '.json';
-         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-
-
-28) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:18    [M] ConcatOperandRemoval
-
---- Original
-+++ New
-@@ @@
- {
-     public function save(SketchBook $sketchBook) : void
-     {
--        $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
-+        $path = str_replace('.json', '', $sketchBook->storagePath);
-         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-
-
-29) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:19    [M] ArrayItemRemoval
-
---- Original
-+++ New
-@@ @@
-     public function save(SketchBook $sketchBook) : void
-     {
-         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
--        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-+        SketchBookReference::firstOrNew(['storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-     public function get(string $sketchBookId) : SketchBook
-
-
-30) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:19    [M] MethodCallRemoval
-
---- Original
-+++ New
-@@ @@
-     public function save(SketchBook $sketchBook) : void
-     {
-         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
--        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-+        
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-     public function get(string $sketchBookId) : SketchBook
-
-
-31) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:20    [M] ArrayItem
-
---- Original
-+++ New
-@@ @@
-     public function save(SketchBook $sketchBook) : void
-     {
-         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
--        SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
-+        SketchBookReference::firstOrNew(['id' > $sketchBook->id, 'storage_path' => $path])->save();
-         Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-     }
-     public function get(string $sketchBookId) : SketchBook
-
-
-32) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:24    [M] MethodCallRemoval
-
---- Original
-+++ New
-@@ @@
-     {
-         $path = str_replace('.json', '', $sketchBook->storagePath) . '.json';
-         SketchBookReference::firstOrNew(['id' => $sketchBook->id, 'storage_path' => $path])->save();
--        Storage::put($path, json_encode($sketchBook, JSON_THROW_ON_ERROR));
-+        
-     }
-     public function get(string $sketchBookId) : SketchBook
-     {
-
-
-33) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:29    [M] ArrayItemRemoval
+5) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:29    [M] ArrayItemRemoval
 
 --- Original
 +++ New
@@ -506,54 +75,7 @@ Not Covered mutants:
          }
 
 
-34) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:33    [M] Identical
-
---- Original
-+++ New
-@@ @@
-     public function get(string $sketchBookId) : SketchBook
-     {
-         $sketchBookReference = SketchBookReference::firstOrNew(['id' => $sketchBookId]);
--        if (null === $sketchBookReference->storage_path) {
-+        if (null !== $sketchBookReference->storage_path) {
-             throw new MissedSketchBookReference('Sketch Book not found.');
-         }
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-
-
-35) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:34    [M] Throw_
-
---- Original
-+++ New
-@@ @@
-     {
-         $sketchBookReference = SketchBookReference::firstOrNew(['id' => $sketchBookId]);
-         if (null === $sketchBookReference->storage_path) {
--            throw new MissedSketchBookReference('Sketch Book not found.');
-+            new MissedSketchBookReference('Sketch Book not found.');
-         }
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
-
-
-36) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:37    [M] Coalesce
-
---- Original
-+++ New
-@@ @@
-         if (null === $sketchBookReference->storage_path) {
-             throw new MissedSketchBookReference('Sketch Book not found.');
-         }
--        $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-+        $content = '[]' ?? Storage::get($sketchBookReference->storage_path);
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
-         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
-     }
- }
-
-
-37) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
+6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
 
 --- Original
 +++ New
@@ -568,7 +90,7 @@ Not Covered mutants:
  }
 
 
-38) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
+7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
 
 --- Original
 +++ New
@@ -583,37 +105,66 @@ Not Covered mutants:
  }
 
 
-39) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:45    [M] Coalesce
+8) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelDialogProvider.php:24    [M] Coalesce
 
 --- Original
 +++ New
 @@ @@
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
-         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
--        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
-+        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches([] ?? $sketchBookSerialized['sketches']));
+     public function open() : string
+     {
+         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+-        $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
++        $path = $this->dialog->title('Open Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->open();
+         return str_replace(storage_path('app'), '', $path ?? '');
      }
- }
+     public function save() : ?string
 
 
-40) /home/kpicaza/server/open.sketch/dev/src/Window/Domain/Command/OpenWindowCommand.php:17    [M] PublicVisibility
+9) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelDialogProvider.php:28    [M] UnwrapStrReplace
 
 --- Original
 +++ New
 @@ @@
-     public function __construct(public readonly string $sketchBookId, public readonly string $openingWindowName, public readonly string $path, public readonly string $routeName)
      {
+         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
+-        return str_replace(storage_path('app'), '', $path ?? '');
++        return $path ?? '';
      }
--    public function fileName() : string
-+    protected function fileName() : string
+     public function save() : ?string
      {
-         return basename($this->path);
+
+
+10) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelDialogProvider.php:31    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+     {
+         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
+-        return str_replace(storage_path('app'), '', $path ?? '');
++        return str_replace(storage_path('app'), '', '' ?? $path);
+     }
+     public function save() : ?string
+     {
+
+
+11) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelDialogProvider.php:42    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+     public function save() : ?string
+     {
+         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+-        return $this->dialog->title('Save Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
++        return $this->dialog->title('Save Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->save();
      }
  }
 
 
-41) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:17    [M] MethodCallRemoval
+12) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:17    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -628,7 +179,7 @@ Not Covered mutants:
          Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
 
 
-42) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Identical
+13) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Identical
 
 --- Original
 +++ New
@@ -645,24 +196,7 @@ Not Covered mutants:
  }
 
 
-43) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
-
---- Original
-+++ New
-@@ @@
-         $window = Window::getFacadeRoot();
-         Window::open('welcome');
-         /** @phpstan-ignore-next-line */
--        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-+        Window::close(Window::current()->id === 'welcome' ? Window::current()->id : 'sketch-book');
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
-         $window->maximize($command->openingWindowName);
-         Window::close('welcome');
-     }
- }
-
-
-44) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] MethodCallRemoval
+14) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -680,7 +214,24 @@ Not Covered mutants:
  }
 
 
-45) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:22    [M] MethodCallRemoval
+15) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
+
+--- Original
++++ New
+@@ @@
+         $window = Window::getFacadeRoot();
+         Window::open('welcome');
+         /** @phpstan-ignore-next-line */
+-        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
++        Window::close(Window::current()->id === 'welcome' ? Window::current()->id : 'sketch-book');
+         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         $window->maximize($command->openingWindowName);
+         Window::close('welcome');
+     }
+ }
+
+
+16) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:22    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -696,7 +247,7 @@ Not Covered mutants:
  }
 
 
-46) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:24    [M] ArrayItemRemoval
+17) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:24    [M] ArrayItemRemoval
 
 --- Original
 +++ New
@@ -712,7 +263,7 @@ Not Covered mutants:
  }
 
 
-47) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:25    [M] ArrayItem
+18) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:25    [M] ArrayItem
 
 --- Original
 +++ New
@@ -728,7 +279,7 @@ Not Covered mutants:
  }
 
 
-48) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:28    [M] MethodCallRemoval
+19) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:28    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -743,7 +294,7 @@ Not Covered mutants:
  }
 
 
-49) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:30    [M] MethodCallRemoval
+20) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:30    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -755,3 +306,13 @@ Not Covered mutants:
 +        
      }
  }
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
