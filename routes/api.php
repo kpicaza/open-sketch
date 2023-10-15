@@ -36,3 +36,29 @@ Route::post('/sketch-books/save', function () {
 
     return new JsonResponse([], 201);
 });
+
+Route::post('/sketch-books/{id}/exports/{sketchId}', function (string $id, string $sketchId) {
+
+    /** @var \OpenSketch\SketchBook\Domain\SketchBookRepository $repository */
+    $repository =  app()->get(\OpenSketch\SketchBook\Domain\SketchBookRepository::class);
+    $sketchBook = $repository->get($id);
+
+    $storagePath = Storage::disk('user_documents')
+        ->path(sprintf('%s-%s.png', $sketchBook->name(), $sketchId));
+
+    $storagePath = Dialog::new()
+        ->title('Export Sketch')
+        ->defaultPath($storagePath)
+        ->save();
+
+    if (empty($storagePath)) {
+        return new JsonResponse([], 200);
+    }
+
+
+    list($type, $data) = explode(';', $sketchBook->sketches()[$sketchId - 1]->image);
+    list(, $data)      = explode(',', $data);
+    Storage::put($storagePath, base64_decode($data));
+
+    return new JsonResponse([], 200);
+});

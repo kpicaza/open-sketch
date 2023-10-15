@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28fe8c02dcb387e8066d8ff857c2ecad",
+    "content-hash": "a07664ef30ff1e99cef3b375b631a44d",
     "packages": [
         {
             "name": "brick/math",
@@ -135,6 +135,350 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.2"
             },
             "time": "2022-10-27T11:44:00+00:00"
+        },
+        {
+            "name": "doctrine/cache",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/1ca8f21980e770095a31456042471a57bc4c68fb",
+                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1 || ^8.0"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "cache/integration-tests": "dev-master",
+                "doctrine/coding-standard": "^9",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
+                "symfony/cache": "^4.4 || ^5.4 || ^6",
+                "symfony/var-exporter": "^4.4 || ^5.4 || ^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
+            "homepage": "https://www.doctrine-project.org/projects/cache.html",
+            "keywords": [
+                "abstraction",
+                "apcu",
+                "cache",
+                "caching",
+                "couchdb",
+                "memcached",
+                "php",
+                "redis",
+                "xcache"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/cache/issues",
+                "source": "https://github.com/doctrine/cache/tree/2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-05-20T20:07:39+00:00"
+        },
+        {
+            "name": "doctrine/dbal",
+            "version": "3.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "5b7bd66c9ff58c04c5474ab85edce442f8081cb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/5b7bd66c9ff58c04c5474ab85edce442f8081cb2",
+                "reference": "5b7bd66c9ff58c04c5474ab85edce442f8081cb2",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2",
+                "doctrine/cache": "^1.11|^2.0",
+                "doctrine/deprecations": "^0.5.3|^1",
+                "doctrine/event-manager": "^1|^2",
+                "php": "^7.4 || ^8.0",
+                "psr/cache": "^1|^2|^3",
+                "psr/log": "^1|^2|^3"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "12.0.0",
+                "fig/log-test": "^1",
+                "jetbrains/phpstorm-stubs": "2023.1",
+                "phpstan/phpstan": "1.10.35",
+                "phpstan/phpstan-strict-rules": "^1.5",
+                "phpunit/phpunit": "9.6.13",
+                "psalm/plugin-phpunit": "0.18.4",
+                "slevomat/coding-standard": "8.13.1",
+                "squizlabs/php_codesniffer": "3.7.2",
+                "symfony/cache": "^5.4|^6.0",
+                "symfony/console": "^4.4|^5.4|^6.0",
+                "vimeo/psalm": "4.30.0"
+            },
+            "suggest": {
+                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+            },
+            "bin": [
+                "bin/doctrine-dbal"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\DBAL\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+            "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+            "keywords": [
+                "abstraction",
+                "database",
+                "db2",
+                "dbal",
+                "mariadb",
+                "mssql",
+                "mysql",
+                "oci8",
+                "oracle",
+                "pdo",
+                "pgsql",
+                "postgresql",
+                "queryobject",
+                "sasql",
+                "sql",
+                "sqlite",
+                "sqlserver",
+                "sqlsrv"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/dbal/issues",
+                "source": "https://github.com/doctrine/dbal/tree/3.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdbal",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-10-06T05:06:20+00:00"
+        },
+        {
+            "name": "doctrine/deprecations",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/deprecations.git",
+                "reference": "4f2d4f2836e7ec4e7a8625e75c6aa916004db931"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/4f2d4f2836e7ec4e7a8625e75c6aa916004db931",
+                "reference": "4f2d4f2836e7ec4e7a8625e75c6aa916004db931",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^9",
+                "phpstan/phpstan": "1.4.10 || 1.10.15",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "psalm/plugin-phpunit": "0.18.4",
+                "psr/log": "^1 || ^2 || ^3",
+                "vimeo/psalm": "4.30.0 || 5.12.0"
+            },
+            "suggest": {
+                "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A small layer on top of trigger_error(E_USER_DEPRECATED) or PSR-3 logging with options to disable all deprecations or selectively for packages.",
+            "homepage": "https://www.doctrine-project.org/",
+            "support": {
+                "issues": "https://github.com/doctrine/deprecations/issues",
+                "source": "https://github.com/doctrine/deprecations/tree/1.1.2"
+            },
+            "time": "2023-09-27T20:04:15+00:00"
+        },
+        {
+            "name": "doctrine/event-manager",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/event-manager.git",
+                "reference": "750671534e0241a7c50ea5b43f67e23eb5c96f32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/750671534e0241a7c50ea5b43f67e23eb5c96f32",
+                "reference": "750671534e0241a7c50ea5b43f67e23eb5c96f32",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "conflict": {
+                "doctrine/common": "<2.9"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^10",
+                "phpstan/phpstan": "^1.8.8",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.28"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
+            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+            "keywords": [
+                "event",
+                "event dispatcher",
+                "event manager",
+                "event system",
+                "events"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/event-manager/issues",
+                "source": "https://github.com/doctrine/event-manager/tree/2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-10-12T20:59:15+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -434,21 +778,21 @@
         },
         {
             "name": "fruitcake/php-cors",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/php-cors.git",
-                "reference": "58571acbaa5f9f462c9c77e911700ac66f446d4e"
+                "reference": "3d158f36e7875e2f040f37bc0573956240a5a38b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/php-cors/zipball/58571acbaa5f9f462c9c77e911700ac66f446d4e",
-                "reference": "58571acbaa5f9f462c9c77e911700ac66f446d4e",
+                "url": "https://api.github.com/repos/fruitcake/php-cors/zipball/3d158f36e7875e2f040f37bc0573956240a5a38b",
+                "reference": "3d158f36e7875e2f040f37bc0573956240a5a38b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "symfony/http-foundation": "^4.4|^5.4|^6"
+                "symfony/http-foundation": "^4.4|^5.4|^6|^7"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.4",
@@ -458,7 +802,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -489,7 +833,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fruitcake/php-cors/issues",
-                "source": "https://github.com/fruitcake/php-cors/tree/v1.2.0"
+                "source": "https://github.com/fruitcake/php-cors/tree/v1.3.0"
             },
             "funding": [
                 {
@@ -501,7 +845,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-20T15:07:15+00:00"
+            "time": "2023-10-12T05:21:21+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -972,16 +1316,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9"
+                "reference": "09137f50f715c1efc649788a26092dcb1ec4ab6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6e5440f7c518f26b4495e5d7e4796ec239e26df9",
-                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/09137f50f715c1efc649788a26092dcb1ec4ab6e",
+                "reference": "09137f50f715c1efc649788a26092dcb1ec4ab6e",
                 "shasum": ""
             },
             "require": {
@@ -1168,7 +1512,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-10-03T14:24:20+00:00"
+            "time": "2023-10-10T13:01:37+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2322,6 +2666,694 @@
             "time": "2023-02-08T01:06:31+00:00"
         },
         {
+            "name": "nyholm/psr7",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/psr7.git",
+                "reference": "3cb4d163b58589e47b35103e8e5e6a6a475b47be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/3cb4d163b58589e47b35103e8e5e6a6a475b47be",
+                "reference": "3cb4d163b58589e47b35103e8e5e6a6a475b47be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0",
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "php-http/message-factory": "^1.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/error-handler": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                },
+                {
+                    "name": "Martijn van der Ven",
+                    "email": "martijn@vanderven.se"
+                }
+            ],
+            "description": "A fast PHP7 implementation of PSR-7",
+            "homepage": "https://tnyholm.se",
+            "keywords": [
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.8.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-05-02T11:26:24+00:00"
+        },
+        {
+            "name": "pheature/dbal-toggle",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/dbal-toggle.git",
+                "reference": "173327c6f51fc906113ebe8c3e93d66567af4772"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/dbal-toggle/zipball/173327c6f51fc906113ebe8c3e93d66567af4772",
+                "reference": "173327c6f51fc906113ebe8c3e93d66567af4772",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": ">=2.6 || ^3.0",
+                "pheature/toggle-core": "^0.7",
+                "pheature/toggle-model": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/console": "^4.2 || ^5.0",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Pheature\\Dbal\\Toggle\\Container\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Dbal\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags Doctrine DBAL toggle implementation library.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/dbal-toggle/issues",
+                "source": "https://github.com/pheature-flags/dbal-toggle/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T18:07:01+00:00"
+        },
+        {
+            "name": "pheature/inmemory-toggle",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/inmemory-toggle.git",
+                "reference": "de16eea73e0113254c11d976af2d232ec5c95f0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/inmemory-toggle/zipball/de16eea73e0113254c11d976af2d232ec5c95f0f",
+                "reference": "de16eea73e0113254c11d976af2d232ec5c95f0f",
+                "shasum": ""
+            },
+            "require": {
+                "pheature/toggle-core": "^0.7",
+                "pheature/toggle-model": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2",
+                "webmozart/assert": "^1.10"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8.5",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-webmozart-assert": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\InMemory\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags In Memory toggle implementation library.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/inmemory-toggle/issues",
+                "source": "https://github.com/pheature-flags/inmemory-toggle/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T17:57:32+00:00"
+        },
+        {
+            "name": "pheature/laravel-toggle",
+            "version": "0.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/laravel-toggle.git",
+                "reference": "36621644e6c51ae7adc5f0070d08d48adb3bc238"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/laravel-toggle/zipball/36621644e6c51ae7adc5f0070d08d48adb3bc238",
+                "reference": "36621644e6c51ae7adc5f0070d08d48adb3bc238",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.37|^9.0|^10.0",
+                "laravel/framework": "^8.40|^9.0|^10.0",
+                "nyholm/psr7": "^1.4",
+                "pheature/inmemory-toggle": "^0.7",
+                "pheature/toggle-crud-psr11-factories": "^0.7",
+                "pheature/toggle-model": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "pheature/dbal-toggle": "^0.7",
+                "pheature/php-sdk": "^0.7",
+                "pheature/toggle-crud": "^0.7",
+                "pheature/toggle-crud-psr7-api": "^0.7",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "suggest": {
+                "pheature/dbal-toggle": "Doctrine DBAL pheature toggle implementation.",
+                "pheature/php-sdk": "Use simplified view model to get evaluted feature toggles.",
+                "pheature/toggle-crud": "Add a CRUD layer to interact with features.",
+                "pheature/toggle-crud-psr7-api": "Add a HTTP API layer to interact with features."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pheature\\Community\\Laravel\\ToggleProvider"
+                    ],
+                    "aliases": {
+                        "Toggle": "Pheature\\Community\\Laravel\\Toggle"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Community\\Laravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags Laravel toggle.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/laravel-toggle/issues",
+                "source": "https://github.com/pheature-flags/laravel-toggle/tree/0.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-07T16:04:15+00:00"
+        },
+        {
+            "name": "pheature/toggle-core",
+            "version": "0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/toggle-core.git",
+                "reference": "a11185486fbdd1ea1401206d4c8b7f5812491ae7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-core/zipball/a11185486fbdd1ea1401206d4c8b7f5812491ae7",
+                "reference": "a11185486fbdd1ea1401206d4c8b7f5812491ae7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Core\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags toggle core library.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/toggle-core/issues",
+                "source": "https://github.com/pheature-flags/toggle-core/tree/0.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-10T13:17:17+00:00"
+        },
+        {
+            "name": "pheature/toggle-crud",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/toggle-crud.git",
+                "reference": "9d4db96627cc9b95210ab2e09f974202003b648e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-crud/zipball/9d4db96627cc9b95210ab2e09f974202003b648e",
+                "reference": "9d4db96627cc9b95210ab2e09f974202003b648e",
+                "shasum": ""
+            },
+            "require": {
+                "pheature/toggle-core": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Pheature\\Crud\\Toggle\\Container\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Crud\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags toggle CRUD library.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/toggle-crud/issues",
+                "source": "https://github.com/pheature-flags/toggle-crud/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T17:55:32+00:00"
+        },
+        {
+            "name": "pheature/toggle-crud-psr11-factories",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/toggle-crud-psr11-factories.git",
+                "reference": "1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-crud-psr11-factories/zipball/1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd",
+                "reference": "1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd",
+                "shasum": ""
+            },
+            "require": {
+                "pheature/toggle-model": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "pheature/dbal-toggle": "^0.7",
+                "pheature/inmemory-toggle": "^0.7",
+                "pheature/php-sdk": "^0.7",
+                "pheature/toggle-crud": "^0.7",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-webmozart-assert": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "suggest": {
+                "pheature/dbal-toggle": "Dbal toggle implementation",
+                "pheature/inmemory-toggle": "In memory toggle implementation"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Pheature\\Crud\\Psr11\\Toggle\\Container\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Crud\\Psr11\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags toggle CRUD PSR-11 Factories.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/toggle-crud-psr11-factories/issues",
+                "source": "https://github.com/pheature-flags/toggle-crud-psr11-factories/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T18:19:04+00:00"
+        },
+        {
+            "name": "pheature/toggle-crud-psr7-api",
+            "version": "0.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/toggle-crud-psr7-api.git",
+                "reference": "a4ed7cd18043cc6127ba4d5879621b549ae0559d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-crud-psr7-api/zipball/a4ed7cd18043cc6127ba4d5879621b549ae0559d",
+                "reference": "a4ed7cd18043cc6127ba4d5879621b549ae0559d",
+                "shasum": ""
+            },
+            "require": {
+                "pheature/toggle-crud": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0|^2.0",
+                "psr/http-server-handler": "^1.0",
+                "webmozart/assert": "^1.10"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "pheature/inmemory-toggle": "^0.7",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-webmozart-assert": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Pheature\\Crud\\Psr7\\Toggle\\Container\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Crud\\Psr7\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags toggle CRUD API PSR-7 implementation.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/toggle-crud-psr7-api/issues",
+                "source": "https://github.com/pheature-flags/toggle-crud-psr7-api/tree/0.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-15T20:48:53+00:00"
+        },
+        {
+            "name": "pheature/toggle-model",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheature-flags/toggle-model.git",
+                "reference": "9fe6b77d2f95b80e12125fa7e79fdd48d3fc320b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-model/zipball/9fe6b77d2f95b80e12125fa7e79fdd48d3fc320b",
+                "reference": "9fe6b77d2f95b80e12125fa7e79fdd48d3fc320b",
+                "shasum": ""
+            },
+            "require": {
+                "pheature/toggle-core": "^0.7",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "icanhazstring/composer-unused": "^0.8",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpro/grumphp": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "roave/infection-static-analysis-plugin": "^1.18",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/var-dumper": "^4.2 || ^5.0 || ^6.0",
+                "vimeo/psalm": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Pheature\\Model\\Toggle\\Container\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pheature\\Model\\Toggle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "kpicaza"
+                },
+                {
+                    "name": "pcs289"
+                },
+                {
+                    "name": "xserrat"
+                }
+            ],
+            "description": "Pheature flags toggle model implementation library.",
+            "keywords": [
+                "feature-flags",
+                "feature-toggle"
+            ],
+            "support": {
+                "issues": "https://github.com/pheature-flags/toggle-model/issues",
+                "source": "https://github.com/pheature-flags/toggle-model/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pheature-flags",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T17:36:07+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.9.1",
             "source": {
@@ -2395,6 +3427,55 @@
                 }
             ],
             "time": "2023-02-25T19:38:58+00:00"
+        },
+        {
+            "name": "psr/cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/3.0.0"
+            },
+            "time": "2021-02-03T23:26:27+00:00"
         },
         {
             "name": "psr/clock",
@@ -2706,6 +3787,62 @@
                 "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
             "time": "2023-04-04T09:54:51+00:00"
+        },
+        {
+            "name": "psr/http-server-handler",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
+            },
+            "time": "2023-04-10T20:06:20+00:00"
         },
         {
             "name": "psr/log",
@@ -4761,6 +5898,95 @@
                 }
             ],
             "time": "2023-08-07T10:39:22+00:00"
+        },
+        {
+            "name": "symfony/psr-http-message-bridge",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/psr-http-message-bridge.git",
+                "reference": "581ca6067eb62640de5ff08ee1ba6850a0ee472e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/581ca6067eb62640de5ff08ee1ba6850a0ee472e",
+                "reference": "581ca6067eb62640de5ff08ee1ba6850a0ee472e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/http-message": "^1.0 || ^2.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
+                "symfony/http-foundation": "^5.4 || ^6.0"
+            },
+            "require-dev": {
+                "nyholm/psr7": "^1.1",
+                "psr/log": "^1.1 || ^2 || ^3",
+                "symfony/browser-kit": "^5.4 || ^6.0",
+                "symfony/config": "^5.4 || ^6.0",
+                "symfony/event-dispatcher": "^5.4 || ^6.0",
+                "symfony/framework-bundle": "^5.4 || ^6.0",
+                "symfony/http-kernel": "^5.4 || ^6.0",
+                "symfony/phpunit-bridge": "^6.2"
+            },
+            "suggest": {
+                "nyholm/psr7": "For a super lightweight PSR-7/17 implementation"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bridge\\PsrHttpMessage\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "PSR HTTP message bridge",
+            "homepage": "http://symfony.com",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/symfony/psr-http-message-bridge/issues",
+                "source": "https://github.com/symfony/psr-http-message-bridge/tree/v2.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-07-26T11:53:26+00:00"
         },
         {
             "name": "symfony/routing",
@@ -6949,53 +8175,6 @@
             "time": "2023-10-03T09:22:33+00:00"
         },
         {
-            "name": "doctrine/deprecations",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "4f2d4f2836e7ec4e7a8625e75c6aa916004db931"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/4f2d4f2836e7ec4e7a8625e75c6aa916004db931",
-                "reference": "4f2d4f2836e7ec4e7a8625e75c6aa916004db931",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^9",
-                "phpstan/phpstan": "1.4.10 || 1.10.15",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "psalm/plugin-phpunit": "0.18.4",
-                "psr/log": "^1 || ^2 || ^3",
-                "vimeo/psalm": "4.30.0 || 5.12.0"
-            },
-            "suggest": {
-                "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A small layer on top of trigger_error(E_USER_DEPRECATED) or PSR-3 logging with options to disable all deprecations or selectively for packages.",
-            "homepage": "https://www.doctrine-project.org/",
-            "support": {
-                "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/1.1.2"
-            },
-            "time": "2023-09-27T20:04:15+00:00"
-        },
-        {
             "name": "fakerphp/faker",
             "version": "v1.23.0",
             "source": {
@@ -7597,16 +8776,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.27.4",
+            "version": "0.27.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "2789fdd689689b0c85f2c0ae9db50c8d2b39fb92"
+                "reference": "6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/2789fdd689689b0c85f2c0ae9db50c8d2b39fb92",
-                "reference": "2789fdd689689b0c85f2c0ae9db50c8d2b39fb92",
+                "url": "https://api.github.com/repos/infection/infection/zipball/6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8",
+                "reference": "6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8",
                 "shasum": ""
             },
             "require": {
@@ -7713,7 +8892,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.27.4"
+                "source": "https://github.com/infection/infection/tree/0.27.5"
             },
             "funding": [
                 {
@@ -7725,7 +8904,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-10-09T12:03:22+00:00"
+            "time": "2023-10-15T20:29:39+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -7857,16 +9036,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.13.2",
+            "version": "v1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "bbb13460d7f8c5c0cd9a58109beedd79cd7331ff"
+                "reference": "93b2d0d49719bc6e444ba21cd4dbbccec935413d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/bbb13460d7f8c5c0cd9a58109beedd79cd7331ff",
-                "reference": "bbb13460d7f8c5c0cd9a58109beedd79cd7331ff",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/93b2d0d49719bc6e444ba21cd4dbbccec935413d",
+                "reference": "93b2d0d49719bc6e444ba21cd4dbbccec935413d",
                 "shasum": ""
             },
             "require": {
@@ -7877,7 +9056,7 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.26.1",
+                "friendsofphp/php-cs-fixer": "^3.34.1",
                 "illuminate/view": "^10.23.1",
                 "laravel-zero/framework": "^10.1.2",
                 "mockery/mockery": "^1.6.6",
@@ -7919,7 +9098,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2023-09-19T15:55:02+00:00"
+            "time": "2023-10-10T15:39:09+00:00"
         },
         {
             "name": "laravel/sail",
@@ -8362,16 +9541,16 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v7.9.0",
+            "version": "v7.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "296d0cf9fe462837ac0da8a568b56fc026b132da"
+                "reference": "49ec67fa7b002712da8526678abd651c09f375b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/296d0cf9fe462837ac0da8a568b56fc026b132da",
-                "reference": "296d0cf9fe462837ac0da8a568b56fc026b132da",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/49ec67fa7b002712da8526678abd651c09f375b2",
+                "reference": "49ec67fa7b002712da8526678abd651c09f375b2",
                 "shasum": ""
             },
             "require": {
@@ -8380,19 +9559,22 @@
                 "php": "^8.1.0",
                 "symfony/console": "^6.3.4"
             },
+            "conflict": {
+                "laravel/framework": ">=11.0.0"
+            },
             "require-dev": {
-                "brianium/paratest": "^7.2.7",
-                "laravel/framework": "^10.23.1",
-                "laravel/pint": "^1.13.1",
+                "brianium/paratest": "^7.3.0",
+                "laravel/framework": "^10.28.0",
+                "laravel/pint": "^1.13.3",
                 "laravel/sail": "^1.25.0",
                 "laravel/sanctum": "^3.3.1",
                 "laravel/tinker": "^2.8.2",
                 "nunomaduro/larastan": "^2.6.4",
-                "orchestra/testbench-core": "^8.11.0",
-                "pestphp/pest": "^2.19.1",
-                "phpunit/phpunit": "^10.3.5",
+                "orchestra/testbench-core": "^8.13.0",
+                "pestphp/pest": "^2.23.2",
+                "phpunit/phpunit": "^10.4.1",
                 "sebastian/environment": "^6.0.1",
-                "spatie/laravel-ignition": "^2.3.0"
+                "spatie/laravel-ignition": "^2.3.1"
             },
             "type": "library",
             "extra": {
@@ -8451,7 +9633,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-09-19T10:45:09+00:00"
+            "time": "2023-10-11T15:45:01+00:00"
         },
         {
             "name": "nunomaduro/larastan",
@@ -10863,16 +12045,16 @@
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0"
+                "reference": "bf21cd15aa47fa4ec5d73bbc932005c70261efc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0",
-                "reference": "4ed813d16edb5a1ab0d7f4b1d116c37ee8cdf3c0",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/bf21cd15aa47fa4ec5d73bbc932005c70261efc8",
+                "reference": "bf21cd15aa47fa4ec5d73bbc932005c70261efc8",
                 "shasum": ""
             },
             "require": {
@@ -10951,7 +12133,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-23T06:24:34+00:00"
+            "time": "2023-10-09T12:55:26+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -12015,7 +13197,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

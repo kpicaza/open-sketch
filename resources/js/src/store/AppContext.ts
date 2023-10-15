@@ -1,6 +1,7 @@
 import {createContext} from '@lit/context';
 import {SketchBook} from "../domain/model/SketchBook";
 import {Brush} from "../domain/model/Brush";
+import {Feature} from "../types/Feature";
 
 
 const sketchBook = {
@@ -23,3 +24,7 @@ const brush: Brush = {
 } as Brush;
 
 export const brushContext = createContext<Brush>(brush);
+
+const features: Array<Feature> = [];
+
+export const featuresContext = createContext<Array<Feature>>(features);

@@ -58,6 +58,7 @@ provides the tools you need.
 
 ### Export Sketches
 
+* [x] Add Export to PNG (Experimental)
 * [ ] Add Export to PNG, WEBP, JPG..
 
 ### Edit Sketches

@@ -61,4 +61,9 @@ final class SketchBook implements JsonSerializable
             'sketches' => $this->sketches,
         ];
     }
+
+    public function name(): string
+    {
+        return basename(str_replace('.json', '', $this->storagePath));
+    }
 }

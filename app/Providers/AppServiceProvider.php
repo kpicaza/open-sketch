@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Tools\DsnParser;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Native\Laravel\Dialog;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -32,6 +36,26 @@ class AppServiceProvider extends ServiceProvider
             DialogProvider::class,
             LaravelDialogProvider::class
         );
+
+        if ('test' === env('APP_ENV')) {
+            return;
+        }
+
+        $this->app->bind(Connection::class, function (): Connection {
+            $dsnParser = new DsnParser();
+            $connectionParams = $dsnParser->parse(
+                sprintf(
+                    'pdo-%s:///%s/%s',
+                    /** @phpstan-ignore-next-line  */
+                    env('DB_CONNECTION'),
+                    base_path(),
+                    /** @phpstan-ignore-next-line  */
+                    env('DB_DATABASE')
+                )
+            );
+
+            return DriverManager::getConnection($connectionParams);
+        });
 
         $this->app->bind(PutSketchBook::class);
         $this->app->bind(GetSketchBook::class);

@@ -138,6 +138,15 @@ export class SketchPreview extends LitElement {
     ))
   }
 
+  protected async downloadSketch(event: CustomEvent) {
+    this.dispatchEvent(new CustomEvent(
+      'sketchdownloaded',
+      {
+        detail: event.detail
+      }
+    ))
+  }
+
   protected render() {
     return html`
       <div class="app-footer">
@@ -150,6 +159,7 @@ export class SketchPreview extends LitElement {
                   .image=${sketch.image}
                   @sketchselected=${this.goToSelectedSketch}
                   @sketchdeleted=${this.deleteSketch}
+                  @sketchdownloaded=${this.downloadSketch}
                 ></sketch-preview>
               </div>
             `;

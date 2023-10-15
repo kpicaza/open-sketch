@@ -1,17 +1,19 @@
 import {LitElement, html, css} from 'lit';
 import {query, property, customElement} from 'lit/decorators.js';
 import {provide} from "@lit/context";
-import {loadSketchBook, saveSketchBook} from "../store/SketchBookState";
-import {brushContext, sketchBookContext} from "../store/AppContext";
+import {loadSketchBook, saveSketchBook, downloadSketch, featuresAvailable} from "../store/SketchBookState";
+import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext";
 import {SketchBook} from "../domain/model/SketchBook";
 import {Sketch} from "../domain/model/Sketch";
 import {Brush} from "../domain/model/Brush";
 import "./../components/canvas/SketchCanvas";
+import "./../components/settings/SettingsMenu";
 import "./../components/sketch-book/AddSketch";
 import "./../components/sketch-book/SketchPreview";
 import "./../components/sketch-book/SketchNavigator";
 import "./../components/sketch-book/PaintingBoard";
 import "./../components/drawing-tools/BrushOptions";
+import {Feature} from "../types/Feature";
 
 @customElement('open-sketch')
 export class OpenSketch extends LitElement {
@@ -26,6 +28,8 @@ export class OpenSketch extends LitElement {
       width: 100%;
       margin: 0 auto;
       background-color: var(--open-sketch-background-color);
+      --md-ref-typeface-brand: 'Open Sans';
+      --md-ref-typeface-plain: system-ui;
     }
 
     .brush-tools {
@@ -82,15 +86,19 @@ export class OpenSketch extends LitElement {
       }
     ]
   }
+  @provide({context: featuresContext}) features!: Array<Feature> = [];
+
 
   @query("painting-board") sketchWrapper: HTMLDivElement;
   @query("footer") sketchFooter: HTMLDivElement;
   @property() sketchBookId: string = '';
   @property() previewScrollPosition: number = 0;
   @property() resetCanvas: boolean = false;
+  @property() exportAsPng: boolean = false;
 
   protected async firstUpdated() {
     this.sketchBook = await loadSketchBook(this.sketchBookId);
+    this.features = await featuresAvailable();
   }
 
   protected async appendSketch(event: CustomEvent) {
@@ -148,6 +156,10 @@ export class OpenSketch extends LitElement {
     await saveSketchBook(this.sketchBook);
   }
 
+  private downloadSketch(event: CustomEvent) {
+    downloadSketch(this.sketchBookId, event.detail)
+  }
+
   protected changeBrushLineWidth(event: CustomEvent) {
     this.brush.lineWidth = event.detail
   }
@@ -186,6 +198,7 @@ export class OpenSketch extends LitElement {
         ></brush-options>
       </menu>
       <aside class="sketch-book-controls">
+        <settings-menu></settings-menu>
         <add-sketch
           @sketchadded=${this.appendSketch}
         ></add-sketch>
@@ -202,6 +215,7 @@ export class OpenSketch extends LitElement {
         <sketch-nav
           @sketchselected=${this.goToSelectedSketch}
           @sketchdeleted=${this.deleteSketch}
+          @sketchdownloaded=${this.downloadSketch}
         >
         </sketch-nav>
       </footer>
