@@ -19,9 +19,30 @@ export class SettingsMenu extends LitElement {
     md-menu-item {
       min-width: 280px;
     }
+
+    .requires-restart {
+      display: none;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    .requires-restart md-icon {
+      position: relative;
+      color: #a24187;
+    }
+
+    .icon-align-text {
+      position: absolute;
+      display: inline-block;
+      vertical-align: center;
+      margin-top: 5px;
+      margin-left: 15px;
+      color: #a24187;
+    }
   `;
 
   @query('#settings-menu') menu: MdMenu;
+  @query('.requires-restart') requiresRestartMessage: HTMLDivElement;
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
   features?: Array<Feature>
@@ -37,6 +58,8 @@ export class SettingsMenu extends LitElement {
     } else {
       await disableFeature(mdSwitch.value)
     }
+
+    this.requiresRestartMessage.style.display = 'block';
   }
 
   protected render() {
@@ -96,6 +119,11 @@ export class SettingsMenu extends LitElement {
                 </md-menu-item>
               `;
             })}
+            <div class="requires-restart">
+              <md-icon>info</md-icon>
+              <div class="icon-align-text">Restart Required</div>
+            </div>
+            <md-divider></md-divider>
             <md-menu-item
               href="https://github.com/kpicaza/open-sketch/issues/new/choose"
               target="_blank"

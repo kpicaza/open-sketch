@@ -69,8 +69,9 @@ export class SketchCanvas extends LitElement {
   }
 
   protected moveCursor(event: MouseEvent) {
-    this.cursor.style.width = `${this.brush.lineWidth}px`;
-    this.cursor.style.height = `${this.brush.lineWidth}px`;
+    const cursorWidth =  this.brush.lineWidth > 3 ? this.brush.lineWidth : 3;
+    this.cursor.style.width = `${cursorWidth}px`;
+    this.cursor.style.height = `${cursorWidth}px`;
     this.cursor.style.background = this.brush.color;
     const mouseY = event.offsetY - (this.brush.lineWidth / 2);
     const mouseX = event.offsetX - (this.brush.lineWidth / 2);

@@ -60,6 +60,11 @@ export class OpenSketch extends LitElement {
       background: #2e3748;
     }
 
+    .sketch-book-controls settings-menu{
+      position: absolute;
+      left: 25px;
+    }
+
 
     footer {
       position: fixed;

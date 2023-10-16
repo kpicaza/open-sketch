@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31c5715df433e22247a9ea2b43f8cd57",
+    "content-hash": "c63ce8d396e15d410370ef1230c4cf71",
     "packages": [
         {
             "name": "brick/math",
@@ -2891,16 +2891,16 @@
         },
         {
             "name": "pheature/laravel-toggle",
-            "version": "0.7.3",
+            "version": "0.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pheature-flags/laravel-toggle.git",
-                "reference": "9c696454b8891ee7a728ae3f4fc2b2a8232fbb71"
+                "reference": "ed5244118c5ba848b9df90ac2073d04bb48581b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheature-flags/laravel-toggle/zipball/9c696454b8891ee7a728ae3f4fc2b2a8232fbb71",
-                "reference": "9c696454b8891ee7a728ae3f4fc2b2a8232fbb71",
+                "url": "https://api.github.com/repos/pheature-flags/laravel-toggle/zipball/ed5244118c5ba848b9df90ac2073d04bb48581b9",
+                "reference": "ed5244118c5ba848b9df90ac2073d04bb48581b9",
                 "shasum": ""
             },
             "require": {
@@ -2971,7 +2971,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pheature-flags/laravel-toggle/issues",
-                "source": "https://github.com/pheature-flags/laravel-toggle/tree/0.7.3"
+                "source": "https://github.com/pheature-flags/laravel-toggle/tree/0.7.4"
             },
             "funding": [
                 {
@@ -2979,7 +2979,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-16T16:54:24+00:00"
+            "time": "2023-10-16T17:32:21+00:00"
         },
         {
             "name": "pheature/toggle-core",
