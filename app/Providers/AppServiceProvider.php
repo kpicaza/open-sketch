@@ -41,22 +41,6 @@ class AppServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->app->bind(Connection::class, function (): Connection {
-            $dsnParser = new DsnParser();
-            $connectionParams = $dsnParser->parse(
-                sprintf(
-                    'pdo-%s:///%s/%s',
-                    /** @phpstan-ignore-next-line  */
-                    env('DB_CONNECTION'),
-                    base_path(),
-                    /** @phpstan-ignore-next-line  */
-                    env('DB_DATABASE')
-                )
-            );
-
-            return DriverManager::getConnection($connectionParams);
-        });
-
         $this->app->bind(PutSketchBook::class);
         $this->app->bind(GetSketchBook::class);
         $this->app->bind(Dialog::class, fn() => Dialog::new());

@@ -12,16 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pheature_toggles', function (Blueprint $table) {
-            $table->string('feature_id');
-            $table->primary('feature_id');
-            $table->string('name');
-            $table->boolean('enabled');
-            $table->json('strategies');
-            $table->dateTime('created_at');
-            $table->dateTime('updated_at')->nullable();
-        });
-
         DB::insert(
             <<<SQL
                 INSERT INTO `pheature_toggles` (
@@ -36,7 +26,6 @@ return new class extends Migration
                 'enabled' => 0,
                 'strategies' => '[]',
                 'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
-
             ]
         );
     }

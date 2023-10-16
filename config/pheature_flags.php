@@ -13,7 +13,7 @@ use Pheature\Model\Toggle\StrictMatchingSegment;
 return [
     'api_prefix' => 'api',
     'api_enabled' => true,
-    'driver' => 'dbal',
+    'driver' => 'eloquent',
     'segment_types' => [
         [
             'type' => IdentitySegment::NAME,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a07664ef30ff1e99cef3b375b631a44d",
+    "content-hash": "31c5715df433e22247a9ea2b43f8cd57",
     "packages": [
         {
             "name": "brick/math",
@@ -2891,16 +2891,16 @@
         },
         {
             "name": "pheature/laravel-toggle",
-            "version": "0.7.2",
+            "version": "0.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pheature-flags/laravel-toggle.git",
-                "reference": "36621644e6c51ae7adc5f0070d08d48adb3bc238"
+                "reference": "9c696454b8891ee7a728ae3f4fc2b2a8232fbb71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheature-flags/laravel-toggle/zipball/36621644e6c51ae7adc5f0070d08d48adb3bc238",
-                "reference": "36621644e6c51ae7adc5f0070d08d48adb3bc238",
+                "url": "https://api.github.com/repos/pheature-flags/laravel-toggle/zipball/9c696454b8891ee7a728ae3f4fc2b2a8232fbb71",
+                "reference": "9c696454b8891ee7a728ae3f4fc2b2a8232fbb71",
                 "shasum": ""
             },
             "require": {
@@ -2908,7 +2908,7 @@
                 "laravel/framework": "^8.40|^9.0|^10.0",
                 "nyholm/psr7": "^1.4",
                 "pheature/inmemory-toggle": "^0.7",
-                "pheature/toggle-crud-psr11-factories": "^0.7",
+                "pheature/toggle-crud-psr11-factories": "^0.7.2",
                 "pheature/toggle-model": "^0.7",
                 "php": "^7.4|^8.0|^8.1|^8.2"
             },
@@ -2971,7 +2971,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pheature-flags/laravel-toggle/issues",
-                "source": "https://github.com/pheature-flags/laravel-toggle/tree/0.7.2"
+                "source": "https://github.com/pheature-flags/laravel-toggle/tree/0.7.3"
             },
             "funding": [
                 {
@@ -2979,7 +2979,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-07T16:04:15+00:00"
+            "time": "2023-10-16T16:54:24+00:00"
         },
         {
             "name": "pheature/toggle-core",
@@ -3122,16 +3122,16 @@
         },
         {
             "name": "pheature/toggle-crud-psr11-factories",
-            "version": "0.7.1",
+            "version": "0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pheature-flags/toggle-crud-psr11-factories.git",
-                "reference": "1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd"
+                "reference": "767d222009fd10d53e2ac604f628b88765127ef0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheature-flags/toggle-crud-psr11-factories/zipball/1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd",
-                "reference": "1cf85c06ef721fd80f9a6dfda223df6fb0c92bfd",
+                "url": "https://api.github.com/repos/pheature-flags/toggle-crud-psr11-factories/zipball/767d222009fd10d53e2ac604f628b88765127ef0",
+                "reference": "767d222009fd10d53e2ac604f628b88765127ef0",
                 "shasum": ""
             },
             "require": {
@@ -3192,7 +3192,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pheature-flags/toggle-crud-psr11-factories/issues",
-                "source": "https://github.com/pheature-flags/toggle-crud-psr11-factories/tree/0.7.1"
+                "source": "https://github.com/pheature-flags/toggle-crud-psr11-factories/tree/0.7.2"
             },
             "funding": [
                 {
@@ -3200,7 +3200,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-12T18:19:04+00:00"
+            "time": "2023-10-16T16:39:53+00:00"
         },
         {
             "name": "pheature/toggle-crud-psr7-api",
@@ -8776,16 +8776,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.27.5",
+            "version": "0.27.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8"
+                "reference": "3a39f6cbfadcd6f32db6221e3c5e4ae9aa99671c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8",
-                "reference": "6e64b856c9f4f735e50b7ced02a6fc8236b0a1d8",
+                "url": "https://api.github.com/repos/infection/infection/zipball/3a39f6cbfadcd6f32db6221e3c5e4ae9aa99671c",
+                "reference": "3a39f6cbfadcd6f32db6221e3c5e4ae9aa99671c",
                 "shasum": ""
             },
             "require": {
@@ -8833,7 +8833,7 @@
                 "phpstan/phpstan-webmozart-assert": "^1.0.2",
                 "phpunit/phpunit": "^9.5.5",
                 "rector/rector": "^0.16.0",
-                "sidz/phpstan-rules": "^0.3.0",
+                "sidz/phpstan-rules": "^0.4.0",
                 "symfony/phpunit-bridge": "^5.4 || ^6.0",
                 "symfony/yaml": "^5.4 || ^6.0",
                 "thecodingmachine/phpstan-safe-rule": "^1.2.0"
@@ -8892,7 +8892,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.27.5"
+                "source": "https://github.com/infection/infection/tree/0.27.6"
             },
             "funding": [
                 {
@@ -8904,7 +8904,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-10-15T20:29:39+00:00"
+            "time": "2023-10-16T11:04:15+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
