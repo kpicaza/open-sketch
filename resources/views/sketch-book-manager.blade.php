@@ -17,7 +17,7 @@
         <title>Open Sketch</title>
     </head>
     <body class="antialiased">
-        <sketch-manager></sketch-manager>
+        <sketch-manager lang="{{ app()->currentLocale() }}"></sketch-manager>
         @vite(['resources/css/app.css', 'resources/js/src/pages/SketchManager.ts'])
     </body>
 </html>

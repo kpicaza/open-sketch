@@ -5,6 +5,7 @@ namespace App\Providers;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Tools\DsnParser;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Native\Laravel\Dialog;
@@ -51,5 +52,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $rawUserConfig = Storage::disk('app')->get('user-config.json');
+        if (null === $rawUserConfig) {
+            Storage::disk('app')->put('user-config.json', json_encode([
+                'lang' => app()->getLocale()
+            ], JSON_THROW_ON_ERROR));
+            /** @var string $rawUserConfig */
+            $rawUserConfig = Storage::disk('app')->get('user-config.json');
+        }
+        /** @var array{lang: string} $userConfig */
+        $userConfig = json_decode($rawUserConfig, true);
+        App::setLocale($userConfig['lang']);
     }
 }

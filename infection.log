@@ -89,22 +89,7 @@ Escaped mutants:
          }
 
 
-7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
-
---- Original
-+++ New
-@@ @@
-         }
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
--        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-+        $sketchBookSerialized = json_decode($content, true, 513, JSON_THROW_ON_ERROR);
-         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
-     }
- }
-
-
-8) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
+7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] DecrementInteger
 
 --- Original
 +++ New
@@ -119,6 +104,21 @@ Escaped mutants:
  }
 
 
+8) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:39    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+-        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
++        $sketchBookSerialized = json_decode($content, true, 513, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []));
+     }
+ }
+
+
 9) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelDialogProvider.php:24    [M] Coalesce
 
 --- Original
@@ -127,8 +127,8 @@ Escaped mutants:
      public function open() : string
      {
          $storagePath = Storage::disk('user_documents')->path('OpenSketch');
--        $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
-+        $path = $this->dialog->title('Open Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->open();
+-        $path = $this->dialog->title(__('open_sketch_book'))->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
++        $path = $this->dialog->title(__('open_sketch_book'))->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->open();
          return str_replace(storage_path('app'), '', $path ?? '');
      }
      public function save() : ?string
@@ -141,7 +141,7 @@ Escaped mutants:
 @@ @@
      {
          $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
+         $path = $this->dialog->title(__('open_sketch_book'))->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
 -        return str_replace(storage_path('app'), '', $path ?? '');
 +        return $path ?? '';
      }
@@ -156,7 +156,7 @@ Escaped mutants:
 @@ @@
      {
          $storagePath = Storage::disk('user_documents')->path('OpenSketch');
-         $path = $this->dialog->title('Open Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
+         $path = $this->dialog->title(__('open_sketch_book'))->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->open();
 -        return str_replace(storage_path('app'), '', $path ?? '');
 +        return str_replace(storage_path('app'), '', '' ?? $path);
      }
@@ -172,8 +172,8 @@ Escaped mutants:
      public function save() : ?string
      {
          $storagePath = Storage::disk('user_documents')->path('OpenSketch');
--        return $this->dialog->title('Save Sketch Book')->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
-+        return $this->dialog->title('Save Sketch Book')->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->save();
+-        return $this->dialog->title(__('save_sketch_book'))->asSheet(Window::current()->id ?? 'welcome')->defaultPath($storagePath)->save();
++        return $this->dialog->title(__('save_sketch_book'))->asSheet('welcome' ?? Window::current()->id)->defaultPath($storagePath)->save();
      }
  }
 
@@ -190,7 +190,7 @@ Escaped mutants:
 +        
          /** @phpstan-ignore-next-line */
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
 
 
 14) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Identical
@@ -203,14 +203,31 @@ Escaped mutants:
          /** @phpstan-ignore-next-line */
 -        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
 +        Window::close(Window::current()->id !== 'welcome' ? 'sketch-book' : Window::current()->id);
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
      }
  }
 
 
-15) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] MethodCallRemoval
+15) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
+
+--- Original
++++ New
+@@ @@
+         $window = Window::getFacadeRoot();
+         Window::open('welcome');
+         /** @phpstan-ignore-next-line */
+-        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
++        Window::close(Window::current()->id === 'welcome' ? Window::current()->id : 'sketch-book');
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         $window->maximize($command->openingWindowName);
+         Window::close('welcome');
+     }
+ }
+
+
+16) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] MethodCallRemoval
 
 --- Original
 +++ New
@@ -221,24 +238,7 @@ Escaped mutants:
 -        /** @phpstan-ignore-next-line */
 -        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
 +        
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
-         $window->maximize($command->openingWindowName);
-         Window::close('welcome');
-     }
- }
-
-
-16) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
-
---- Original
-+++ New
-@@ @@
-         $window = Window::getFacadeRoot();
-         Window::open('welcome');
-         /** @phpstan-ignore-next-line */
--        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-+        Window::close(Window::current()->id === 'welcome' ? Window::current()->id : 'sketch-book');
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
      }
@@ -253,7 +253,7 @@ Escaped mutants:
          Window::open('welcome');
          /** @phpstan-ignore-next-line */
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
--        Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+-        Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
 +        
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
@@ -269,8 +269,8 @@ Escaped mutants:
          Window::open('welcome');
          /** @phpstan-ignore-next-line */
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
--        Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
-+        Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, []);
+-        Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
++        Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, []);
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
      }
@@ -285,8 +285,8 @@ Escaped mutants:
          Window::open('welcome');
          /** @phpstan-ignore-next-line */
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
--        Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
-+        Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' > $command->sketchBookId]);
+-        Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
++        Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' > $command->sketchBookId]);
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
      }
@@ -300,7 +300,7 @@ Escaped mutants:
 @@ @@
          /** @phpstan-ignore-next-line */
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
 -        $window->maximize($command->openingWindowName);
 +        
          Window::close('welcome');
@@ -314,7 +314,7 @@ Escaped mutants:
 +++ New
 @@ @@
          Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-         Window::open($command->openingWindowName)->title(sprintf('Sketch Book: %s', $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
          $window->maximize($command->openingWindowName);
 -        Window::close('welcome');
 +        

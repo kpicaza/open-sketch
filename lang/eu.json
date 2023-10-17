@@ -1,0 +1,22 @@
+{
+  "feature": {
+    "export-sketch-as-png": "Gorde Krokisa PNG gisa"
+  },
+  "available": "Ezaugarri Eskuragarriak",
+  "documentation": "Dokumentuak",
+  "feedback": "Iritzia",
+  "file": "Fitxategia",
+  "restart": "Berrabiarazi Beharrezkoa",
+  "settings": "Ezarpenak",
+  "sketch_book": "Krokis Liburua",
+  "add_sketch_book": "Sortu Krokis Liburua",
+  "open_sketch_book": "Ireki Krokis Liburua",
+  "experimental": "Ezaugarri Esperimentalak",
+  "contribute": "Kolaboratu",
+  "learn_more": "Gehiago ikasi",
+  "lang": "Hizkuntza",
+  "en": "English",
+  "eu": "Euskera",
+  "es": "Español",
+  "ca": "Català"
+}

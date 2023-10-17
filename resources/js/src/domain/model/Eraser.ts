@@ -56,12 +56,14 @@ export class Eraser implements Tool{
     }
   }
 
-  public stopDrawing() {
+  public stopDrawing(): boolean {
     if (!this.isDrawing) {
-      return;
+      return false;
     }
     this.context.globalCompositeOperation="source-over";
     this.isDrawing = false;
+
+    return true;
   }
 
   private midPointBtw(point1: Point, point2: Point) {

@@ -91,9 +91,10 @@ export class SketchCanvas extends LitElement {
     this.drawingTool.startDrawing(event.offsetX, event.offsetY);
   }
 
-  protected stopDrawing(event: MouseEvent) {
-    this.drawingTool.stopDrawing();
-    this.saveSketchBook();
+  protected stopDrawing() {
+    if (this.drawingTool.stopDrawing()) {
+      this.saveSketchBook();
+    }
   }
 
   protected saveSketchBook() {

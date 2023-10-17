@@ -1,7 +1,8 @@
-import {LitElement, html, css} from 'lit';
-import {query, property, customElement} from 'lit/decorators.js';
+import {LitElement, html, css, PropertyValues} from 'lit';
+import {query, property, customElement, state} from 'lit/decorators.js';
 import {provide} from "@lit/context";
-import {loadSketchBook, saveSketchBook, downloadSketch, featuresAvailable} from "../store/SketchBookState";
+import {loadSketchBook, saveSketchBook, downloadSketch} from "../store/SketchBookState";
+import {featuresAvailable} from "../store/FeatureFlags";
 import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext";
 import {SketchBook} from "../domain/model/SketchBook";
 import {Sketch} from "../domain/model/Sketch";
@@ -13,7 +14,11 @@ import "./../components/sketch-book/SketchPreview";
 import "./../components/sketch-book/SketchNavigator";
 import "./../components/sketch-book/PaintingBoard";
 import "./../components/drawing-tools/BrushOptions";
+import "@material/web/iconbutton/filled-icon-button.js";
 import {Feature} from "../types/Feature";
+import { use } from "lit-translate";
+import  '../lang/LangConfig'
+import {MdIconButton} from "@material/web/all";
 
 @customElement('open-sketch')
 export class OpenSketch extends LitElement {
@@ -62,9 +67,19 @@ export class OpenSketch extends LitElement {
 
     .sketch-book-controls settings-menu{
       position: absolute;
-      left: 25px;
+      left: 40px;
+      top: 20px;
     }
 
+    .sketch-book-controls .restart-button {
+      display: none;
+      --md-filled-icon-button-container-width: 45px;
+      --md-filled-icon-button-container-height: 45px;
+      --md-sys-color-primary: #dc362e;
+      position: absolute;
+      left: 40px;
+      top: 90px;
+    }
 
     footer {
       position: fixed;
@@ -74,7 +89,6 @@ export class OpenSketch extends LitElement {
       background: #1a202c;
       z-index: 20;
     }
-
   `;
 
   @provide({context: brushContext}) brush: Brush = {
@@ -96,10 +110,25 @@ export class OpenSketch extends LitElement {
 
   @query("painting-board") sketchWrapper: HTMLDivElement;
   @query("footer") sketchFooter: HTMLDivElement;
+  @query(".restart-button") restartButton: MdIconButton;
+  @property() lang: string = 'en';
   @property() sketchBookId: string = '';
   @property() previewScrollPosition: number = 0;
   @property() resetCanvas: boolean = false;
   @property() exportAsPng: boolean = false;
+
+  @state() hasLoadedStrings = false;
+
+  protected shouldUpdate(props: PropertyValues) {
+    return this.hasLoadedStrings && super.shouldUpdate(props);
+  }
+
+  async connectedCallback() {
+    super.connectedCallback();
+
+    await use(this.lang);
+    this.hasLoadedStrings = true;
+  }
 
   protected async firstUpdated() {
     this.sketchBook = await loadSketchBook(this.sketchBookId);
@@ -192,6 +221,24 @@ export class OpenSketch extends LitElement {
     })
   }
 
+  private showRestartButton(event: Event) {
+    this.restartButton.style.display = 'inline-flex';
+  }
+
+  private async restart()
+  {
+    await fetch(
+      '/api/restart/' + this.sketchBookId,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json;charset=UTF-8',
+        },
+      }
+    );
+
+  }
+
   protected render() {
     return html`
       <menu class="brush-tools">
@@ -203,7 +250,15 @@ export class OpenSketch extends LitElement {
         ></brush-options>
       </menu>
       <aside class="sketch-book-controls">
-        <settings-menu></settings-menu>
+        <settings-menu
+          @restartrequired=${this.showRestartButton}
+        ></settings-menu>
+        <md-filled-icon-button
+          class="restart-button"
+          @click=${this.restart}
+        >
+          <md-icon>restart_alt</md-icon>
+        </md-filled-icon-button>
         <add-sketch
           @sketchadded=${this.appendSketch}
         ></add-sketch>

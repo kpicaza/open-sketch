@@ -65,8 +65,8 @@ export class DrawingTool {
     this.tool.draw(offsetX, offsetY);
   }
 
-  public stopDrawing() {
-    this.tool.stopDrawing();
+  public stopDrawing(): boolean {
+    return this.tool.stopDrawing();
   }
 
 }

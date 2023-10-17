@@ -4,7 +4,7 @@ import {Brush} from "../domain/model/Brush";
 import {Feature} from "../types/Feature";
 
 
-const sketchBook = {
+const sketchBook: SketchBook = {
   sketches: [
     {
       id: 1,
@@ -15,7 +15,6 @@ const sketchBook = {
 } as SketchBook;
 
 export const sketchBookContext = createContext<SketchBook>(sketchBook);
-
 
 const brush: Brush = {
   lineWidth: 5,

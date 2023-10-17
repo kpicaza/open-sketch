@@ -1,0 +1,22 @@
+{
+  "feature": {
+    "export-sketch-as-png": "Exporta l'esborrany com a PNG"
+  },
+  "available": "Característiques disponibles",
+  "documentation": "Documentació",
+  "feedback": "Comentaris",
+  "file": "Arxiu",
+  "restart": "Reiniciar Requerit",
+  "settings": "Configuració",
+  "sketch_book": "Llibre d'Esbossos",
+  "add_sketch_book": "Afegir Llibre d'Esbossos",
+  "open_sketch_book": "Obre el Llibre d'Esbossos",
+  "experimental": "Experimental",
+  "contribute": "Contribueix",
+  "learn_more": "Aprèn'n més",
+  "lang": "Idioma",
+  "en": "English",
+  "eu": "Euskera",
+  "es": "Español",
+  "ca": "Català"
+}

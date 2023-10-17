@@ -56,9 +56,37 @@ Route::post('/sketch-books/{id}/exports/{sketchId}', function (string $id, strin
     }
 
 
-    list($type, $data) = explode(';', $sketchBook->sketches()[$sketchId - 1]->image);
-    list(, $data)      = explode(',', $data);
+    list(, $data) = explode(';', $sketchBook->sketches()[$sketchId - 1]->image);
+    list(, $data) = explode(',', $data);
     Storage::put($storagePath, base64_decode($data));
+
+    return new JsonResponse([], 200);
+});
+
+Route::post('/langs/{locale}', function (string $locale) {
+    if (! in_array($locale, ['en', 'ca', 'eu', 'es'])) {
+        abort(404);
+    }
+
+    app()->setLocale($locale);
+    Storage::disk('app')->put('user-config.json', json_encode([
+        'lang' => $locale
+    ]));
+
+    return new JsonResponse([], 200);
+});
+
+Route::post('/restart/{id}', function (string $id) {
+    /** @var \OpenSketch\Window\Domain\Handler\OpenWindow $window */
+    $window = app()->get(\OpenSketch\Window\Domain\Handler\OpenWindow::class);
+    preg_match('`^.*:\s(.*\.json)$`', Window::current()->title, $matches);
+
+    $window->handle(new \OpenSketch\Window\Domain\Command\OpenWindowCommand(
+        $id,
+        Window::current()->id,
+        $matches[1],
+        'sketch-book',
+    ));
 
     return new JsonResponse([], 200);
 });

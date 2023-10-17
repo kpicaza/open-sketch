@@ -1,0 +1,21 @@
+{
+  "feature": {
+    "export-sketch-as-png": "Exportar boceto como PNG"
+  },
+  "available": "Características disponibles",
+  "documentation": "Documentación",
+  "feedback": "Comentarios",
+  "restart": "Reinicio requerido",
+  "settings": "Configuración",
+  "sketch_book": "Libro de bocetos",
+  "add_sketch_book": "Agregar libro de bocetos",
+  "open_sketch_book": "Abrir libro de bocetos",
+  "experimental": "Experimental",
+  "contribute": "Contribuir",
+  "learn_more": "Aprender más",
+  "lang": "Idioma",
+  "en": "Inglés",
+  "eu": "Euskera",
+  "es": "Español",
+  "ca": "Catalán"
+}

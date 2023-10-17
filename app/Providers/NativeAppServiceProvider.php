@@ -24,12 +24,12 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->withContextMenu(
                 Menu::new()
                     ->label('Open Sketch')
-                    ->submenu('File', Menu::new()
-                        ->event(DocumentOpened::class, 'Open Recent')
-                        ->event(DocumentSaved::class, 'New Sketch Book'))
+                    ->submenu(__('file'), Menu::new()
+                        ->event(DocumentOpened::class, __('open_sketch_book'))
+                        ->event(DocumentSaved::class, __('save_sketch_book')))
                     ->separator()
-                    ->link('https://github.com/kpicaza/open-sketch', 'Learn more…')
-                    ->link('https://github.com/sponsors/kpicaza', 'Contribute')
+                    ->link('https://github.com/kpicaza/open-sketch', __('learn_more'))
+                    ->link('https://github.com/sponsors/kpicaza', __('contribute'))
                     ->separator()
                     ->quit()
             )
@@ -37,10 +37,10 @@ class NativeAppServiceProvider implements ProvidesPhpIni
 
         Menu::new()
             ->submenu('Open Sketch', Menu::new()
-                ->link('https://nativephp.com', 'Documentation'))
-            ->submenu('File', Menu::new()
-                ->event(\App\Events\DocumentOpened::class, 'Open Recent')
-                ->event(DocumentSaved::class, 'New Sketch Book'))
+                ->link('https://nativephp.com', __('documentation')))
+            ->submenu(__('file'), Menu::new()
+                ->event(DocumentOpened::class, __('open_sketch_book'))
+                ->event(DocumentSaved::class, __('save_sketch_book')))
             ->windowMenu()
             ->register();
 

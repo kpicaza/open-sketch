@@ -47,10 +47,12 @@ export class Pencil implements Tool {
 
   public stopDrawing() {
     if (!this.isDrawing) {
-      return;
+      return false;
     }
     this.context.globalCompositeOperation="source-over";
     this.isDrawing = false;
+
+    return true;
   }
 
   private getRandomInt(min: number, max: number): number {

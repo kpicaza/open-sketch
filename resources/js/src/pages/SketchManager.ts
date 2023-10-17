@@ -1,9 +1,8 @@
-import {LitElement, css, html} from "lit";
-import {customElement, property, query} from "lit/decorators.js";
-import '@material/web/list/list.js';
-import '@material/web/list/list-item.js';
-import '@material/web/icon/icon';
-import '@material/web/divider/divider.js';
+import {LitElement, css, html, PropertyValues} from "lit";
+import {customElement, property, state} from "lit/decorators.js";
+import {use} from "lit-translate";
+import  '../lang/LangConfig'
+import '../components/settings/ManagerSettings'
 
 @customElement('sketch-manager')
 export class SketchManager extends LitElement {
@@ -36,63 +35,25 @@ export class SketchManager extends LitElement {
     }
   `;
 
-  private async saveFile(event: MouseEvent) {
-    await fetch('/api/sketch-books/save', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-    });
+  @state() hasLoadedStrings = false;
+  @property() lang: string = 'en';
+
+  protected shouldUpdate(props: PropertyValues) {
+    return this.hasLoadedStrings && super.shouldUpdate(props);
   }
 
-  private async openFile(event: MouseEvent) {
-    await fetch('/api/sketch-books/open', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-    });
+  async connectedCallback() {
+    super.connectedCallback();
+
+    await use(this.lang);
+    this.hasLoadedStrings = true;
   }
 
   protected render(){
     return html`
       <main>
         <h1>OPEN SKETCH</h1>
-        <md-list style="max-width: 300px;">
-          <md-list-item @click=${this.saveFile} class="clickable">
-            New Sketch Book
-            <md-icon slot="start">add</md-icon>
-          </md-list-item>
-          <md-list-item @click=${this.openFile} class="clickable">
-            Open Existing Sketch Book
-            <md-icon slot="start">folder_open</md-icon>
-          </md-list-item>
-          <md-divider></md-divider>
-          <md-list-item>
-            <a href="https://github.com/kpicaza/open-sketch" target="_blank">Learn more…</a>
-            <md-icon slot="start">school</md-icon>
-            <md-icon slot="end">open_in_new</md-icon>
-          </md-list-item>
-          <md-list-item>
-            <a href="https://github.com/sponsors/kpicaza" target="_blank">Contribute</a>
-            <md-icon slot="start">recycling</md-icon>
-            <md-icon slot="end">open_in_new</md-icon>
-          </md-list-item>
-          <!--<md-list-item>
-            <div slot="headline">Cucumber</div>
-            <div slot="supporting-text">Cucumbers are long green fruits that are just as long as this multi-line
-              description
-            </div>
-          </md-list-item>
-          <md-list-item
-            interactive
-            href="https://google.com/search?q=buy+kiwis&tbm=shop"
-            target="_blank">
-            <div slot="headline">Shop for Kiwis</div>
-            <div slot="supporting-text">This will link you out in a new tab</div>
-            <md-icon slot="end">open_in_new</md-icon>
-          </md-list-item>-->
-        </md-list>
+        <manager-settings></manager-settings>
       </main>
     `;
   }

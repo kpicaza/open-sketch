@@ -20,7 +20,7 @@ final class LaravelDialogProvider implements DialogProvider
     {
         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
         $path = $this->dialog
-            ->title('Open Sketch Book')
+            ->title(__('open_sketch_book'))
             ->asSheet(Window::current()->id ?? 'welcome')
             ->defaultPath($storagePath)
             ->open();
@@ -37,7 +37,7 @@ final class LaravelDialogProvider implements DialogProvider
         $storagePath = Storage::disk('user_documents')->path('OpenSketch');
 
         return $this->dialog
-            ->title('Save Sketch Book')
+            ->title(__('save_sketch_book'))
             ->asSheet(
                 Window::current()->id ?? 'welcome'
             )

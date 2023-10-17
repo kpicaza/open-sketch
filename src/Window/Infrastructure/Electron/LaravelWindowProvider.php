@@ -20,7 +20,7 @@ final class LaravelWindowProvider implements WindowProvider
             ? 'sketch-book'
             : Window::current()->id);
         Window::open($command->openingWindowName)
-            ->title(sprintf('Sketch Book: %s', $command->fileName()))
+            ->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))
             ->route($command->routeName, [
                 'id' => $command->sketchBookId,
             ])

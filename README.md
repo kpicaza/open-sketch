@@ -32,6 +32,7 @@ provides the tools you need.
 
 ### Sketch Book Manager
 
+* [x] Multi-Language
 * [x] Open New Sketch Books
 * [x] Open Existing Sketch Books
 * [x] Portable Sketch Book format
@@ -99,5 +100,5 @@ please see our Contribution Guidelines for details on how to get involved.
 
 ## License
 
-This project is licensed under the MIT License. You are free to use, modify, and distribute this software as long 
+This project is licensed under the BSD-3-Clause License. You are free to use, modify, and distribute this software as long 
 as you adhere to the terms of the license.

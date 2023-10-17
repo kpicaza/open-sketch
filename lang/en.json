@@ -1,0 +1,21 @@
+{
+  "feature": {
+    "export-sketch-as-png": "Export Sketch as PNG"
+  },
+  "available": "Available Features",
+  "documentation": "Documentation",
+  "feedback": "Feedback",
+  "restart": "Restart Required",
+  "settings": "Settings",
+  "sketch_book": "SketchBook",
+  "add_sketch_book": "Add SketchBook",
+  "open_sketch_book": "Open SketchBook",
+  "experimental": "Experimental",
+  "contribute": "Contribute",
+  "learn_more": "Learn More",
+  "lang": "Lang",
+  "en": "English",
+  "eu": "Euskera",
+  "es": "Español",
+  "ca": "Català"
+}
