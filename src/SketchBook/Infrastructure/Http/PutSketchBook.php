@@ -26,9 +26,10 @@ final class PutSketchBook
         $jsonRequest = $request->json();
         $sketchBookData = $jsonRequest->all();
 
-        $this->saveSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
+        $this->saveSketchBook->handle(SaveSketchBookCommand::from(
             $sketchBookData['id'],
             $sketchBookData['sketches'],
+            $sketchBookData['background'],
         ));
 
         return new Response(null, 200);

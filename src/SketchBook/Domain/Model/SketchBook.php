@@ -14,7 +14,8 @@ final class SketchBook implements JsonSerializable
     public function __construct(
         public readonly string $id,
         public string $storagePath,
-        private array $sketches
+        private array $sketches,
+        private string $background = '#ffffff',
     ) {
         if ([] === $this->sketches) {
             $this->sketches = [
@@ -53,17 +54,36 @@ final class SketchBook implements JsonSerializable
         return $this->openedInNewLocation(Uuid::uuid4()->toString(), $storagePath);
     }
 
-    public function jsonSerialize(): mixed
+    public function addBackground(string $background): void
+    {
+        $this->background = $background;
+    }
+
+    /**
+     * @return  array{
+     *   id: string,
+     *   sketches: array<Sketch>,
+     *   storage_path: string,
+     *   background: string
+     * }
+     */
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
             'storage_path' => $this->storagePath,
             'sketches' => $this->sketches,
+            'background' => $this->background,
         ];
     }
 
     public function name(): string
     {
         return basename(str_replace('.json', '', $this->storagePath));
+    }
+
+    public function background(): string
+    {
+        return $this->background;
     }
 }

@@ -23,7 +23,7 @@ final class StoreDocument
 
     public function handle(DocumentSaved $event): void
     {
-        $path = $this->saveDialog->handle();
+        $path = $this->saveDialog->handle('save_sketch_book', 'OpenSketch');
 
         if (null === $path) {
             return;

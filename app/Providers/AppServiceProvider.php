@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Native\Laravel\Dialog;
+use OpenSketch\SketchBook\Domain\ImageManipulation;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
+use OpenSketch\SketchBook\Infrastructure\GD\PNGImageManipulation;
 use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Persistence\FileSystemSketchBookRepository;
@@ -36,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DialogProvider::class,
             LaravelDialogProvider::class
+        );
+        $this->app->bind(
+            ImageManipulation::class,
+            PNGImageManipulation::class
         );
 
         if ('test' === env('APP_ENV')) {

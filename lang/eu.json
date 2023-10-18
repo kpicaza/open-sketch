@@ -1,6 +1,7 @@
 {
   "feature": {
-    "export-sketch-as-png": "Gorde Krokisa PNG gisa"
+    "export-sketch-as-png": "Gorde Krokisa PNG gisa",
+    "canvas-background-color": "Mihisearen atzeko kolorea"
   },
   "available": "Ezaugarri Eskuragarriak",
   "documentation": "Dokumentuak",

@@ -1,10 +1,13 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
 import {consume} from "@lit/context";
-import {brushContext} from "../../store/AppContext";
+import {brushContext, featuresContext, sketchBookContext} from "../../store/AppContext";
 import {Brush} from "../../domain/model/Brush";
 import {Sketch} from "../../domain/model/Sketch";
 import {DrawingTool} from "../../domain/model/DrawingTool";
+import {Feature} from "../../types/Feature";
+import {ToggleRouter} from "../../services/ToggleRouter";
+import {SketchBook} from "../../domain/model/SketchBook";
 
 @customElement('sketch-canvas')
 export class SketchCanvas extends LitElement {
@@ -13,10 +16,24 @@ export class SketchCanvas extends LitElement {
       height: 80vh;
     }
 
-    canvas {
+    .sheet {
+      display: block;
+      position: relative;
       width: 120vh;
-      background: #FFFFFF;
       cursor: none;
+      background: transparent;
+    }
+
+    .white-background {
+      background: #FFFFFF;
+    }
+
+    .background {
+      width: 120vh;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+      background: #ffffff;
     }
 
     .cursor {
@@ -25,15 +42,24 @@ export class SketchCanvas extends LitElement {
       position: absolute;
       border-radius: 50%;
       opacity: 0.5;
-      pointer-events:none;
+      pointer-events: none;
     }
   `
-  @query("#sheet") canvas!: HTMLCanvasElement;
+  @query(".sheet") canvas!: HTMLCanvasElement;
+  @query(".background") background!: HTMLCanvasElement;
   @query(".cursor") cursor!: HTMLDivElement;
 
   @consume({context: brushContext, subscribe: true})
   @property({attribute: false})
   brush?: Brush
+
+  @consume({context: sketchBookContext, subscribe: true})
+  @property({attribute: false})
+  sketchBook?: SketchBook
+
+  @consume({context: featuresContext, subscribe: true})
+  @property({attribute: false})
+  features?: Array<Feature>
 
   @property() resetCanvas: boolean = false;
   @property() sketchId: string = '';
@@ -103,10 +129,32 @@ export class SketchCanvas extends LitElement {
       {
         detail: {
           id: this.sketchId,
-          image: new URL(this.canvas.toDataURL("image/png"))
-        } as Sketch
+          image: new URL(this.canvas.toDataURL("image/png")),
+          background: this.sketchBook.background,
+        }
       }
     ))
+  }
+
+  private renderBackgroundVariant(canvasColor: string) {
+    const toggleRouter = new ToggleRouter(this.features);
+    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
+
+    if (canvasBackgroundColor) {
+      this.canvas.classList.remove('white-background')
+      console.log(canvasColor)
+      return html`
+        <canvas
+          .style="background: ${canvasColor}"
+          class="background"
+          width=${this.canvasWidth}
+          height=${this.canvasHeight}
+        >
+        </canvas>
+      `
+    }
+
+    return html``;
   }
 
   protected render() {
@@ -117,7 +165,7 @@ export class SketchCanvas extends LitElement {
         class="cursor"
       ></div>
       <canvas
-        id="sheet"
+        class="sheet white-background"
         width=${this.canvasWidth}
         height=${this.canvasHeight}
         @mousedown=${this.startDrawing}
@@ -127,6 +175,7 @@ export class SketchCanvas extends LitElement {
         @mouseout=${this.stopDrawing}
       >
       </canvas>
+      ${this.renderBackgroundVariant(this.sketchBook.background)}
     `;
   }
 }

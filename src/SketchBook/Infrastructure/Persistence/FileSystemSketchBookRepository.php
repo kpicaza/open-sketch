@@ -35,14 +35,21 @@ final class FileSystemSketchBookRepository implements SketchBookRepository
         }
 
         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-        /** @var array{id: string, sketches: array<array{id: string, image: string}>}|null $sketchBookSerialized */
+        /**
+         * @var array{
+         *   id: string,
+         *   sketches: array<array{id: string, image: string}>,
+         *   background: string
+         * }|null $sketchBookSerialized
+         */
         $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
 
         return new SketchBook(
             $sketchBookReference->id,
             $sketchBookReference->storage_path,
-            Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? [])
+            Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []),
+            $sketchBookSerialized['background'] ?? '#ffffff'
         );
     }
 }

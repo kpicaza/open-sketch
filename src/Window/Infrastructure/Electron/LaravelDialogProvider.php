@@ -32,12 +32,12 @@ final class LaravelDialogProvider implements DialogProvider
         );
     }
 
-    public function save(): ?string
+    public function save(string $title, string $path): ?string
     {
-        $storagePath = Storage::disk('user_documents')->path('OpenSketch');
+        $storagePath = Storage::disk('user_documents')->path($path);
 
         return $this->dialog
-            ->title(__('save_sketch_book'))
+            ->title(__($title))
             ->asSheet(
                 Window::current()->id ?? 'welcome'
             )

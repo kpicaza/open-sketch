@@ -60,7 +60,7 @@ export class SketchPreview extends LitElement {
   @property({attribute: false})
   sketchBook?: SketchBook;
 
-
+  @property() canvasColor: string;
 
   @property({attribute: false}) previewScrollPosition: number = 0;
 
@@ -157,6 +157,7 @@ export class SketchPreview extends LitElement {
                 <sketch-preview
                   .sketchId=${sketch.id}
                   .image=${sketch.image}
+                  .background=${this.sketchBook.background}
                   @sketchselected=${this.goToSelectedSketch}
                   @sketchdeleted=${this.deleteSketch}
                   @sketchdownloaded=${this.downloadSketch}

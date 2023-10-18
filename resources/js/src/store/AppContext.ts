@@ -10,8 +10,8 @@ const sketchBook: SketchBook = {
       id: 1,
       image: new URL("data:,")
     }
-
-  ]
+  ],
+  background: '#ffffff'
 } as SketchBook;
 
 export const sketchBookContext = createContext<SketchBook>(sketchBook);

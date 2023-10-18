@@ -41,7 +41,13 @@ final class OpenDocumentWindow
             return;
         }
 
-        /** @var array{id: string, sketches: array<array{id: string, image: string}>} $sketchBookData */
+        /**
+         * @var array{
+         *   id: string,
+         *   sketches: array<array{id: string, image: string}>,
+         *   background: string|null
+         * } $sketchBookData
+         */
         $sketchBookData = json_decode(
             $fileContents,
             true,
@@ -64,9 +70,10 @@ final class OpenDocumentWindow
                 )
             );
             $this->saveSketchBook->handle(
-                SaveSketchBookCommand::withIdAndSketches(
+                SaveSketchBookCommand::from(
                     $sketchBookId,
                     $sketchBookData['sketches'],
+                    $sketchBookData['background'] ?? '#ffffff',
                 )
             );
         }

@@ -1,6 +1,7 @@
 {
   "feature": {
-    "export-sketch-as-png": "Exportar boceto como PNG"
+    "export-sketch-as-png": "Exportar boceto como PNG",
+    "canvas-background-color": "Color de fondo del lienzo"
   },
   "available": "Características disponibles",
   "documentation": "Documentación",

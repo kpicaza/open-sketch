@@ -29,14 +29,15 @@ class SaveSketchBookTest extends TestCase
         $sketches = [
             [
                 'id' => 1,
-                'image' => 'data:,'
+                'image' => 'data:,',
             ]
         ];
 
         Storage::put('/home/fake/sketch-book.json', json_encode([
             'id' => $sketchBookId,
             'storage_path' => '/home/fake/sketch-book.json',
-            'sketches' => $sketches
+            'sketches' => $sketches,
+            'background' => '#ffffff',
         ], JSON_THROW_ON_ERROR));
 
         SketchBookReference::firstOrNew([
@@ -53,7 +54,8 @@ class SaveSketchBookTest extends TestCase
                     'id' => 1,
                     'image' => 'data:1'
                 ]
-            ]
+            ],
+            'background' => '#ffffff'
         ]);
 
         $response->assertStatus(200);
@@ -62,6 +64,7 @@ class SaveSketchBookTest extends TestCase
         $sketchBookRepository = $this->app->get(SketchBookRepository::class);
         $sketchBook = $sketchBookRepository->get($sketchBookId);
         $this->assertCount(1, $sketchBook->sketches());
+        $this->assertSame('#ffffff', $sketchBook->background());
         foreach ($sketchBook->sketches() as $sketch) {
             $this->assertSame(1, $sketch->id);
             $this->assertSame('data:1', $sketch->image);

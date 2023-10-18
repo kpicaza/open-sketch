@@ -24,7 +24,8 @@ class SaveSketchBookTest extends TestCase
                 '/home/fake/old-location.json',
                 [
                     new Sketch(1, 'data:,')
-                ]
+                ],
+                '#000000'
             ))
         ;
         $repository->expects($this->once())
@@ -36,20 +37,22 @@ class SaveSketchBookTest extends TestCase
                     new Sketch(1, 'data:1'),
                     new Sketch(2, 'data:2'),
                     new Sketch(3, 'data:3'),
-                ]
+                ],
+                '#ffffff'
             ));
 
         $createNeSketchBook = new SaveSketchBook(
             $repository
         );
 
-        $createNeSketchBook->handle(SaveSketchBookCommand::withIdAndSketches(
+        $createNeSketchBook->handle(SaveSketchBookCommand::from(
             $sketchBookId,
             [
                 ['id' => '1', 'image' => 'data:1'],
                 ['id' => '2', 'image' => 'data:2'],
                 ['id' => '3', 'image' => 'data:3'],
-            ]
+            ],
+            '#ffffff'
         ));
     }
 }

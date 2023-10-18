@@ -49,9 +49,7 @@ export class SketchPreview extends LitElement {
 
   @property() sketchId: number = 1;
   @property() image: URL = new URL("data:,");
-
-  protected async firstUpdated() {
-  }
+  @property() background: string;
 
   protected selectSketch(event: MouseEvent) {
     this.dispatchEvent(new CustomEvent(
@@ -92,9 +90,8 @@ export class SketchPreview extends LitElement {
     `;
   }
 
-  private renderDownloadButton()
+  private renderDownloadButton(toggleRouter: ToggleRouter)
   {
-    const toggleRouter = new ToggleRouter(this.features);
     const exportAsPng = toggleRouter.isEnabled('export-sketch-as-png')
 
     if (!exportAsPng) {
@@ -112,26 +109,31 @@ export class SketchPreview extends LitElement {
   }
 
   protected render() {
+    const toggleRouter = new ToggleRouter(this.features);
+    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
+
     if ("data:," === this.image.toString()) {
       return html`
         <div
+          style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
           class="image"
           @click=${this.selectSketch}
         ></div>
         ${this.renderCloseButton()}
-        ${this.renderDownloadButton()}
+        ${this.renderDownloadButton(toggleRouter)}
       `;
     }
 
     return html`
       <img
+        style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
         class="image"
         src=${this.image.toString()}
         @click=${this.selectSketch}
         height="85"
       />
       ${this.renderCloseButton()}
-      ${this.renderDownloadButton()}
+      ${this.renderDownloadButton(toggleRouter)}
     `;
   }
 }

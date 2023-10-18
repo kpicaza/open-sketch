@@ -1,6 +1,7 @@
 {
   "feature": {
-    "export-sketch-as-png": "Exporta l'esborrany com a PNG"
+    "export-sketch-as-png": "Exporta l'esborrany com a PNG",
+    "canvas-background-color": "Color de fons del llenç"
   },
   "available": "Característiques disponibles",
   "documentation": "Documentació",

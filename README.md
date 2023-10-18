@@ -37,9 +37,11 @@ provides the tools you need.
 * [x] Open Existing Sketch Books
 * [x] Portable Sketch Book format
 
-### Simple Paint
+### Painting Canvas
 
 * [x] Static size painting canvas
+* [x] Background Color (Experimental)
+* [ ] Background Image
 
 ### Drawing Palette
 

@@ -32,7 +32,8 @@ class GetSketchBookTest extends TestCase
         Storage::put('/home/fake/sketch-book.json', json_encode([
             'id' => $sketchBookId,
             'storage_path' => '/home/fake/sketch-book.json',
-            'sketches' => $sketches
+            'sketches' => $sketches,
+            'background' => '#ffffff'
         ], JSON_THROW_ON_ERROR));
 
         SketchBookReference::firstOrNew([
@@ -51,7 +52,8 @@ class GetSketchBookTest extends TestCase
                     "id" => 1,
                     "image" => "data:,"
                 ]
-            ]
+            ],
+            'background' => '#ffffff'
         ]);
     }
 }

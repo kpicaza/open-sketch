@@ -1,6 +1,7 @@
 {
   "feature": {
-    "export-sketch-as-png": "Export Sketch as PNG"
+    "export-sketch-as-png": "Export Sketch as PNG",
+    "canvas-background-color": "Canvas Background Color"
   },
   "available": "Available Features",
   "documentation": "Documentation",

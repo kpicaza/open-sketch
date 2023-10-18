@@ -101,9 +101,10 @@ export class OpenSketch extends LitElement {
     sketches: [
       {
         id: 1,
-        image: new URL("data:,")
+        image: new URL("data:,"),
       }
-    ]
+    ],
+    background: '#ffffff'
   }
   @provide({context: featuresContext}) features!: Array<Feature> = [];
 
@@ -113,6 +114,7 @@ export class OpenSketch extends LitElement {
   @query(".restart-button") restartButton: MdIconButton;
   @property() lang: string = 'en';
   @property() sketchBookId: string = '';
+  @property() canvasColor: string = '#ffffff';
   @property() previewScrollPosition: number = 0;
   @property() resetCanvas: boolean = false;
   @property() exportAsPng: boolean = false;
@@ -144,7 +146,8 @@ export class OpenSketch extends LitElement {
 
     this.sketchBook = {
       id: this.sketchBook.id,
-      sketches: sketches
+      sketches: sketches,
+      background: this.sketchBook.background
     };
 
     const body = this.parentElement.parentElement;
@@ -164,7 +167,8 @@ export class OpenSketch extends LitElement {
 
     this.sketchBook = {
       id: this.sketchBook.id,
-      sketches: sketches
+      sketches: sketches,
+      background: event.detail.background
     };
 
     await saveSketchBook(this.sketchBook);
@@ -177,13 +181,14 @@ export class OpenSketch extends LitElement {
     ).map((sketch, key) => {
       return {
         id: key + 1,
-        image: sketch.image
+        image: sketch.image,
       } as Sketch
     }).filter(() => true);
 
     this.sketchBook = {
       id: this.sketchBook.id,
-      sketches: newSketches
+      sketches: newSketches,
+      background: this.sketchBook.background
     };
 
     this.resetCanvas = true;
@@ -200,6 +205,16 @@ export class OpenSketch extends LitElement {
 
   protected changeBrushColor(event: CustomEvent) {
     this.brush.color= event.detail;
+  }
+
+  protected async changeBackgroundColor(event: CustomEvent) {
+    this.sketchBook = {
+      id: this.sketchBook.id,
+      sketches: this.sketchBook.sketches,
+      background: event.detail
+    };
+
+    await saveSketchBook(this.sketchBook);
   }
 
   private changeBrush(event: CustomEvent) {
@@ -245,8 +260,10 @@ export class OpenSketch extends LitElement {
         <brush-options
           @linewidthchanged=${this.changeBrushLineWidth}
           @colorchanged=${this.changeBrushColor}
+          @backgroundcolorchanged=${this.changeBackgroundColor}
           @brushselected=${this.changeBrush}
           .brushType=${this.brush.type}
+          .backgroundColor=${this.sketchBook.background}
         ></brush-options>
       </menu>
       <aside class="sketch-book-controls">

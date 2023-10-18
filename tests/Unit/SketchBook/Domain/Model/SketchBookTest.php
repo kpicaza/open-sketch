@@ -18,13 +18,15 @@ class SketchBookTest extends TestCase
         $sketchBook = new SketchBook(
             $id,
             '/test.json',
-            $sketches
+            $sketches,
+            '#ffff00'
         );
 
         $this->assertSame([
             'id' => $id,
             'storage_path' => '/test.json',
             'sketches' => $sketches,
+            'background' => '#ffff00'
         ], $sketchBook->jsonSerialize());
     }
 
@@ -38,6 +40,7 @@ class SketchBookTest extends TestCase
         );
 
         $this->assertCount(1, $sketchBook->sketches());
+        $this->assertSame('#ffffff', $sketchBook->background());
         foreach ($sketchBook->sketches() as $sketch) {
             $this->assertSame(1, $sketch->id);
             $this->assertSame('data:,', $sketch->image);

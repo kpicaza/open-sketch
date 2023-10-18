@@ -3,6 +3,12 @@ import {customElement, property, query} from "lit/decorators.js";
 import "./Eraser"
 import "./Pen"
 import "./Pencil"
+import {consume} from "@lit/context";
+import {featuresContext, sketchBookContext} from "../../store/AppContext";
+import {Feature} from "../../types/Feature";
+import {ToggleRouter} from "../../services/ToggleRouter";
+import '@material/web/icon/icon'
+import {SketchBook} from "../../domain/model/SketchBook";
 
 @customElement('brush-options')
 export class BrushOptions extends LitElement {
@@ -38,13 +44,11 @@ export class BrushOptions extends LitElement {
       margin-top: -150px;
       left: 70px;
     }
-
     .eraser {
       left: 240px;
       margin-top: -170px;
     }
-
-    input[type="color"] {
+    input.color[type="color"] {
       cursor: pointer;
       position: absolute;;
       top: -10px;
@@ -54,21 +58,61 @@ export class BrushOptions extends LitElement {
       width: 60px;
       height: 60px;
     }
-    input[type="color"]::-webkit-color-swatch-wrapper {
+    input.color[type="color"]::-webkit-color-swatch-wrapper {
       padding: 0;
     }
 
-    input[type="color"]::-webkit-color-swatch {
+    input.color[type="color"]::-webkit-color-swatch {
       border: none;
+    }
+    input.rounded[type="color"] {
+      cursor: pointer;
+      position: absolute;;
+      top: 0px;
+      left: 0;
+      -webkit-appearance: none;
+      border: none;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+    }
+    input.rounded.background-color[type="color"] {
+      top: -20px;
+      left: -20px;
+      width: 90px;
+      height: 90px;
+    }
+    input.rounded[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    input.rounded[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+    input.rounded.background-color[type="color"]::-webkit-color-swatch {
+      border: 1px black solid;
+      border-radius: 50%;
     }
     input[type="range"] {
       cursor: pointer;
       position: absolute;
-      top: 10px;
+      top: 15px;
+      left: 50px;
       transform: rotate(270deg);
       width: 60px;
     }
   `;
+
+  @consume({context: featuresContext, subscribe: true})
+  @property({attribute: false})
+  features?: Array<Feature>
+
+  @consume({context: sketchBookContext, subscribe: true})
+  @property({attribute: false})
+  sketchBook?: SketchBook
+
+  @query('.background-color-input-button') backgroundInputButton: HTMLDivElement;
+  @query('.background-color-input') backgroundInput: HTMLInputElement;
 
   @property() color: string = "#000000";
   @property() selectedBrush: string = 'pen';
@@ -96,6 +140,16 @@ export class BrushOptions extends LitElement {
     ));
   }
 
+  protected changeBackgroundColor(event: InputEvent) {
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+    this.dispatchEvent(new CustomEvent(
+      'backgroundcolorchanged',
+      {
+        detail: input.value,
+      }
+    ));
+  }
+
   private async selectBrush(event: MouseEvent)
   {
     const selectedBrush: HTMLInputElement = event.target as HTMLInputElement;
@@ -118,10 +172,31 @@ export class BrushOptions extends LitElement {
     await this.updateComplete;
   }
 
+  private renderColorPicker() {
+    const toggleRouter = new ToggleRouter(this.features);
+    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
+
+    if (canvasBackgroundColor) {
+      return html `
+        <input
+          class="background-color rounded"
+          type="color"
+          @change=${this.changeBackgroundColor}
+          value=${this.sketchBook.background}
+        />
+        <input class="rounded" type="color" @change=${this.changeColor} value=${this.color}/>
+      `
+    }
+
+    return html `
+      <input class="color"  type="color" @input=${this.changeColor} value=${this.color}/>
+    `
+  }
+
   protected render() {
     return html`
       <div class="brushes">
-        <input type="color" @input=${this.changeColor} value=${this.color}/>
+        ${this.renderColorPicker()}
         <input type="range" min="2" max="100" @input=${this.changeLineWidth} value=${this.lineWidth}/>
         <brush-pen
           class="brush pen selected"

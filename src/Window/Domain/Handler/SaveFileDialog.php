@@ -13,8 +13,8 @@ final class SaveFileDialog
     ) {
     }
 
-    public function handle(): ?string
+    public function handle(string $title, string $path): ?string
     {
-        return $this->provider->save();
+        return $this->provider->save($title, $path);
     }
 }

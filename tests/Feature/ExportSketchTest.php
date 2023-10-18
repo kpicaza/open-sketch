@@ -26,7 +26,8 @@ class ExportSketchTest extends TestCase
                     'id' => 1,
                     'image' => 'data:,'
                 ]
-            ]
+            ],
+            'background' => '#ffffff'
         ], JSON_THROW_ON_ERROR));
         SketchBookReference::firstOrNew([
             'id' => $sketchBookId,

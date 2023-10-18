@@ -7,5 +7,5 @@ namespace OpenSketch\Window\Domain;
 interface DialogProvider
 {
     public function open(): string;
-    public function save(): ?string;
+    public function save(string $title, string $path): ?string;
 }
