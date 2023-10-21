@@ -2,7 +2,7 @@ import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
 
 @customElement('brush-eraser')
-export class Pen extends LitElement {
+export class Eraser extends LitElement {
   static styles = css`
     .eraser-wrapper {
       transform: rotate(90);
@@ -79,7 +79,12 @@ export class Pen extends LitElement {
   `;
 
   @query('.eraser-wrapper') pencilBox: HTMLDivElement;
-  @property() selection: string = '';
+  @property() declare selection: string;
+
+  constructor() {
+    super();
+    this.selection = '';
+  }
 
   private select(event: MouseEvent) {
     this.pencilBox.classList.add('selected');

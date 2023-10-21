@@ -1,7 +1,6 @@
 import {createContext} from '@lit/context';
 import {SketchBook} from "../domain/model/SketchBook";
 import {Brush} from "../domain/model/Brush";
-import {Feature} from "../types/Feature";
 import {ToggleRouter} from "../services/ToggleRouter";
 
 

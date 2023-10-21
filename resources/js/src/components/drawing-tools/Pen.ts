@@ -90,7 +90,12 @@ export class Pen extends LitElement {
   `;
 
   @query('.pencil_box') pencilBox: HTMLDivElement;
-  @property() selection: string = '';
+  @property() declare selection: string;
+
+  constructor() {
+    super();
+    this.selection = '';
+  }
 
   private select(event: MouseEvent) {
     this.pencilBox.classList.add('selected');

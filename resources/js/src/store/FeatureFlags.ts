@@ -1,46 +1,18 @@
-import {Feature} from "../types/Feature";
-import {ToggleRouter} from "../services/ToggleRouter";
+import {FeatureFlagsRepository} from "../domain/FeatureFlagsRepository";
+import serviceContainer from '../services/ServiceContainer';
+
 
 export const featuresAvailable = async () => {
-  const response = (await fetch(
-    '/api/features',
-    {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-    }
-  ));
-
-  return await response.json() as Array<Feature>;
+  const featureFlagsRepository: FeatureFlagsRepository = serviceContainer.get('feature.flags.repository');
+  return await featureFlagsRepository.all();
 }
 
 export const enableFeature = async (feature: string) => {
-  const response = await fetch(
-    '/api/features/' + feature,
-    {
-      method: 'PATCH',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        "action": "enable_feature",
-      })
-    }
-  );
+  const featureFlagsRepository: FeatureFlagsRepository = serviceContainer.get('feature.flags.repository');
+  await featureFlagsRepository.enable(feature);
 }
 
 export const disableFeature = async (feature: string) => {
-  const response = await fetch(
-    '/api/features/' + feature,
-    {
-      method: 'PATCH',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        "action": "disable_feature",
-      })
-    }
-  );
+  const featureFlagsRepository: FeatureFlagsRepository = serviceContainer.get('feature.flags.repository');
+  await featureFlagsRepository.disable(feature);
 }
