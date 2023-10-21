@@ -10,10 +10,12 @@ use Ramsey\Uuid\Uuid;
 
 final class SketchBook implements JsonSerializable
 {
+    public readonly string $storagePath;
+
     /** @param Sketch[] $sketches */
     public function __construct(
         public readonly string $id,
-        public string $storagePath,
+        string $storagePath,
         private array $sketches,
         private string $background = '#ffffff',
     ) {
@@ -21,6 +23,12 @@ final class SketchBook implements JsonSerializable
             $this->sketches = [
                 new Sketch(1, 'data:,')
             ];
+        }
+
+        if (!str_ends_with($storagePath, '.json')) {
+            $this->storagePath = sprintf('%s.json', $storagePath);
+        } else {
+            $this->storagePath = $storagePath;
         }
     }
 

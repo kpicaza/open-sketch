@@ -10,7 +10,7 @@ export class Eraser implements Tool{
     this.context = context;
     this.context.lineJoin = "round";
     this.context.lineCap = "round";
-    this.context.globalCompositeOperation="destination-out";
+    this.context.globalCompositeOperation = "source-over";
   }
 
   public name(): string {
@@ -19,6 +19,7 @@ export class Eraser implements Tool{
 
   public startDrawing(offsetX: number, offsetY: number)
   {
+    this.context.globalCompositeOperation = "destination-out";
     this.isDrawing = true;
     this.points.push({ x: offsetX, y: offsetY });
   }
@@ -60,7 +61,7 @@ export class Eraser implements Tool{
     if (!this.isDrawing) {
       return false;
     }
-    this.context.globalCompositeOperation="source-over";
+    this.context.globalCompositeOperation = "source-over";
     this.isDrawing = false;
 
     return true;

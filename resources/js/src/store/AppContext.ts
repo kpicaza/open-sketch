@@ -2,6 +2,7 @@ import {createContext} from '@lit/context';
 import {SketchBook} from "../domain/model/SketchBook";
 import {Brush} from "../domain/model/Brush";
 import {Feature} from "../types/Feature";
+import {ToggleRouter} from "../services/ToggleRouter";
 
 
 const sketchBook: SketchBook = {
@@ -11,19 +12,19 @@ const sketchBook: SketchBook = {
       image: new URL("data:,")
     }
   ],
-  background: '#ffffff'
+  background: '#d5e5d9'
 } as SketchBook;
 
 export const sketchBookContext = createContext<SketchBook>(sketchBook);
 
 const brush: Brush = {
-  lineWidth: 5,
-  color: '#000000',
+  lineWidth: 3,
+  color: '#282828',
   type: 'pen'
 } as Brush;
 
 export const brushContext = createContext<Brush>(brush);
 
-const features: Array<Feature> = [];
+const features = new ToggleRouter([]);
 
-export const featuresContext = createContext<Array<Feature>>(features);
+export const featuresContext = createContext<ToggleRouter>(features);

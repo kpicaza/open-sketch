@@ -1,4 +1,5 @@
 import {Feature} from "../types/Feature";
+import {ToggleRouter} from "../services/ToggleRouter";
 
 export const featuresAvailable = async () => {
   const response = (await fetch(

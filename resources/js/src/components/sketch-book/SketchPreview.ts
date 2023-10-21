@@ -45,7 +45,7 @@ export class SketchPreview extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: Array<Feature>
+  features?: ToggleRouter
 
   @property() sketchId: number = 1;
   @property() image: URL = new URL("data:,");
@@ -90,9 +90,9 @@ export class SketchPreview extends LitElement {
     `;
   }
 
-  private renderDownloadButton(toggleRouter: ToggleRouter)
+  private renderDownloadButton()
   {
-    const exportAsPng = toggleRouter.isEnabled('export-sketch-as-png')
+    const exportAsPng = this.features.isEnabled('export-sketch-as-png')
 
     if (!exportAsPng) {
       return html``;
@@ -109,8 +109,7 @@ export class SketchPreview extends LitElement {
   }
 
   protected render() {
-    const toggleRouter = new ToggleRouter(this.features);
-    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
+    const canvasBackgroundColor = this.features.isEnabled('canvas-background-color')
 
     if ("data:," === this.image.toString()) {
       return html`
@@ -120,7 +119,7 @@ export class SketchPreview extends LitElement {
           @click=${this.selectSketch}
         ></div>
         ${this.renderCloseButton()}
-        ${this.renderDownloadButton(toggleRouter)}
+        ${this.renderDownloadButton()}
       `;
     }
 
@@ -133,7 +132,7 @@ export class SketchPreview extends LitElement {
         height="85"
       />
       ${this.renderCloseButton()}
-      ${this.renderDownloadButton(toggleRouter)}
+      ${this.renderDownloadButton()}
     `;
   }
 }

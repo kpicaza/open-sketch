@@ -13,7 +13,6 @@
     "laravel/framework": "^10.10",
     "nativephp/electron": "^0.4.0",
     "nyholm/psr7": "^1.8",
-    "pheature/dbal-toggle": "^0.7.1",
     "pheature/laravel-toggle": "^0.7.4",
     "pheature/toggle-crud-psr7-api": "^0.7.2",
     "symfony/psr-http-message-bridge": "^2.3"

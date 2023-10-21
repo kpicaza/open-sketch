@@ -16,4 +16,8 @@ export class ToggleRouter {
 
     return false;
   }
+
+  public all(): Array<Feature> {
+    return this.features;
+  }
 }

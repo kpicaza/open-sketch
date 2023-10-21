@@ -91,8 +91,8 @@ export class SketchPreview extends LitElement {
       return html``;
     }
 
-    const previewMenu = this.sketchFooter.querySelector('.horizontal-scroll-wrapper');
-    if (previewMenu.scrollWidth <= previewMenu.clientWidth) {
+    const previewMenu = this.sketchFooter?.querySelector('.horizontal-scroll-wrapper');
+    if (!previewMenu || previewMenu.scrollWidth <= previewMenu.clientWidth) {
       return html``;
     }
 

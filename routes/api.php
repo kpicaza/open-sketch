@@ -3,11 +3,9 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Native\Laravel\Dialog;
 use Native\Laravel\Facades\Window;
 use OpenSketch\SketchBook\Infrastructure\Http\GetSketchBook;
 use OpenSketch\SketchBook\Infrastructure\Http\PutSketchBook;
-use Ramsey\Uuid\Uuid;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +64,7 @@ Route::post('/langs/{locale}', function (string $locale) {
 Route::post('/restart/{id}', function (string $id) {
     /** @var \OpenSketch\Window\Domain\Handler\OpenWindow $window */
     $window = app()->get(\OpenSketch\Window\Domain\Handler\OpenWindow::class);
-    preg_match('`^.*:\s(.*\.json)$`', Window::current()->title, $matches);
+    preg_match('`^.*:\s(.*(?:|\.json))$`', Window::current()->title, $matches);
 
     $window->handle(new \OpenSketch\Window\Domain\Command\OpenWindowCommand(
         $id,

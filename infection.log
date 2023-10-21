@@ -76,7 +76,7 @@ Escaped mutants:
  }
 
 
-6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Model/SketchBook.php:82    [M] UnwrapStrReplace
+6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Model/SketchBook.php:90    [M] UnwrapStrReplace
 
 --- Original
 +++ New

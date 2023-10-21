@@ -3,9 +3,7 @@ import {customElement, property, query} from "lit/decorators.js";
 import {consume} from "@lit/context";
 import {brushContext, featuresContext, sketchBookContext} from "../../store/AppContext";
 import {Brush} from "../../domain/model/Brush";
-import {Sketch} from "../../domain/model/Sketch";
 import {DrawingTool} from "../../domain/model/DrawingTool";
-import {Feature} from "../../types/Feature";
 import {ToggleRouter} from "../../services/ToggleRouter";
 import {SketchBook} from "../../domain/model/SketchBook";
 
@@ -43,6 +41,8 @@ export class SketchCanvas extends LitElement {
       border-radius: 50%;
       opacity: 0.5;
       pointer-events: none;
+      z-index: 15;
+      border: 1px solid #000000;
     }
   `
   @query(".sheet") canvas!: HTMLCanvasElement;
@@ -59,8 +59,9 @@ export class SketchCanvas extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: Array<Feature>
+  features?: ToggleRouter
 
+  @property() canvasBackgroundColor: boolean = false;
   @property() resetCanvas: boolean = false;
   @property() sketchId: string = '';
   @property() canvasWidth: number = 960;
@@ -74,6 +75,11 @@ export class SketchCanvas extends LitElement {
     this.drawingTool = new DrawingTool(this.canvas.getContext("2d"))
     this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
     this.drawingTool.setBrush(this.brush);
+    this.canvasBackgroundColor = this.features.isEnabled('canvas-background-color')
+    if (this.canvasBackgroundColor) {
+      this.canvas.classList.remove('white-background')
+    }
+
     setTimeout(() => this.drawingTool.setImage(this.image), 500);
   }
 
@@ -136,16 +142,11 @@ export class SketchCanvas extends LitElement {
     ))
   }
 
-  private renderBackgroundVariant(canvasColor: string) {
-    const toggleRouter = new ToggleRouter(this.features);
-    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
-
-    if (canvasBackgroundColor) {
-      this.canvas.classList.remove('white-background')
-      console.log(canvasColor)
+  private renderBackgroundVariant() {
+    if (this.canvasBackgroundColor) {
       return html`
         <canvas
-          .style="background: ${canvasColor}"
+          .style="background:${this.sketchBook.background};"
           class="background"
           width=${this.canvasWidth}
           height=${this.canvasHeight}
@@ -175,7 +176,7 @@ export class SketchCanvas extends LitElement {
         @mouseout=${this.stopDrawing}
       >
       </canvas>
-      ${this.renderBackgroundVariant(this.sketchBook.background)}
+      ${this.renderBackgroundVariant()}
     `;
   }
 }

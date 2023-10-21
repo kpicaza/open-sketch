@@ -15,6 +15,7 @@ import {consume} from "@lit/context";
 import {openFile, saveFile} from "../../store/SketchBookState";
 import {get} from "lit-translate";
 import {langs} from "../../lang/Langs";
+import {ToggleRouter} from "../../services/ToggleRouter";
 
 @customElement('settings-menu')
 export class SettingsMenu extends LitElement {
@@ -53,7 +54,7 @@ export class SettingsMenu extends LitElement {
   @query('.requires-restart') requiresRestartMessage: HTMLDivElement;
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: Array<Feature>
+  features?: ToggleRouter
 
   private openMenu(event: MouseEvent) {
     this.menu.open = !this.menu.open
@@ -136,7 +137,7 @@ export class SettingsMenu extends LitElement {
             <md-icon slot="start">outlined_flag</md-icon>
           </md-menu-item>
           <md-divider></md-divider>
-          ${this.features.map((feature) => {
+          ${this.features.all().map((feature) => {
             return html`
               <md-menu-item class="features"
                             .keepOpen=${true}

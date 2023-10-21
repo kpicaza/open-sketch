@@ -105,7 +105,7 @@ export class BrushOptions extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: Array<Feature>
+  features?: ToggleRouter
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
@@ -173,8 +173,7 @@ export class BrushOptions extends LitElement {
   }
 
   private renderColorPicker() {
-    const toggleRouter = new ToggleRouter(this.features);
-    const canvasBackgroundColor = toggleRouter.isEnabled('canvas-background-color')
+    const canvasBackgroundColor = this.features.isEnabled('canvas-background-color')
 
     if (canvasBackgroundColor) {
       return html `

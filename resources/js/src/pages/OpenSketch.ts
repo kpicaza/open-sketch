@@ -19,6 +19,7 @@ import {Feature} from "../types/Feature";
 import { use } from "lit-translate";
 import  '../lang/LangConfig'
 import {MdIconButton} from "@material/web/all";
+import {ToggleRouter} from "../services/ToggleRouter";
 
 @customElement('open-sketch')
 export class OpenSketch extends LitElement {
@@ -92,8 +93,8 @@ export class OpenSketch extends LitElement {
   `;
 
   @provide({context: brushContext}) brush: Brush = {
-    lineWidth: 5,
-    color: '#000000',
+    lineWidth: 3,
+    color: '#484545',
     type: 'pen'
   }
   @provide({context: sketchBookContext}) sketchBook: SketchBook = {
@@ -104,9 +105,9 @@ export class OpenSketch extends LitElement {
         image: new URL("data:,"),
       }
     ],
-    background: '#ffffff'
+    background: '#e8f6f1'
   }
-  @provide({context: featuresContext}) features!: Array<Feature> = [];
+  @provide({context: featuresContext}) features!: ToggleRouter = new ToggleRouter([]);
 
 
   @query("painting-board") sketchWrapper: HTMLDivElement;
@@ -125,16 +126,17 @@ export class OpenSketch extends LitElement {
     return this.hasLoadedStrings && super.shouldUpdate(props);
   }
 
+  constructor() {
+    super();
+  }
+
   async connectedCallback() {
+    this.features = new ToggleRouter(await featuresAvailable());
+    this.sketchBook = await loadSketchBook(this.sketchBookId);
     super.connectedCallback();
 
     await use(this.lang);
     this.hasLoadedStrings = true;
-  }
-
-  protected async firstUpdated() {
-    this.sketchBook = await loadSketchBook(this.sketchBookId);
-    this.features = await featuresAvailable();
   }
 
   protected async appendSketch(event: CustomEvent) {
