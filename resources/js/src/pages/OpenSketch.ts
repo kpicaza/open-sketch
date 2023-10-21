@@ -1,9 +1,11 @@
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {query, property, customElement, state} from 'lit/decorators.js';
+import {query, property, state} from 'lit/decorators.js';
 import {provide} from "@lit/context";
+import { use } from "lit-translate";
 import {loadSketchBook, saveSketchBook, downloadSketch} from "../store/SketchBookState";
 import {featuresAvailable} from "../store/FeatureFlags";
 import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext";
+import {ToggleRouter} from "../services/ToggleRouter";
 import {SketchBook} from "../domain/model/SketchBook";
 import {Sketch} from "../domain/model/Sketch";
 import {Brush} from "../domain/model/Brush";
@@ -14,14 +16,10 @@ import "./../components/sketch-book/SketchPreview";
 import "./../components/sketch-book/SketchNavigator";
 import "./../components/sketch-book/PaintingBoard";
 import "./../components/drawing-tools/BrushOptions";
-import "@material/web/iconbutton/filled-icon-button.js";
-import {Feature} from "../types/Feature";
-import { use } from "lit-translate";
 import  '../lang/LangConfig'
-import {MdIconButton} from "@material/web/all";
-import {ToggleRouter} from "../services/ToggleRouter";
+import {MdIconButton} from "@material/web/iconbutton/icon-button";
+import "@material/web/iconbutton/filled-icon-button.js";
 
-@customElement('open-sketch')
 export class OpenSketch extends LitElement {
   static styles = css`
     :host {
@@ -109,18 +107,17 @@ export class OpenSketch extends LitElement {
   }
   @provide({context: featuresContext}) features!: ToggleRouter = new ToggleRouter([]);
 
-
   @query("painting-board") sketchWrapper: HTMLDivElement;
   @query("footer") sketchFooter: HTMLDivElement;
   @query(".restart-button") restartButton: MdIconButton;
-  @property() lang: string = 'en';
-  @property() sketchBookId: string = '';
-  @property() canvasColor: string = '#ffffff';
-  @property() previewScrollPosition: number = 0;
-  @property() resetCanvas: boolean = false;
-  @property() exportAsPng: boolean = false;
+  @property() declare lang: string;
+  @property() declare sketchBookId: string;
+  @property() declare canvasColor: string;
+  @property() declare previewScrollPosition: number;
+  @property() declare resetCanvas: boolean;
+  @property() declare exportAsPng: boolean;
 
-  @state() hasLoadedStrings = false;
+  @state() declare hasLoadedStrings: boolean;
 
   protected shouldUpdate(props: PropertyValues) {
     return this.hasLoadedStrings && super.shouldUpdate(props);
@@ -128,6 +125,17 @@ export class OpenSketch extends LitElement {
 
   constructor() {
     super();
+    this.lang = 'en';
+    this.sketchBookId = '';
+    this.canvasColor = '#ffffff';
+    this.previewScrollPosition = 0;
+    this.resetCanvas = false;
+    this.exportAsPng = false;
+    this.hasLoadedStrings = false;
+    window.addEventListener('resize', async () => {
+      this.resetCanvas = true
+      await this.updateComplete;
+    });
   }
 
   async connectedCallback() {

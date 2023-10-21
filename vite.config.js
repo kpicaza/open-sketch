@@ -6,7 +6,7 @@ export default defineConfig({
         laravel({
             input: [
               'resources/css/app.css',
-              'resources/js/src/pages/OpenSketch.ts',
+              'resources/js/src/pages/open-sketch.ts',
               'resources/js/src/pages/SketchManager.ts',
             ],
             refresh: true,

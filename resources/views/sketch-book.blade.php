@@ -18,6 +18,6 @@
     </head>
     <body class="antialiased">
         <open-sketch sketchBookId="{{$sketchBookId}}" lang="{{ app()->currentLocale() }}"></open-sketch>
-        @vite(['resources/css/app.css', 'resources/js/src/pages/OpenSketch.ts'])
+        @vite(['resources/css/app.css', 'resources/js/src/pages/open-sketch.ts'])
     </body>
 </html>

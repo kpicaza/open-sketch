@@ -91,6 +91,8 @@ export class SketchCanvas extends LitElement {
       this.image = new URL(this.image);
     }
     if (true === this.resetCanvas) {
+      this.canvasWidth = this.offsetWidth;
+      this.canvasHeight = this.parentElement!.offsetHeight - 50;
       this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
       this.drawingTool.setImage(this.image);
       this.resetCanvas = false;

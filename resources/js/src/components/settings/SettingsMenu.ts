@@ -54,7 +54,7 @@ export class SettingsMenu extends LitElement {
   @query('.requires-restart') requiresRestartMessage: HTMLDivElement;
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: ToggleRouter
+  declare features?: ToggleRouter
 
   private openMenu(event: MouseEvent) {
     this.menu.open = !this.menu.open

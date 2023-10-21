@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "wtr resources/js/test/**/*.test.ts resources/js/test/**/**/*.test.ts --node-resolve"
   },
   "dependencies": {
     "@lit/context": "^1.0.0",
@@ -12,6 +13,10 @@
     "lit-translate": "^2.0.1"
   },
   "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@open-wc/testing": "^3.2.0",
+    "@web/dev-server-esbuild": "^0.4.3",
+    "@web/test-runner": "^0.17.2",
     "laravel-vite-plugin": "^0.8.0",
     "vite": "^4.0.0"
   }

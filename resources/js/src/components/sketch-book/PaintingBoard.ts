@@ -36,9 +36,14 @@ export class SketchPreview extends LitElement {
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  sketchBook?: SketchBook;
+  declare sketchBook?: SketchBook;
 
-  @property() resetCanvas: boolean = false;
+  @property() declare resetCanvas: boolean;
+
+  constructor() {
+    super();
+    this.resetCanvas = false;
+  }
 
   protected saveSketchBook(event: CustomEvent) {
     this.dispatchEvent(new CustomEvent(

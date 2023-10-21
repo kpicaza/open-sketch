@@ -1,13 +1,15 @@
 import {SketchBook} from "../domain/model/SketchBook";
 import {SketchBookRepository} from "../domain/SketchBookRepository";
+import serviceContainer from "../services/ServiceContainer";
 
-const sketchBookRepository = new SketchBookRepository();
 
 export const loadSketchBook = async (sketchBookId: string) => {
+  const sketchBookRepository: SketchBookRepository = serviceContainer.get('sketchbook.repository');
   return await sketchBookRepository.get(sketchBookId);
 }
 
 export const saveSketchBook = async (sketchBook: SketchBook) => {
+  const sketchBookRepository: SketchBookRepository = serviceContainer.get('sketchbook.repository');
   await sketchBookRepository.save(sketchBook);
 }
 
@@ -22,7 +24,6 @@ export const downloadSketch = async (sketchBookId: string, sketchId: string) => 
     }
   );
 }
-
 
 export const saveFile = async ()  => {
   await fetch('/api/sketch-books/save', {

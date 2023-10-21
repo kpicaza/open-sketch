@@ -58,11 +58,17 @@ export class SketchPreview extends LitElement {
   @query(".app-footer") sketchFooter: HTMLDivElement;
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  sketchBook?: SketchBook;
+  declare sketchBook?: SketchBook;
 
-  @property() canvasColor: string;
+  @property() declare canvasColor: string;
 
-  @property({attribute: false}) previewScrollPosition: number = 0;
+  @property({attribute: false}) declare previewScrollPosition: number;
+
+  constructor() {
+    super();
+    this.canvasColor = '';
+    this. previewScrollPosition = 0;
+  }
 
   protected async movePreviewsToLeft(event: MouseEvent) {
     const button = event.target as HTMLButtonElement

@@ -49,6 +49,7 @@ provides the tools you need.
 * [x] "Pencil" Brush
 * [x] "Eraser" Brush
 * [x] Brush Color
+* [ ] Recent used brush color palette
 * [x] Brush Size
 * [ ] Store Drawing settings
 

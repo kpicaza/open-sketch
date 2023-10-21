@@ -105,18 +105,27 @@ export class BrushOptions extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: ToggleRouter
+  declare features?: ToggleRouter
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  sketchBook?: SketchBook
+  declare sketchBook?: SketchBook
 
   @query('.background-color-input-button') backgroundInputButton: HTMLDivElement;
   @query('.background-color-input') backgroundInput: HTMLInputElement;
 
-  @property() color: string = "#000000";
-  @property() selectedBrush: string = 'pen';
-  @property() lineWidth: number = 3;
+  @property() declare color: string;
+  @property() declare selectedBrush: string;
+  @property() declare lineWidth: number;
+
+  constructor() {
+    super();
+    this.color = "#000000";
+    this.selectedBrush = 'pen';
+    this.lineWidth = 3;
+    this.features = null;
+    this.sketchBook = null;
+  }
 
   protected changeLineWidth(event: InputEvent) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
