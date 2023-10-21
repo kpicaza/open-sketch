@@ -1,11 +1,10 @@
 import {LitElement, css, html} from "lit";
-import {customElement, property, query} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import '@material/web/iconbutton/filled-icon-button.js';
 import '@material/web/icon/icon.js';
 import {consume} from "@lit/context";
-import {featuresContext} from "../../store/AppContext";
-import {Feature} from "../../types/Feature";
-import {ToggleRouter} from "../../services/ToggleRouter";
+import {featuresContext} from "../../store/AppContext.js";
+import {ToggleRouter} from "../../services/ToggleRouter.js";
 
 @customElement('sketch-preview')
 export class SketchPreview extends LitElement {
@@ -45,13 +44,15 @@ export class SketchPreview extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: ToggleRouter
+  features: ToggleRouter
 
   @property() sketchId: number = 1;
+
   @property() image: URL = new URL("data:,");
+
   @property() background: string;
 
-  protected selectSketch(event: MouseEvent) {
+  protected selectSketch() {
     this.dispatchEvent(new CustomEvent(
       'sketchselected',
     {
@@ -111,12 +112,13 @@ export class SketchPreview extends LitElement {
   protected render() {
     const canvasBackgroundColor = this.features.isEnabled('canvas-background-color')
 
-    if ("data:," === this.image.toString()) {
+    if (this.image.toString() === "data:,") {
       return html`
         <div
           style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
           class="image"
           @click=${this.selectSketch}
+          @keyup="" ${this.selectSketch}
         ></div>
         ${this.renderCloseButton()}
         ${this.renderDownloadButton()}
@@ -126,9 +128,11 @@ export class SketchPreview extends LitElement {
     return html`
       <img
         style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
+        alt="canvas"
         class="image"
         src=${this.image.toString()}
         @click=${this.selectSketch}
+        @keyup="" ${this.selectSketch}
         height="85"
       />
       ${this.renderCloseButton()}

@@ -1,8 +1,8 @@
 import {elementUpdated, fixture} from "@open-wc/testing";
 import {html} from "lit";
 import {expect} from "@esm-bundle/chai";
-import {Pencil} from "../../../src/components/drawing-tools/Pencil";
-import "../../../src/components/drawing-tools/Pencil";
+import {Pencil} from "../../../src/components/drawing-tools/Pencil.js";
+import "../../../src/components/drawing-tools/Pencil.js";
 
 
 describe('<brush-pencil> components.', () => {

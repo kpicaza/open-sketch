@@ -1,8 +1,8 @@
 import {elementUpdated, fixture} from "@open-wc/testing";
 import {html} from "lit";
 import {expect} from "@esm-bundle/chai";
-import {Eraser} from "../../../src/components/drawing-tools/Eraser";
-import "../../../src/components/drawing-tools/Eraser";
+import {Eraser} from "../../../src/components/drawing-tools/Eraser.js";
+import "../../../src/components/drawing-tools/Eraser.js";
 
 
 describe('<brush-eraser> components.', () => {

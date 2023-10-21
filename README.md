@@ -6,6 +6,7 @@
 [![PHPUnit tests](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml)
 [![Static Analysis by PHPStan](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml)
 [![Mutation tests](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml)
+[![TypeScript tests](https://github.com/kpicaza/open-sketch/actions/workflows/ts-test.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/ts-test.yml)
 
 ## Table of Contents
 

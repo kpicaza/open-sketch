@@ -1,10 +1,10 @@
-import {FeatureFlagsRepository} from "../domain/FeatureFlagsRepository";
-import serviceContainer from '../services/ServiceContainer';
+import {FeatureFlagsRepository} from "../domain/FeatureFlagsRepository.js";
+import serviceContainer from '../services/ServiceContainer.js';
 
 
 export const featuresAvailable = async () => {
   const featureFlagsRepository: FeatureFlagsRepository = serviceContainer.get('feature.flags.repository');
-  return await featureFlagsRepository.all();
+  return featureFlagsRepository.all();
 }
 
 export const enableFeature = async (feature: string) => {

@@ -61,14 +61,18 @@
     ],
     "check-all": [
       "@cs-check",
+      "@ts-cs-check",
       "@test",
+      "@ts-test",
       "@stan",
       "@infection",
       "@unused"
     ],
     "check-precommit": [
       "@cs-check",
+      "@ts-cs-check",
       "@test",
+      "@ts-test",
       "@stan"
     ],
     "test": "phpunit",
@@ -76,7 +80,9 @@
     "infection": "infection -j8",
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
-    "unused": "composer-unused"
+    "unused": "composer-unused",
+    "ts-test": "yarn test",
+    "ts-cs-check": "yarn cs-check"
   },
   "extra": {
     "laravel": {

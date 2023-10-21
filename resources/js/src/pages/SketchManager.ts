@@ -1,8 +1,8 @@
 import {LitElement, css, html, PropertyValues} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
 import {use} from "lit-translate";
-import  '../lang/LangConfig'
-import '../components/settings/ManagerSettings'
+import  '../lang/LangConfig.js'
+import '../components/settings/ManagerSettings.js'
 
 @customElement('sketch-manager')
 export class SketchManager extends LitElement {
@@ -36,16 +36,19 @@ export class SketchManager extends LitElement {
   `;
 
   @state() hasLoadedStrings = false;
-  @property() lang: string = 'en';
+
+  @property() language: string = 'en';
 
   protected shouldUpdate(props: PropertyValues) {
     return this.hasLoadedStrings && super.shouldUpdate(props);
   }
 
   async connectedCallback() {
-    super.connectedCallback();
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
 
-    await use(this.lang);
+    await use(this.language);
     this.hasLoadedStrings = true;
   }
 

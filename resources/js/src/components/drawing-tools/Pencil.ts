@@ -155,6 +155,7 @@ export class Pencil extends LitElement {
   `;
 
   @query('.pencil_box') pencilBox: HTMLDivElement;
+
   @property() declare selection: string;
 
   constructor() {
@@ -162,7 +163,7 @@ export class Pencil extends LitElement {
     this.selection = '';
   }
 
-  private select(event: MouseEvent) {
+  private select() {
     this.pencilBox.classList.add('selected');
   }
 
@@ -171,6 +172,7 @@ export class Pencil extends LitElement {
       <div
         class="pencil_box ${this.selection === 'pencil' ? 'selected' : '' }"
         @click=${this.select}
+        @keyup=${this.select}
       >
         <div id="pencil_wrapper" class="green">
           <div class="shaft"></div>

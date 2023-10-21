@@ -1,9 +1,11 @@
-import {Tool} from "./Tool";
-import {Point} from "../../types/Point";
+import {Tool} from "./Tool.js";
+import {Point} from "../../types/Point.js";
 
-export class Eraser implements Tool{
+export class Eraser implements Tool {
   isDrawing: boolean = false;
+
   points: Array<Point> = [];
+
   context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -31,16 +33,16 @@ export class Eraser implements Tool{
 
     this.points.push({ x: offsetX, y: offsetY });
 
-    var p1 = this.points[0];
-    var p2 = this.points[1];
+    let p1 = this.points[0];
+    let p2 = this.points[1];
 
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
 
-    for (var i = 1, len = this.points.length; i < len; i++) {
+    for (let i = 1, len = this.points.length; i < len; i++) {
       // we pick the point between pi+1 & pi+2 as the
       // end point and p1 as our control point
-      var midPoint = this.midPointBtw(p1, p2);
+      const midPoint = this.midPointBtw(p1, p2);
       this.context.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
       p1 = this.points[i];
       p2 = this.points[i+1];

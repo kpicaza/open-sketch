@@ -3,9 +3,9 @@ import {customElement, property, query} from "lit/decorators.js";
 import '@material/web/iconbutton/filled-icon-button.js';
 import '@material/web/icon/icon.js';
 import {consume} from "@lit/context";
-import {sketchBookContext} from "../../store/AppContext";
-import {Sketch} from "../../domain/model/Sketch";
-import {SketchBook} from "../../domain/model/SketchBook";
+import {sketchBookContext} from "../../store/AppContext.js";
+import {Sketch} from "../../domain/model/Sketch.js";
+import {SketchBook} from "../../domain/model/SketchBook.js";
 
 @customElement('sketch-nav')
 export class SketchPreview extends LitElement {
@@ -56,9 +56,10 @@ export class SketchPreview extends LitElement {
   `;
 
   @query(".app-footer") sketchFooter: HTMLDivElement;
+
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  declare sketchBook?: SketchBook;
+  declare sketchBook: SketchBook;
 
   @property() declare canvasColor: string;
 
@@ -93,7 +94,7 @@ export class SketchPreview extends LitElement {
   }
 
   protected renderPreviewArrows() {
-    if (1 === this.sketchBook.sketches.length) {
+    if (this.sketchBook.sketches.length === 1) {
       return html``;
     }
 
@@ -108,7 +109,9 @@ export class SketchPreview extends LitElement {
         <button
           @click=${this.movePreviewsToLeft}
           class="left-previews arrow-button"
-        ><</button>
+        >
+          <md-icon>arrow_back_ios</md-icon>
+        </button>
       `
     }
 
@@ -118,7 +121,8 @@ export class SketchPreview extends LitElement {
         <button
           @click=${this.movePreviewsToRight}
           class="right-previews arrow-button"
-        >>
+        >
+          <md-icon>arrow_forward_ios</md-icon>
         </button>
       `
     }
@@ -157,8 +161,7 @@ export class SketchPreview extends LitElement {
     return html`
       <div class="app-footer">
         <div class="horizontal-scroll-wrapper">
-          ${this.sketchBook.sketches.map((sketch: Sketch) => {
-            return html`
+          ${this.sketchBook.sketches.map((sketch: Sketch) => html`
               <div class="sketches">
                 <sketch-preview
                   .sketchId=${sketch.id}
@@ -169,8 +172,7 @@ export class SketchPreview extends LitElement {
                   @sketchdownloaded=${this.downloadSketch}
                 ></sketch-preview>
               </div>
-            `;
-          })}
+            `)}
         </div>
         ${this.renderPreviewArrows()}
       </div>

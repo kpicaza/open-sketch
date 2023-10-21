@@ -1,5 +1,5 @@
 import {LitElement, css, html} from "lit";
-import {customElement, property, query} from "lit/decorators.js";
+import {customElement} from "lit/decorators.js";
 
 @customElement('add-sketch')
 export class AddSketch extends LitElement {
@@ -41,7 +41,7 @@ export class AddSketch extends LitElement {
     }
   `
 
-  protected addSketch(event: InputEvent) {
+  protected addSketch() {
     this.dispatchEvent(new CustomEvent(
       'sketchadded',
       {

@@ -1,11 +1,12 @@
-import {Brush} from "./Brush";
-import {Pen} from "./Pen";
-import {Tool} from "./Tool";
-import {Pencil} from "./Pencil";
-import {Eraser} from "./Eraser";
+import {Brush} from "./Brush.js";
+import {Pen} from "./Pen.js";
+import {Tool} from "./Tool.js";
+import {Pencil} from "./Pencil.js";
+import {Eraser} from "./Eraser.js";
 
 export class DrawingTool {
   context: CanvasRenderingContext2D;
+
   tool: Tool;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -18,11 +19,10 @@ export class DrawingTool {
 
   public hasCurrentBrush(brush: Brush): boolean {
     if (
-      this.tool.name() == brush.type
-      && this.context.lineWidth == brush.lineWidth
-      && this.context.fillStyle == brush.color
+      this.tool.name() === brush.type
+      && this.context.lineWidth === brush.lineWidth
+      && this.context.fillStyle === brush.color
     ) {
-      console.log('hola?')
       return true;
     }
 
@@ -34,7 +34,9 @@ export class DrawingTool {
     img.onload = () => {
       this.context!.drawImage(img, 0, 0);
     };
-    setTimeout(() => img.src = image.toString(), 0);
+    setTimeout(() => {
+      img.src = image.toString()
+    }, 0);
   }
 
   public setBrush(brush: Brush)

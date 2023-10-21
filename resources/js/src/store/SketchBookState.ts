@@ -1,11 +1,11 @@
-import {SketchBook} from "../domain/model/SketchBook";
-import {SketchBookRepository} from "../domain/SketchBookRepository";
-import serviceContainer from "../services/ServiceContainer";
+import {SketchBook} from "../domain/model/SketchBook.js";
+import {SketchBookRepository} from "../domain/SketchBookRepository.js";
+import serviceContainer from "../services/ServiceContainer.js";
 
 
 export const loadSketchBook = async (sketchBookId: string) => {
   const sketchBookRepository: SketchBookRepository = serviceContainer.get('sketchbook.repository');
-  return await sketchBookRepository.get(sketchBookId);
+  return sketchBookRepository.get(sketchBookId);
 }
 
 export const saveSketchBook = async (sketchBook: SketchBook) => {
@@ -15,7 +15,7 @@ export const saveSketchBook = async (sketchBook: SketchBook) => {
 
 export const downloadSketch = async (sketchBookId: string, sketchId: string) => {
   await fetch(
-    '/api/sketch-books/' + sketchBookId + '/exports/' + sketchId,
+    `/api/sketch-books/${  sketchBookId  }/exports/${  sketchId}`,
     {
       method: 'POST',
       headers: {

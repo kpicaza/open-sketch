@@ -1,4 +1,4 @@
-import {Sketch} from "./Sketch";
+import {Sketch} from "./Sketch.js";
 
 export interface SketchBook {
   id: string,

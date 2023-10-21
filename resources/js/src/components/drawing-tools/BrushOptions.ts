@@ -1,14 +1,13 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
-import "./Eraser"
-import "./Pen"
-import "./Pencil"
 import {consume} from "@lit/context";
-import {featuresContext, sketchBookContext} from "../../store/AppContext";
-import {Feature} from "../../types/Feature";
-import {ToggleRouter} from "../../services/ToggleRouter";
-import '@material/web/icon/icon'
-import {SketchBook} from "../../domain/model/SketchBook";
+import {featuresContext, sketchBookContext} from "../../store/AppContext.js";
+import {ToggleRouter} from "../../services/ToggleRouter.js";
+import '@material/web/icon/icon.js'
+import {SketchBook} from "../../domain/model/SketchBook.js";
+import "./Eraser.js"
+import "./Pen.js"
+import "./Pencil.js"
 
 @customElement('brush-options')
 export class BrushOptions extends LitElement {
@@ -105,17 +104,20 @@ export class BrushOptions extends LitElement {
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  declare features?: ToggleRouter
+  declare features: ToggleRouter
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  declare sketchBook?: SketchBook
+  declare sketchBook: SketchBook
 
   @query('.background-color-input-button') backgroundInputButton: HTMLDivElement;
+
   @query('.background-color-input') backgroundInput: HTMLInputElement;
 
   @property() declare color: string;
+
   @property() declare selectedBrush: string;
+
   @property() declare lineWidth: number;
 
   constructor() {
@@ -123,8 +125,6 @@ export class BrushOptions extends LitElement {
     this.color = "#000000";
     this.selectedBrush = 'pen';
     this.lineWidth = 3;
-    this.features = null;
-    this.sketchBook = null;
   }
 
   protected changeLineWidth(event: InputEvent) {
@@ -190,14 +190,14 @@ export class BrushOptions extends LitElement {
           class="background-color rounded"
           type="color"
           @change=${this.changeBackgroundColor}
-          value=${this.sketchBook.background}
+          .value=${this.sketchBook.background}
         />
-        <input class="rounded" type="color" @change=${this.changeColor} value=${this.color}/>
+        <input class="rounded" type="color" @change=${this.changeColor} .value=${this.color} />
       `
     }
 
     return html `
-      <input class="color"  type="color" @input=${this.changeColor} value=${this.color}/>
+      <input class="color"  type="color" @input=${this.changeColor} .value=${this.color} />
     `
   }
 
@@ -205,7 +205,7 @@ export class BrushOptions extends LitElement {
     return html`
       <div class="brushes">
         ${this.renderColorPicker()}
-        <input type="range" min="2" max="100" @input=${this.changeLineWidth} value=${this.lineWidth}/>
+        <input type="range" min="2" max="100" @input=${this.changeLineWidth} .value=${this.lineWidth} />
         <brush-pen
           class="brush pen selected"
           data-value="pen"

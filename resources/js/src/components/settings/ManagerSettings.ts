@@ -4,8 +4,8 @@ import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
 import '@material/web/icon/icon';
 import '@material/web/divider/divider.js';
-import {openFile, saveFile} from "../../store/SketchBookState";
 import {get} from "lit-translate";
+import {openFile, saveFile} from "../../store/SketchBookState.js";
 
 @customElement('manager-settings')
 export class ManagerSettings extends LitElement {

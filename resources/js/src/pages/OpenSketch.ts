@@ -2,23 +2,23 @@ import {LitElement, html, css, PropertyValues} from 'lit';
 import {query, property, state} from 'lit/decorators.js';
 import {provide} from "@lit/context";
 import { use } from "lit-translate";
-import {loadSketchBook, saveSketchBook, downloadSketch} from "../store/SketchBookState";
-import {featuresAvailable} from "../store/FeatureFlags";
-import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext";
-import {ToggleRouter} from "../services/ToggleRouter";
-import {SketchBook} from "../domain/model/SketchBook";
-import {Sketch} from "../domain/model/Sketch";
-import {Brush} from "../domain/model/Brush";
-import "./../components/canvas/SketchCanvas";
-import "./../components/settings/SettingsMenu";
-import "./../components/sketch-book/AddSketch";
-import "./../components/sketch-book/SketchPreview";
-import "./../components/sketch-book/SketchNavigator";
-import "./../components/sketch-book/PaintingBoard";
-import "./../components/drawing-tools/BrushOptions";
-import  '../lang/LangConfig'
-import {MdIconButton} from "@material/web/iconbutton/icon-button";
+import {MdIconButton} from "@material/web/iconbutton/icon-button.js";
 import "@material/web/iconbutton/filled-icon-button.js";
+import {loadSketchBook, saveSketchBook, downloadSketch} from "../store/SketchBookState.js";
+import {featuresAvailable} from "../store/FeatureFlags.js";
+import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext.js";
+import {ToggleRouter} from "../services/ToggleRouter.js";
+import {SketchBook} from "../domain/model/SketchBook.js";
+import {Sketch} from "../domain/model/Sketch.js";
+import {Brush} from "../domain/model/Brush.js";
+import "../components/canvas/SketchCanvas.js";
+import "../components/settings/SettingsMenu.js";
+import "../components/sketch-book/AddSketch.js";
+import "../components/sketch-book/SketchPreview.js";
+import "../components/sketch-book/SketchNavigator.js";
+import "../components/sketch-book/PaintingBoard.js";
+import "../components/drawing-tools/BrushOptions.js";
+import "../lang/LangConfig.js"
 
 export class OpenSketch extends LitElement {
   static styles = css`
@@ -95,6 +95,7 @@ export class OpenSketch extends LitElement {
     color: '#484545',
     type: 'pen'
   }
+
   @provide({context: sketchBookContext}) sketchBook: SketchBook = {
     id: "",
     sketches: [
@@ -105,16 +106,25 @@ export class OpenSketch extends LitElement {
     ],
     background: '#e8f6f1'
   }
+
   @provide({context: featuresContext}) features!: ToggleRouter = new ToggleRouter([]);
 
   @query("painting-board") sketchWrapper: HTMLDivElement;
+
   @query("footer") sketchFooter: HTMLDivElement;
+
   @query(".restart-button") restartButton: MdIconButton;
-  @property() declare lang: string;
+
+  @property() declare language: string;
+
   @property() declare sketchBookId: string;
+
   @property() declare canvasColor: string;
+
   @property() declare previewScrollPosition: number;
+
   @property() declare resetCanvas: boolean;
+
   @property() declare exportAsPng: boolean;
 
   @state() declare hasLoadedStrings: boolean;
@@ -125,7 +135,7 @@ export class OpenSketch extends LitElement {
 
   constructor() {
     super();
-    this.lang = 'en';
+    this.language = 'en';
     this.sketchBookId = '';
     this.canvasColor = '#ffffff';
     this.previewScrollPosition = 0;
@@ -141,14 +151,16 @@ export class OpenSketch extends LitElement {
   async connectedCallback() {
     this.features = new ToggleRouter(await featuresAvailable());
     this.sketchBook = await loadSketchBook(this.sketchBookId);
-    super.connectedCallback();
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
 
-    await use(this.lang);
+    await use(this.language);
     this.hasLoadedStrings = true;
   }
 
-  protected async appendSketch(event: CustomEvent) {
-    const sketches = this.sketchBook.sketches;
+  protected async appendSketch() {
+    const {sketches} = this.sketchBook;
     sketches.push({
       id: this.sketchBook.sketches.length + 1,
       image: new URL("data:,")
@@ -156,7 +168,7 @@ export class OpenSketch extends LitElement {
 
     this.sketchBook = {
       id: this.sketchBook.id,
-      sketches: sketches,
+      sketches,
       background: this.sketchBook.background
     };
 
@@ -172,12 +184,12 @@ export class OpenSketch extends LitElement {
   }
 
   protected async saveSketchBook(event: CustomEvent) {
-    const sketches = this.sketchBook.sketches;
+    const {sketches} = this.sketchBook;
     sketches[event.detail.id as number - 1].image = event.detail.image;
 
     this.sketchBook = {
       id: this.sketchBook.id,
-      sketches: sketches,
+      sketches,
       background: event.detail.background
     };
 
@@ -185,15 +197,13 @@ export class OpenSketch extends LitElement {
   }
 
   protected async deleteSketch(event: CustomEvent) {
-    const sketches = this.sketchBook.sketches;
+    const {sketches} = this.sketchBook;
     const newSketches = sketches.filter(
-      (sketch) => sketch.id != event.detail
-    ).map((sketch, key) => {
-      return {
+      (sketch) => sketch.id !== event.detail
+    ).map((sketch, key) => ({
         id: key + 1,
         image: sketch.image,
-      } as Sketch
-    }).filter(() => true);
+      } as Sketch)).filter(() => true);
 
     this.sketchBook = {
       id: this.sketchBook.id,
@@ -214,7 +224,7 @@ export class OpenSketch extends LitElement {
   }
 
   protected changeBrushColor(event: CustomEvent) {
-    this.brush.color= event.detail;
+    this.brush.color = event.detail;
   }
 
   protected async changeBackgroundColor(event: CustomEvent) {
@@ -231,13 +241,13 @@ export class OpenSketch extends LitElement {
     this.brush.type = event.detail;
   }
 
-  private canvasReset(event: CustomEvent) {
+  private canvasReset() {
     this.resetCanvas = false;
   }
 
   protected async goToSelectedSketch(event: CustomEvent) {
     const body = this.parentElement.parentElement;
-    const sketch = this.sketchWrapper.shadowRoot.querySelector(".sketch-" + event.detail)
+    const sketch = this.sketchWrapper.shadowRoot.querySelector(`.sketch-${  event.detail}`)
     const position = sketch.getBoundingClientRect();
     await body.scroll({
       top: 0,
@@ -246,14 +256,14 @@ export class OpenSketch extends LitElement {
     })
   }
 
-  private showRestartButton(event: Event) {
+  private showRestartButton() {
     this.restartButton.style.display = 'inline-flex';
   }
 
   private async restart()
   {
     await fetch(
-      '/api/restart/' + this.sketchBookId,
+      `/api/restart/${  this.sketchBookId}`,
       {
         method: 'POST',
         headers: {

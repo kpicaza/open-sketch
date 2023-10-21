@@ -1,11 +1,11 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
 import {consume} from "@lit/context";
-import {brushContext, featuresContext, sketchBookContext} from "../../store/AppContext";
-import {Brush} from "../../domain/model/Brush";
-import {DrawingTool} from "../../domain/model/DrawingTool";
-import {ToggleRouter} from "../../services/ToggleRouter";
-import {SketchBook} from "../../domain/model/SketchBook";
+import {brushContext, featuresContext, sketchBookContext} from "../../store/AppContext.js";
+import {Brush} from "../../domain/model/Brush.js";
+import {DrawingTool} from "../../domain/model/DrawingTool.js";
+import {ToggleRouter} from "../../services/ToggleRouter.js";
+import {SketchBook} from "../../domain/model/SketchBook.js";
 
 @customElement('sketch-canvas')
 export class SketchCanvas extends LitElement {
@@ -45,28 +45,37 @@ export class SketchCanvas extends LitElement {
       border: 1px solid #000000;
     }
   `
+
   @query(".sheet") canvas!: HTMLCanvasElement;
+
   @query(".background") background!: HTMLCanvasElement;
+
   @query(".cursor") cursor!: HTMLDivElement;
 
   @consume({context: brushContext, subscribe: true})
   @property({attribute: false})
-  brush?: Brush
+  brush: Brush
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  sketchBook?: SketchBook
+  sketchBook: SketchBook
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  features?: ToggleRouter
+  features: ToggleRouter
 
   @property() canvasBackgroundColor: boolean = false;
+
   @property() resetCanvas: boolean = false;
+
   @property() sketchId: string = '';
+
   @property() canvasWidth: number = 960;
+
   @property() canvasHeight: number = 0;
-  @property() image?: URL;
+
+  @property() image: URL;
+
   @property() drawingTool: DrawingTool;
 
   protected firstUpdated() {
@@ -75,7 +84,7 @@ export class SketchCanvas extends LitElement {
     this.drawingTool = new DrawingTool(this.canvas.getContext("2d"))
     this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
     this.drawingTool.setBrush(this.brush);
-    this.canvasBackgroundColor = this.features.isEnabled('canvas-background-color')
+    this.canvasBackgroundColor = this.features!.isEnabled('canvas-background-color')
     if (this.canvasBackgroundColor) {
       this.canvas.classList.remove('white-background')
     }
@@ -87,10 +96,10 @@ export class SketchCanvas extends LitElement {
     super.updated(_changedProperties);
     this.drawingTool.setBrush(this.brush);
     const image = _changedProperties.get('image');
-    if (typeof image == 'string') {
+    if (typeof image === 'string') {
       this.image = new URL(this.image);
     }
-    if (true === this.resetCanvas) {
+    if (this.resetCanvas === true) {
       this.canvasWidth = this.offsetWidth;
       this.canvasHeight = this.parentElement!.offsetHeight - 50;
       this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
@@ -161,10 +170,11 @@ export class SketchCanvas extends LitElement {
   }
 
   protected render() {
+    const draggable = false;
     return html`
       <div
-        @ondragstart=${false}
-        @ondrop=${false}
+        @ondragstart=${draggable}
+        @ondrop=${draggable}
         class="cursor"
       ></div>
       <canvas

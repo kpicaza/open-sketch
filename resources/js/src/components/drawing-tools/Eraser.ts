@@ -79,6 +79,7 @@ export class Eraser extends LitElement {
   `;
 
   @query('.eraser-wrapper') pencilBox: HTMLDivElement;
+
   @property() declare selection: string;
 
   constructor() {
@@ -86,7 +87,7 @@ export class Eraser extends LitElement {
     this.selection = '';
   }
 
-  private select(event: MouseEvent) {
+  private select() {
     this.pencilBox.classList.add('selected');
   }
 
@@ -95,6 +96,7 @@ export class Eraser extends LitElement {
       <div
         class="eraser-wrapper ${this.selection === 'eraser' ? 'selected' : '' }"
         @click=${this.select}
+        @keyup=${this.select}
       >
         <!--   <div class="text">for neat & clean erasing</div> -->
         <div class="blob">

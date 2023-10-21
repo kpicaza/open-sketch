@@ -1,4 +1,4 @@
-import {Feature} from "../types/Feature";
+import {Feature} from "../types/Feature.js";
 
 export class ToggleRouter {
   features: Array<Feature>
@@ -8,7 +8,7 @@ export class ToggleRouter {
   }
 
   public isEnabled(id): boolean {
-    const feature = this.features.find((feature) => feature.id == id)
+    const feature = this.features.find((currentFeature) => currentFeature.id === id)
 
     if (feature?.enabled) {
       return true;

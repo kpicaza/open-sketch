@@ -1,7 +1,7 @@
 import {createContext} from '@lit/context';
-import {SketchBook} from "../domain/model/SketchBook";
-import {Brush} from "../domain/model/Brush";
-import {ToggleRouter} from "../services/ToggleRouter";
+import {SketchBook} from "../domain/model/SketchBook.js";
+import {Brush} from "../domain/model/Brush.js";
+import {ToggleRouter} from "../services/ToggleRouter.js";
 
 
 const sketchBook: SketchBook = {

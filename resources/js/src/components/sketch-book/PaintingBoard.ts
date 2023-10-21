@@ -1,11 +1,11 @@
 import {LitElement, css, html} from "lit";
-import {customElement, property, query} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import '@material/web/iconbutton/filled-icon-button.js';
 import '@material/web/icon/icon.js';
 import {consume} from "@lit/context";
-import {sketchBookContext} from "../../store/AppContext";
-import {SketchBook} from "../../domain/model/SketchBook";
-import {Sketch} from "../../domain/model/Sketch";
+import {sketchBookContext} from "../../store/AppContext.js";
+import {SketchBook} from "../../domain/model/SketchBook.js";
+import {Sketch} from "../../domain/model/Sketch.js";
 
 @customElement('painting-board')
 export class SketchPreview extends LitElement {
@@ -36,7 +36,7 @@ export class SketchPreview extends LitElement {
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
-  declare sketchBook?: SketchBook;
+  declare sketchBook: SketchBook;
 
   @property() declare resetCanvas: boolean;
 
@@ -67,8 +67,7 @@ export class SketchPreview extends LitElement {
   protected render() {
     return html`
       <div class="horizontal-scroll-wrapper">
-        ${this.sketchBook.sketches.map((sketch: Sketch) => {
-          return html`
+        ${this.sketchBook.sketches.map((sketch: Sketch) => html`
               <div class="sketches">
                 <div class="sketch">
                   <sketch-canvas
@@ -81,8 +80,7 @@ export class SketchPreview extends LitElement {
                   ></sketch-canvas>
                 </div>
               </div>
-            `;
-        })}
+            `)}
       </div>
     `;
   }

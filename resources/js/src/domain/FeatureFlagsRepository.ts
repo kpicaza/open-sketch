@@ -1,4 +1,4 @@
-import {Feature} from "../types/Feature";
+import {Feature} from "../types/Feature.js";
 
 export class FeatureFlagsRepository {
   public async all() {
@@ -17,7 +17,7 @@ export class FeatureFlagsRepository {
 
   public async enable(featureId: string) {
     await fetch(
-      '/api/features/' + featureId,
+      `/api/features/${  featureId}`,
       {
         method: 'PATCH',
         headers: {
@@ -32,7 +32,7 @@ export class FeatureFlagsRepository {
 
   public async disable(featureId: string) {
     await fetch(
-      '/api/features/' + featureId,
+      `/api/features/${  featureId}`,
       {
         method: 'PATCH',
         headers: {

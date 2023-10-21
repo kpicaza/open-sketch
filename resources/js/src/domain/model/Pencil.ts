@@ -1,9 +1,11 @@
-import {Tool} from "./Tool";
-import {Point} from "../../types/Point";
+import {Tool} from "./Tool.js";
+import {Point} from "../../types/Point.js";
 
 export class Pencil implements Tool {
   isDrawing: boolean = false;
+
   lastPoint: Point = {x: 0, y: 0};
+
   context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -24,7 +26,7 @@ export class Pencil implements Tool {
   }
 
   public draw(offsetX: number, offsetY: number) {
-    if (false === this.isDrawing) {
+    if (this.isDrawing === false) {
       return
     }
 

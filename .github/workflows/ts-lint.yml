@@ -1,0 +1,54 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "TypeScript Lint"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  typescript:
+    name: "TypeScript Lint"
+
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        dependencies:
+          - "locked"
+        node-version:
+          - "20.x"
+        operating-system:
+          - "ubuntu-latest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: "Cache dependencies"
+        uses: "actions/cache@v2"
+        with:
+          path: |
+            ~/.node/cache
+            node_modules
+          key: "node-${{ matrix.php-version }}-${{ matrix.dependencies }}"
+          restore-keys: "node-${{ matrix.php-version }}-${{ matrix.dependencies }}"
+
+      - name: "Install yarn"
+        if: ${{ matrix.dependencies == 'locked' }}
+        run: "npm i -g yarn"
+
+      - name: "Install locked dependencies"
+        if: ${{ matrix.dependencies == 'locked' }}
+        run: "yarn"
+
+      - name: "Tests"
+        run: "yarn cs-check"

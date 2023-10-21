@@ -1,7 +1,8 @@
-import {SketchBookRepository} from "../domain/SketchBookRepository";
-import {FeatureFlagsRepository} from "../domain/FeatureFlagsRepository";
+import {SketchBookRepository} from "../domain/SketchBookRepository.js";
+import {FeatureFlagsRepository} from "../domain/FeatureFlagsRepository.js";
 
 class ServiceContainer {
+  // eslint-disable-next-line no-use-before-define
   private static _instance: ServiceContainer;
 
   private services: any = null;

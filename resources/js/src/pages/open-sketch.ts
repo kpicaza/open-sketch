@@ -1,5 +1,5 @@
-import container from '../services/ServiceContainer';
-import {OpenSketch} from "./OpenSketch";
+import container from "../services/ServiceContainer.js";
+import {OpenSketch} from "./OpenSketch.js";
 
 container.init();
 

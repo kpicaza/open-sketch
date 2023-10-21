@@ -7,15 +7,14 @@ import '@material/web/menu/menu-item.js';
 import '@material/web/icon/icon.js';
 import '@material/web/switch/switch.js';
 import '@material/web/divider/divider.js';
-import {MdMenu, MdSwitch} from "@material/web/all";
-import {Feature} from "../../types/Feature";
-import {disableFeature, enableFeature} from "../../store/FeatureFlags";
-import { featuresContext} from "../../store/AppContext";
+import {MdMenu, MdMenuItem, MdSwitch} from "@material/web/all";
 import {consume} from "@lit/context";
-import {openFile, saveFile} from "../../store/SketchBookState";
 import {get} from "lit-translate";
-import {langs} from "../../lang/Langs";
-import {ToggleRouter} from "../../services/ToggleRouter";
+import {disableFeature, enableFeature} from "../../store/FeatureFlags.js";
+import { featuresContext} from "../../store/AppContext.js";
+import {openFile, saveFile} from "../../store/SketchBookState.js";
+import {langs} from "../../lang/Langs.js";
+import {ToggleRouter} from "../../services/ToggleRouter.js";
 
 @customElement('settings-menu')
 export class SettingsMenu extends LitElement {
@@ -51,14 +50,17 @@ export class SettingsMenu extends LitElement {
   `;
 
   @query('#settings-menu') menu: MdMenu;
+
   @query('.requires-restart') requiresRestartMessage: HTMLDivElement;
+
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
-  declare features?: ToggleRouter
+  declare features: ToggleRouter
 
-  private openMenu(event: MouseEvent) {
+  private openMenu() {
     this.menu.open = !this.menu.open
   }
+
   private async enableFeature(event: Event) {
     const mdSwitch = event.target as MdSwitch;
 
@@ -72,9 +74,11 @@ export class SettingsMenu extends LitElement {
     this.dispatchEvent(new Event('restartrequired'))
   }
 
-  private async changeLanguage(lang: string) {
+  private async changeLanguage(event: MouseEvent) {
+    const menu: MdMenuItem = event.target as MdMenuItem;
+
     await fetch(
-      '/api/langs/' + lang,
+      `/api/langs/${menu.dataset.lang}`,
       {
         method: 'POST',
         headers: {
@@ -99,16 +103,24 @@ export class SettingsMenu extends LitElement {
         .stayOpenOnFocusout=${true}
         .stayOpenOnOutsideClick=${true}
       >
-        ${langs.map((lang) => {
-          return html`
+        ${langs.map((lang) => html`
             <md-menu-item
-              @click=${this.changeLanguage.bind(this, lang)}
+              @click=${this.changeLanguage}
+              data-lang=${lang}
             >
-              <div slot="headline">${get(lang)}</div>
-              <md-icon slot="start">lang</md-icon>
+              <div
+                slot="headline"
+                @click=${this.changeLanguage}
+                @keyup=${this.changeLanguage}
+                data-lang=${lang}
+              >${get(lang)}</div>
+              <md-icon
+                slot="start"
+                @click=${this.changeLanguage}
+                data-lang=${lang}
+              >lang</md-icon>
             </md-menu-item>
-          `;
-        })}
+          `)}
         <div class="requires-restart">
           <md-icon>info</md-icon>
           <div class="icon-align-text">${get('restart')}</div>
@@ -137,12 +149,11 @@ export class SettingsMenu extends LitElement {
             <md-icon slot="start">outlined_flag</md-icon>
           </md-menu-item>
           <md-divider></md-divider>
-          ${this.features.all().map((feature) => {
-            return html`
+          ${this.features.all().map((feature) => html`
               <md-menu-item class="features"
                             .keepOpen=${true}
               >
-                <div slot="headline">${get('feature.' + feature.id)}</div>
+                <div slot="headline">${get(`feature.${  feature.id}`)}</div>
                 <md-switch
                   icons
                   slot="end"
@@ -151,8 +162,7 @@ export class SettingsMenu extends LitElement {
                   .value=${feature.id}
                 ></md-switch>
               </md-menu-item>
-            `;
-          })}
+            `)}
           <div class="requires-restart">
             <md-icon>info</md-icon>
             <div class="icon-align-text">${get('restart')}</div>
