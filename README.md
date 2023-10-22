@@ -124,6 +124,7 @@ Install dependencies
 
 ```bash
 cd open-sketch
+cp .env.example .env
 composer install
 yarn
 ```
