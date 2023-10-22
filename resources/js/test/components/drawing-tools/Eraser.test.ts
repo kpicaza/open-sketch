@@ -38,4 +38,4 @@ describe('<brush-eraser> components.', () => {
     expect(eraser.classList).to.contain(['eraser-wrapper', 'selected'])
     await expect(el).to.be.accessible();
   });
-})
+});

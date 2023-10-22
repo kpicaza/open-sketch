@@ -8,7 +8,7 @@ import {Sketch} from "../../domain/model/Sketch.js";
 import {SketchBook} from "../../domain/model/SketchBook.js";
 
 @customElement('sketch-nav')
-export class SketchPreview extends LitElement {
+export class SketchNavigator extends LitElement {
   static styles = css`
     .horizontal-scroll-wrapper {
       display: flex;
@@ -18,11 +18,14 @@ export class SketchPreview extends LitElement {
       flex-wrap: nowrap;
       -webkit-overflow-scrolling: touch;
     }
-
     .app-footer {
       position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 125px;
+      background: #1a202c;
+      z-index: 20;
     }
-
     .arrow-button {
       cursor: pointer;
       color: #FFFFFF;
@@ -36,26 +39,22 @@ export class SketchPreview extends LitElement {
       font-weight: 700;
       opacity: 0.5;
     }
-
     .arrow-button:hover {
       background-color: #4a5568;
     }
-
     .left-previews {
       position: fixed;
       left: 10px;
       bottom: 50px;
     }
-
     .right-previews {
       position: fixed;
       right: 10px;
       bottom: 50px;
     }
-
   `;
 
-  @query(".app-footer") sketchFooter: HTMLDivElement;
+  @query(".horizontal-scroll-wrapper") scrollWrapper: HTMLDivElement;
 
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
@@ -63,48 +62,93 @@ export class SketchPreview extends LitElement {
 
   @property() declare canvasColor: string;
 
-  @property({attribute: false}) declare previewScrollPosition: number;
+  @property() declare showLeftArrow: boolean;
+
+  @property() declare showRightArrow: boolean;
+
+  @property() declare previewScrollPosition: number;
 
   constructor() {
     super();
     this.canvasColor = '';
-    this. previewScrollPosition = 0;
+    this.previewScrollPosition = 0;
+    this.showLeftArrow = false;
+    this.showRightArrow = false;
   }
 
-  protected async movePreviewsToLeft(event: MouseEvent) {
-    const button = event.target as HTMLButtonElement
-    const previewMenu = button.parentElement.querySelector('.horizontal-scroll-wrapper');
-    this.previewScrollPosition = previewMenu.scrollLeft - 200;
-    await previewMenu.scroll({
+  protected async firstUpdated() {
+    this.resetArrows();
+    this.scrollWrapper.addEventListener('scrollend', () => {
+      this.resetArrows();
+    });
+  }
+
+  protected async updated(_changedProperties) {
+    super.updated(_changedProperties);
+    this.resetArrows();
+  }
+
+  private async resetArrows() {
+    setTimeout(() => {
+      this.showLeftArrow = this.previewScrollPosition > 0;
+      this.showRightArrow = window.innerWidth < (this.scrollWrapper.scrollWidth)
+        && window.innerWidth !== this.scrollWrapper.scrollWidth - this.scrollWrapper.scrollLeft;
+    });
+  }
+
+  private async movePreviewsToLeft() {
+    this.previewScrollPosition = this.scrollWrapper.scrollLeft - 400;
+    await this.scrollWrapper.scroll({
       top: 0,
       left: this.previewScrollPosition,
       behavior: "smooth",
     })
   }
 
-  protected async movePreviewsToRight(event: MouseEvent) {
-    const button = event.target as HTMLButtonElement
-    const previewMenu = button.parentElement.querySelector('.horizontal-scroll-wrapper');
-    this.previewScrollPosition = previewMenu.scrollLeft + 200;
-    await previewMenu.scroll({
+  private async movePreviewsToRight() {
+    this.previewScrollPosition = this.scrollWrapper.scrollLeft + 400;
+    await this.scrollWrapper.scroll({
       top: 0,
       left: this.previewScrollPosition,
       behavior: "smooth",
     })
   }
 
-  protected renderPreviewArrows() {
+  private async goToSelectedSketch(event: CustomEvent) {
+    this.dispatchEvent(new CustomEvent(
+      'sketchselected',
+      {
+        detail: event.detail
+      }
+    ))
+  }
+
+  private async deleteSketch(event: CustomEvent) {
+    this.dispatchEvent(new CustomEvent(
+      'sketchdeleted',
+      {
+        detail: event.detail
+      }
+    ))
+  }
+
+  private async downloadSketch(event: CustomEvent) {
+    this.dispatchEvent(new CustomEvent(
+      'sketchdownloaded',
+      {
+        detail: event.detail
+      }
+    ))
+  }
+
+  private renderPreviewArrows() {
     if (this.sketchBook.sketches.length === 1) {
       return html``;
     }
 
-    const previewMenu = this.sketchFooter?.querySelector('.horizontal-scroll-wrapper');
-    if (!previewMenu || previewMenu.scrollWidth <= previewMenu.clientWidth) {
-      return html``;
-    }
 
-    let result;
-    if (this.previewScrollPosition > 0) {
+    let result ;
+    if (this.showLeftArrow) {
       result = html`
         <button
           @click=${this.movePreviewsToLeft}
@@ -115,7 +159,7 @@ export class SketchPreview extends LitElement {
       `
     }
 
-    if ((this.previewScrollPosition + previewMenu.clientWidth) < previewMenu.scrollWidth) {
+    if (this.showRightArrow) {
       result = html`
         ${result}
         <button
@@ -130,49 +174,20 @@ export class SketchPreview extends LitElement {
     return result;
   }
 
-  protected async goToSelectedSketch(event: CustomEvent) {
-    this.dispatchEvent(new CustomEvent(
-      'sketchselected',
-      {
-        detail: event.detail
-      }
-    ))
-  }
-
-  protected async deleteSketch(event: CustomEvent) {
-    this.dispatchEvent(new CustomEvent(
-      'sketchdeleted',
-      {
-        detail: event.detail
-      }
-    ))
-  }
-
-  protected async downloadSketch(event: CustomEvent) {
-    this.dispatchEvent(new CustomEvent(
-      'sketchdownloaded',
-      {
-        detail: event.detail
-      }
-    ))
-  }
-
   protected render() {
     return html`
       <div class="app-footer">
         <div class="horizontal-scroll-wrapper">
           ${this.sketchBook.sketches.map((sketch: Sketch) => html`
-              <div class="sketches">
-                <sketch-preview
-                  .sketchId=${sketch.id}
-                  .image=${sketch.image}
-                  .background=${this.sketchBook.background}
-                  @sketchselected=${this.goToSelectedSketch}
-                  @sketchdeleted=${this.deleteSketch}
-                  @sketchdownloaded=${this.downloadSketch}
-                ></sketch-preview>
-              </div>
-            `)}
+            <sketch-preview
+              .sketchId=${sketch.id}
+              .image=${sketch.image}
+              .background=${this.sketchBook.background}
+              @sketchselected=${this.goToSelectedSketch}
+              @sketchdeleted=${this.deleteSketch}
+              @sketchdownloaded=${this.downloadSketch}
+            ></sketch-preview>
+          `)}
         </div>
         ${this.renderPreviewArrows()}
       </div>

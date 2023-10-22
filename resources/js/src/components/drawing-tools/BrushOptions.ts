@@ -205,7 +205,7 @@ export class BrushOptions extends LitElement {
     return html`
       <div class="brushes">
         ${this.renderColorPicker()}
-        <input type="range" min="2" max="100" @input=${this.changeLineWidth} .value=${this.lineWidth} />
+        <input class="brush-width-slider" type="range" min="2" max="100" @input=${this.changeLineWidth} .value=${this.lineWidth} />
         <brush-pen
           class="brush pen selected"
           data-value="pen"
