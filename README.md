@@ -6,6 +6,7 @@
 [![PHPUnit tests](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpunit.yml)
 [![Static Analysis by PHPStan](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/phpstan.yml)
 [![Mutation tests](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/mutation-tests.yml)
+[![TypeScript Lint](https://github.com/kpicaza/open-sketch/actions/workflows/ts-lint.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/ts-lint.yml)
 [![TypeScript tests](https://github.com/kpicaza/open-sketch/actions/workflows/ts-test.yml/badge.svg)](https://github.com/kpicaza/open-sketch/actions/workflows/ts-test.yml)
 
 ## Table of Contents
@@ -101,6 +102,49 @@ For more detailed instructions and tips, check out our User Guide.
 
 We welcome contributions from the community! Whether you're a developer, designer, or have ideas for improvements,
 please see our Contribution Guidelines for details on how to get involved.
+
+### Install project for development
+
+#### Requirements
+
+* PHP 8.2 or higher
+* NODE v20.8 or higher
+* Composer PHP package manager
+* Yarn JS/TS package manager
+
+#### Installation guide
+
+Clone the project
+
+```bash
+git clone git@github.com:kpicaza/open-sketch.git
+```
+
+Install dependencies
+
+```bash
+cd open-sketch
+composer install
+yarn
+```
+
+Run app in development mode
+
+```bash
+yarn dev
+```
+
+Open another console
+
+```bash
+ php artisan native:serve
+```
+
+Run tests
+
+```bash
+composer check-all
+```
 
 ## License
 

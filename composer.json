@@ -82,7 +82,8 @@
     "cs-fix": "phpcbf",
     "unused": "composer-unused",
     "ts-test": "yarn test",
-    "ts-cs-check": "yarn cs-check"
+    "ts-cs-check": "yarn cs-check",
+    "ts-cs-fix": "yarn cs-fix"
   },
   "extra": {
     "laravel": {
