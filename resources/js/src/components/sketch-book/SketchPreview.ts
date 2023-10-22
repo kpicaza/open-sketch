@@ -14,27 +14,25 @@ export class SketchPreview extends LitElement {
       --md-sys-color-primary: #4a5568;
     }
 
+    .preview {
+      display: block;
+    }
+
     .image {
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: -20px;
       margin-left: 20px;
       margin-right: 20px;
-      display: inline-block;
+      display: flex;
       height: 85px;
       width: 150px;
       background: #FFFFFF;
     }
 
-    .close-button {
-      position: absolute;
-      top: 0;
-      margin-left: -40px;
-    }
-
-    .download-button {
-      position: absolute;
-      top: 0;
-      margin-left: -80px;
+    .buttons {
+      position: relative;
+      display: inline-flex;
+      margin-left: 100px;
     }
 
     md-filled-icon-button {
@@ -114,29 +112,37 @@ export class SketchPreview extends LitElement {
 
     if (this.image.toString() === "data:,") {
       return html`
-        <div
-          style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
-          class="image"
-          @click=${this.selectSketch}
-          @keyup="" ${this.selectSketch}
-        ></div>
-        ${this.renderCloseButton()}
-        ${this.renderDownloadButton()}
+        <div class="preview">
+          <div class="buttons">
+            ${this.renderDownloadButton()}
+            ${this.renderCloseButton()}
+          </div>
+          <div
+            style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
+            class="image"
+            @click=${this.selectSketch}
+            @keyup="" ${this.selectSketch}
+          ></div>
+        </div>
       `;
     }
 
     return html`
-      <img
-        style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
-        alt="canvas"
-        class="image"
-        src=${this.image.toString()}
-        @click=${this.selectSketch}
-        @keyup="" ${this.selectSketch}
-        height="85"
-      />
-      ${this.renderCloseButton()}
-      ${this.renderDownloadButton()}
+      <div class="preview">
+        <div class="buttons">
+          ${this.renderDownloadButton()}
+          ${this.renderCloseButton()}
+        </div>
+        <img
+          style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
+          alt="canvas"
+          class="image"
+          src=${this.image.toString()}
+          @click=${this.selectSketch}
+          @keyup="" ${this.selectSketch}
+          height="85"
+        />
+      </div>
     `;
   }
 }

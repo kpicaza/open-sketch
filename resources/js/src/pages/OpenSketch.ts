@@ -88,6 +88,11 @@ export class OpenSketch extends LitElement {
       background: #1a202c;
       z-index: 20;
     }
+
+    sketch-nav {
+      width: 100%;
+      display: block;
+    }
   `;
 
   @provide({context: brushContext}) brush: Brush = {

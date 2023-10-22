@@ -138,7 +138,7 @@ yarn dev
 Open another console
 
 ```bash
- php artisan native:serve
+php artisan native:serve
 ```
 
 Run tests

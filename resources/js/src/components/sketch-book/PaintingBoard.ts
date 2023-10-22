@@ -8,7 +8,7 @@ import {SketchBook} from "../../domain/model/SketchBook.js";
 import {Sketch} from "../../domain/model/Sketch.js";
 
 @customElement('painting-board')
-export class SketchPreview extends LitElement {
+export class PaintingBoard extends LitElement {
   static styles = css`
 
     .horizontal-scroll-wrapper {
