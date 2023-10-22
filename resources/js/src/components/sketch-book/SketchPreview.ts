@@ -32,7 +32,18 @@ export class SketchPreview extends LitElement {
     .buttons {
       position: relative;
       display: inline-flex;
-      margin-left: 100px;
+    }
+
+    .buttons .close-button {
+      position: absolute;
+      top: -25px;
+      left: 140px;
+    }
+
+    .buttons .download-button {
+      position: absolute;
+      top: -25px;
+      left: 95px;
     }
 
     md-filled-icon-button {

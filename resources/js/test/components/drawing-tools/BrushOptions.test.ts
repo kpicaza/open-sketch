@@ -49,9 +49,11 @@ describe('<brush-options> components.', () => {
     const el: BrushOptions = await fixture(
       html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
     );
+    await elementUpdated(el);
 
-    const lineWidthSlider: HTMLDivElement = el.shadowRoot.querySelector('.brush-width-slider');
-    expect(lineWidthSlider).to.have.value('3');
+    const lineWidthSlider: HTMLInputElement = el.shadowRoot.querySelector('.brush-width-slider');
+    expect(lineWidthSlider.value).to.be.equal(9);
+    expect(el.lineWidth).to.be.equal(3);
   });
 
 
@@ -70,7 +72,6 @@ describe('<brush-options> components.', () => {
     );
 
     const pickers: Array<HTMLDivElement> = el.shadowRoot.querySelectorAll('.rounded') as Array<HTMLDivElement>;
-    expect(pickers).to.have.length(2);
 
     const bgColorPicker: HTMLDivElement = pickers[0];
     await expect(bgColorPicker).to.have.attribute('type').to.be.equal('color');
@@ -79,6 +80,36 @@ describe('<brush-options> components.', () => {
     const colorPicker: HTMLDivElement = pickers[1];
     await expect(colorPicker).to.have.attribute('type').to.be.equal('color');
     expect(colorPicker).to.have.value('#000000');
+  });
+
+  it('should have three secondary color pickers', async () => {
+    const el: BrushOptions = await fixture(
+      html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
+    );
+    const pickers: Array<HTMLInputElement> = await el.shadowRoot.querySelectorAll('.rounded') as Array<HTMLInputElement>;
+    expect(el.color).to.be.equal('#000000');
+
+    const pickerColor =  pickers[0].value;
+    const recentColor = el.color;
+    pickers[0].click();
+    await elementUpdated(el);
+    expect(el.color).to.be.equal(pickerColor);
+    expect(pickers[0].value).to.be.equal(recentColor);
+
+    const pickerColor1 =  pickers[1].value;
+    const recentColor1 = el.color;
+    pickers[1].click();
+    await elementUpdated(el);
+    expect(el.color).to.be.equal(pickerColor1);
+    expect(pickers[1].value).to.be.equal(recentColor1);
+
+    const pickerColor2 =  pickers[2].value;
+    const recentColor2 = el.color;
+    pickers[2].click();
+    await elementUpdated(el);
+    expect(el.color).to.be.equal(pickerColor2);
+    expect(pickers[2].value).to.be.equal(recentColor2);
+
   });
 
 });
