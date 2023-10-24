@@ -5,31 +5,47 @@ declare(strict_types=1);
 namespace OpenSketch\SketchBook\Domain\Model;
 
 use JsonSerializable;
-use OpenSketch\SketchBook\Domain\Exception\StoragePathChanged;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @phpstan-import-type SketchNormalized from Sketch
+ * @phpstan-import-type BrushNormalized from Brush
+ * @phpstan-import-type PaletteNormalized from Palette
+ * @phpstan-type SketchBookNormalized array{
+ *   id: string,
+ *   storage_path: string,
+ *   sketches: array<SketchNormalized>,
+ *   brush: BrushNormalized,
+ *   palette: PaletteNormalized,
+ * }
+ */
 final class SketchBook implements JsonSerializable
 {
-    public readonly string $storagePath;
-
     /** @param Sketch[] $sketches */
     public function __construct(
         public readonly string $id,
-        string $storagePath,
+        public readonly string $storagePath,
         private array $sketches,
-        private string $background = '#ffffff',
+        private Brush $brush,
+        private Palette $palette
     ) {
-        if ([] === $this->sketches) {
-            $this->sketches = [
-                new Sketch(1, 'data:,')
-            ];
+    }
+
+    public static function new(string $sketchBookId, string $storagePath): self
+    {
+        if (!str_ends_with($storagePath, '.json')) {
+            $storagePath = sprintf('%s.json', $storagePath);
         }
 
-        if (!str_ends_with($storagePath, '.json')) {
-            $this->storagePath = sprintf('%s.json', $storagePath);
-        } else {
-            $this->storagePath = $storagePath;
-        }
+        return new self(
+            $sketchBookId,
+            $storagePath,
+            [
+                new Sketch(1, 'data:,')
+            ],
+            Brush::default(),
+            Palette::default()
+        );
     }
 
     private function openedInNewLocation(string $id, string $storagePath): self
@@ -37,7 +53,9 @@ final class SketchBook implements JsonSerializable
         return new self(
             $id,
             $storagePath,
-            $this->sketches
+            $this->sketches,
+            $this->brush,
+            $this->palette
         );
     }
 
@@ -62,17 +80,33 @@ final class SketchBook implements JsonSerializable
         return $this->openedInNewLocation(Uuid::uuid4()->toString(), $storagePath);
     }
 
-    public function addBackground(string $background): void
+    public function name(): string
     {
-        $this->background = $background;
+        return basename(str_replace('.json', '', $this->storagePath));
+    }
+
+    public function background(): string
+    {
+        return $this->palette->backgroundColor;
+    }
+
+    public function setBrush(Brush $brush): void
+    {
+        $this->brush = $brush;
+    }
+
+    public function setPalette(Palette $palette): void
+    {
+        $this->palette = $palette;
     }
 
     /**
      * @return  array{
      *   id: string,
-     *   sketches: array<Sketch>,
      *   storage_path: string,
-     *   background: string
+     *   sketches: array<Sketch>,
+     *   brush: Brush,
+     *   palette: Palette,
      * }
      */
     public function jsonSerialize(): array
@@ -81,17 +115,8 @@ final class SketchBook implements JsonSerializable
             'id' => $this->id,
             'storage_path' => $this->storagePath,
             'sketches' => $this->sketches,
-            'background' => $this->background,
+            'brush' => $this->brush,
+            'palette' => $this->palette,
         ];
-    }
-
-    public function name(): string
-    {
-        return basename(str_replace('.json', '', $this->storagePath));
-    }
-
-    public function background(): string
-    {
-        return $this->background;
     }
 }

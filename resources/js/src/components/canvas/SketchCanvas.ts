@@ -1,8 +1,7 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
 import {consume} from "@lit/context";
-import {brushContext, featuresContext, sketchBookContext} from "../../store/AppContext.js";
-import {Brush} from "../../domain/model/Brush.js";
+import {featuresContext, sketchBookContext} from "../../store/AppContext.js";
 import {DrawingTool} from "../../domain/model/DrawingTool.js";
 import {ToggleRouter} from "../../services/ToggleRouter.js";
 import {SketchBook} from "../../domain/model/SketchBook.js";
@@ -52,10 +51,6 @@ export class SketchCanvas extends LitElement {
 
   @query(".cursor") cursor!: HTMLDivElement;
 
-  @consume({context: brushContext, subscribe: true})
-  @property({attribute: false})
-  brush: Brush
-
   @consume({context: sketchBookContext, subscribe: true})
   @property({attribute: false})
   sketchBook: SketchBook
@@ -83,7 +78,7 @@ export class SketchCanvas extends LitElement {
     this.canvasHeight = this.parentElement!.offsetHeight - 50;
     this.drawingTool = new DrawingTool(this.canvas.getContext("2d"))
     this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
-    this.drawingTool.setBrush(this.brush);
+    this.drawingTool.setBrushAndPalette(this.sketchBook.brush, this.sketchBook.palette);
     this.canvasBackgroundColor = this.features!.isEnabled('canvas-background-color')
     if (this.canvasBackgroundColor) {
       this.canvas.classList.remove('white-background')
@@ -94,12 +89,12 @@ export class SketchCanvas extends LitElement {
 
   protected async updated(_changedProperties) {
     super.updated(_changedProperties);
-    this.drawingTool.setBrush(this.brush);
+    this.drawingTool.setBrushAndPalette(this.sketchBook.brush, this.sketchBook.palette);
     const image = _changedProperties.get('image');
     if (typeof image === 'string') {
       this.image = new URL(this.image);
     }
-    if (this.resetCanvas === true) {
+    if (this.resetCanvas) {
       this.canvasWidth = this.offsetWidth;
       this.canvasHeight = this.parentElement!.offsetHeight - 50;
       this.drawingTool.clearCanvas(this.canvasWidth, this.canvasHeight, this.image);
@@ -112,12 +107,12 @@ export class SketchCanvas extends LitElement {
   }
 
   protected moveCursor(event: MouseEvent) {
-    const cursorWidth =  this.brush.lineWidth > 3 ? this.brush.lineWidth : 3;
+    const cursorWidth =  this.sketchBook.brush.width > 3 ? this.sketchBook.brush.width : 3;
     this.cursor.style.width = `${cursorWidth}px`;
     this.cursor.style.height = `${cursorWidth}px`;
-    this.cursor.style.background = this.brush.color;
-    const mouseY = event.offsetY - (this.brush.lineWidth / 2);
-    const mouseX = event.offsetX - (this.brush.lineWidth / 2);
+    this.cursor.style.background = this.sketchBook.palette.primaryColor;
+    const mouseY = event.offsetY - (this.sketchBook.brush.width / 2);
+    const mouseX = event.offsetX - (this.sketchBook.brush.width / 2);
     this.cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
   }
 
@@ -127,8 +122,8 @@ export class SketchCanvas extends LitElement {
   }
 
   protected startDrawing(event: MouseEvent) {
-    if (!this.drawingTool.hasCurrentBrush(this.brush)) {
-      this.drawingTool.setBrush(this.brush);
+    if (!this.drawingTool.hasCurrentBrushAndPalette(this.sketchBook.brush, this.sketchBook.palette)) {
+      this.drawingTool.setBrushAndPalette(this.sketchBook.brush, this.sketchBook.palette);
     }
 
     this.drawingTool.startDrawing(event.offsetX, event.offsetY);
@@ -147,7 +142,7 @@ export class SketchCanvas extends LitElement {
         detail: {
           id: this.sketchId,
           image: new URL(this.canvas.toDataURL("image/png")),
-          background: this.sketchBook.background,
+          background: this.sketchBook.palette.backgroundColor,
         }
       }
     ))
@@ -157,7 +152,7 @@ export class SketchCanvas extends LitElement {
     if (this.canvasBackgroundColor) {
       return html`
         <canvas
-          .style="background:${this.sketchBook.background};"
+          .style="background:${this.sketchBook.palette.backgroundColor};"
           class="background"
           width=${this.canvasWidth}
           height=${this.canvasHeight}

@@ -29,7 +29,8 @@ final class PutSketchBook
         $this->saveSketchBook->handle(SaveSketchBookCommand::from(
             $sketchBookData['id'],
             $sketchBookData['sketches'],
-            $sketchBookData['background'],
+            $sketchBookData['brush'],
+            $sketchBookData['palette'],
         ));
 
         return new Response(null, 200);

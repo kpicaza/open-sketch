@@ -3,6 +3,7 @@ import {Pen} from "./Pen.js";
 import {Tool} from "./Tool.js";
 import {Pencil} from "./Pencil.js";
 import {Eraser} from "./Eraser.js";
+import {Palette} from "./Palette.js";
 
 export class DrawingTool {
   context: CanvasRenderingContext2D;
@@ -17,11 +18,11 @@ export class DrawingTool {
 
   }
 
-  public hasCurrentBrush(brush: Brush): boolean {
+  public hasCurrentBrushAndPalette(brush: Brush, palette: Palette): boolean {
     if (
       this.tool.name() === brush.type
-      && this.context.lineWidth === brush.lineWidth
-      && this.context.fillStyle === brush.color
+      && this.context.lineWidth === brush.width
+      && this.context.fillStyle === palette.primaryColor
     ) {
       return true;
     }
@@ -39,7 +40,7 @@ export class DrawingTool {
     }, 0);
   }
 
-  public setBrush(brush: Brush)
+  public setBrushAndPalette(brush: Brush, palette: Palette)
   {
     if(brush.type === "pencil") {
       this.tool = new Pencil(this.context);
@@ -49,9 +50,9 @@ export class DrawingTool {
       this.tool = new Pen(this.context);
     }
 
-    this.context.lineWidth = brush.lineWidth;
-    this.context.fillStyle = brush.color;
-    this.context.strokeStyle = brush.color;
+    this.context.lineWidth = brush.width;
+    this.context.fillStyle = palette.primaryColor;
+    this.context.strokeStyle = palette.primaryColor;
   }
 
   public clearCanvas(canvasWidth: number, canvasHeight: number, image: URL) {

@@ -2,26 +2,25 @@ import {elementUpdated, fixture, waitUntil} from "@open-wc/testing";
 import {html} from "lit";
 import {expect} from "@esm-bundle/chai";
 import {SketchNavigator} from "../../../src/components/sketch-book/SketchNavigator.js";
-import {SketchBook} from "../../../src/domain/model/SketchBook.js";
+import {defaultSketchBook} from "../../../src/domain/model/SketchBook.js";
 import "../../../src/components/sketch-book/SketchNavigator.js";
 import {Sketch} from "../../../src/domain/model/Sketch.js";
 
 describe('<sketch-nav> component.', () => {
 
   it('should show all available sketches in the sketch book', async () => {
-    const sketchBook = {
-      sketches: [
-        {
-          id: 1,
-          image: 'data:,'
-        },
-        {
-          id: 2,
-          image: 'data:,'
-        },
-      ],
-      background: '#00ffff'
-    } as SketchBook;
+    const sketches: Array<Sketch> = [
+      {
+        id: 1,
+        image: 'data:,'
+      },
+      {
+        id: 2,
+        image: 'data:,'
+      },
+    ] as Array<Sketch>;
+    const sketchBook = defaultSketchBook();
+    sketchBook.sketches = sketches;
 
     const scrollWrapper:HTMLDivElement = document.createElement('div') as HTMLDivElement;
     const el: SketchNavigator = await fixture(html`
@@ -44,10 +43,8 @@ describe('<sketch-nav> component.', () => {
         id: key + 1,
         image: 'data:,'
       } as Sketch));
-    const sketchBook: SketchBook = {
-      sketches,
-      background: '#ffff00'
-    } as SketchBook
+    const sketchBook = defaultSketchBook();
+    sketchBook.sketches = sketches;
 
     const scrollWrapper: HTMLDivElement = document.createElement('div') as HTMLDivElement;
     const el: SketchNavigator = await fixture(html`
@@ -73,10 +70,8 @@ describe('<sketch-nav> component.', () => {
         id: key + 1,
         image: 'data:,'
       } as Sketch));
-    const sketchBook: SketchBook = {
-      sketches,
-      background: '#ffff00'
-    } as SketchBook
+    const sketchBook = defaultSketchBook();
+    sketchBook.sketches = sketches;
 
     const scrollWrapper: HTMLDivElement = document.createElement('div') as HTMLDivElement;
     const el: SketchNavigator = await fixture(html`

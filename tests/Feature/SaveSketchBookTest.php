@@ -37,7 +37,17 @@ class SaveSketchBookTest extends TestCase
             'id' => $sketchBookId,
             'storage_path' => '/home/fake/sketch-book.json',
             'sketches' => $sketches,
-            'background' => '#ffffff',
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ], JSON_THROW_ON_ERROR));
 
         SketchBookReference::firstOrNew([
@@ -55,7 +65,17 @@ class SaveSketchBookTest extends TestCase
                     'image' => 'data:1'
                 ]
             ],
-            'background' => '#ffffff'
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ]);
 
         $response->assertStatus(200);

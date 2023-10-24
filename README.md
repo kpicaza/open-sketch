@@ -53,7 +53,7 @@ provides the tools you need.
 * [x] Brush Color
 * [x] Recent used brush color palette
 * [x] Brush Size
-* [ ] Store Drawing settings
+* [x] Store Drawing settings
 
 ### Sketch Book
 

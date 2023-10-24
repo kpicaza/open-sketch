@@ -6,11 +6,10 @@ import {MdIconButton} from "@material/web/iconbutton/icon-button.js";
 import "@material/web/iconbutton/filled-icon-button.js";
 import {loadSketchBook, saveSketchBook, downloadSketch} from "../store/SketchBookState.js";
 import {featuresAvailable} from "../store/FeatureFlags.js";
-import {brushContext, featuresContext, sketchBookContext} from "../store/AppContext.js";
+import {featuresContext, sketchBookContext} from "../store/AppContext.js";
 import {ToggleRouter} from "../services/ToggleRouter.js";
-import {SketchBook} from "../domain/model/SketchBook.js";
+import {defaultSketchBook, SketchBook} from "../domain/model/SketchBook.js";
 import {Sketch} from "../domain/model/Sketch.js";
-import {Brush} from "../domain/model/Brush.js";
 import "../components/canvas/SketchCanvas.js";
 import "../components/settings/SettingsMenu.js";
 import "../components/sketch-book/AddSketch.js";
@@ -95,24 +94,11 @@ export class OpenSketch extends LitElement {
     }
   `;
 
-  @provide({context: brushContext}) brush: Brush = {
-    lineWidth: 3,
-    color: '#484545',
-    type: 'pen'
-  }
+  @provide({context: sketchBookContext})
+  sketchBook: SketchBook = defaultSketchBook();
 
-  @provide({context: sketchBookContext}) sketchBook: SketchBook = {
-    id: "",
-    sketches: [
-      {
-        id: 1,
-        image: new URL("data:,"),
-      }
-    ],
-    background: '#e8f6f1'
-  }
-
-  @provide({context: featuresContext}) features!: ToggleRouter = new ToggleRouter([]);
+  @provide({context: featuresContext})
+  features!: ToggleRouter = new ToggleRouter([]);
 
   @query("painting-board") sketchWrapper: HTMLDivElement;
 
@@ -174,7 +160,8 @@ export class OpenSketch extends LitElement {
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches,
-      background: this.sketchBook.background
+      brush: this.sketchBook.brush,
+      palette: this.sketchBook.palette,
     };
 
     const body = this.parentElement.parentElement;
@@ -195,7 +182,8 @@ export class OpenSketch extends LitElement {
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches,
-      background: event.detail.background
+      brush: this.sketchBook.brush,
+      palette: this.sketchBook.palette,
     };
 
     await saveSketchBook(this.sketchBook);
@@ -213,7 +201,8 @@ export class OpenSketch extends LitElement {
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches: newSketches,
-      background: this.sketchBook.background
+      brush: this.sketchBook.brush,
+      palette: this.sketchBook.palette,
     };
 
     this.resetCanvas = true;
@@ -224,26 +213,24 @@ export class OpenSketch extends LitElement {
     downloadSketch(this.sketchBookId, event.detail)
   }
 
-  protected changeBrushLineWidth(event: CustomEvent) {
-    this.brush.lineWidth = event.detail
-  }
-
-  protected changeBrushColor(event: CustomEvent) {
-    this.brush.color = event.detail;
-  }
-
-  protected async changeBackgroundColor(event: CustomEvent) {
+  private async changeBrush(event: CustomEvent) {
     this.sketchBook = {
       id: this.sketchBook.id,
       sketches: this.sketchBook.sketches,
-      background: event.detail
+      brush: event.detail,
+      palette: this.sketchBook.palette,
     };
-
     await saveSketchBook(this.sketchBook);
   }
 
-  private changeBrush(event: CustomEvent) {
-    this.brush.type = event.detail;
+  protected async changePalette(event: CustomEvent) {
+    this.sketchBook = {
+      id: this.sketchBook.id,
+      sketches: this.sketchBook.sketches,
+      brush: this.sketchBook.brush,
+      palette: event.detail,
+    };
+    await saveSketchBook(this.sketchBook);
   }
 
   private canvasReset() {
@@ -283,12 +270,17 @@ export class OpenSketch extends LitElement {
     return html`
       <menu class="brush-tools">
         <brush-options
-          @linewidthchanged=${this.changeBrushLineWidth}
-          @colorchanged=${this.changeBrushColor}
-          @backgroundcolorchanged=${this.changeBackgroundColor}
+          @linewidthchanged=${this.changeBrush}
           @brushselected=${this.changeBrush}
-          .brushType=${this.brush.type}
-          .backgroundColor=${this.sketchBook.background}
+          @colorchanged=${this.changePalette}
+          @backgroundcolorchanged=${this.changePalette}
+          .brushType=${this.sketchBook.brush.type}
+          .lineWidth=${this.sketchBook.brush.width}
+          .color=${this.sketchBook.palette.primaryColor}
+          .backgroundColor=${this.sketchBook.palette.backgroundColor}
+          .previousColor1=${this.sketchBook.palette.secondaryColor1}
+          .previousColor2=${this.sketchBook.palette.secondaryColor2}
+          .previousColor3=${this.sketchBook.palette.secondaryColor3}
         ></brush-options>
       </menu>
       <aside class="sketch-book-controls">

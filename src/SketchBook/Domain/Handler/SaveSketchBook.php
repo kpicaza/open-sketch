@@ -19,7 +19,8 @@ final class SaveSketchBook
     {
         $sketchBook = $this->repository->get($command->sketchBookId);
 
-        $sketchBook->addBackground($command->background);
+        $sketchBook->setBrush($command->brush());
+        $sketchBook->setPalette($command->palette());
         $sketchBook->updateSketches(Sketch::fromNormalizedSketches(
             $command->sketches
         ));

@@ -182,7 +182,7 @@ export class SketchNavigator extends LitElement {
             <sketch-preview
               .sketchId=${sketch.id}
               .image=${sketch.image}
-              .background=${this.sketchBook.background}
+              .background=${this.sketchBook.palette.backgroundColor}
               @sketchselected=${this.goToSelectedSketch}
               @sketchdeleted=${this.deleteSketch}
               @sketchdownloaded=${this.downloadSketch}

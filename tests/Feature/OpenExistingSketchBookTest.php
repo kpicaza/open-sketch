@@ -36,7 +36,17 @@ class OpenExistingSketchBookTest extends TestCase
                     'image' => 'data:,'
                 ]
             ],
-            'background' => '#ffffff'
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ], JSON_THROW_ON_ERROR));
         SketchBookReference::firstOrNew([
             'id' => $sketchBookId,
@@ -67,7 +77,17 @@ class OpenExistingSketchBookTest extends TestCase
                     'image' => 'data:,'
                 ]
             ],
-            'background' => '#ffffff'
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ], JSON_THROW_ON_ERROR));
 
         $dialog = $this->getFakeDialog();

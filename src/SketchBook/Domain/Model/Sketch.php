@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace OpenSketch\SketchBook\Domain\Model;
 
+/**
+ * @phpstan-type SketchNormalized array{
+ *   id: string,
+ *   image: string
+ * }
+ */
 final class Sketch
 {
     public function __construct(
@@ -13,7 +19,7 @@ final class Sketch
     }
 
     /**
-     * @param array<array{"id": string, "image": string}> $sketches
+     * @param array<SketchNormalized> $sketches
      * @return array<self>
      */
     public static function fromNormalizedSketches(array $sketches): array

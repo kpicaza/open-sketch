@@ -1,9 +1,10 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, query} from "lit/decorators.js";
 import {consume} from "@lit/context";
-import {featuresContext, sketchBookContext} from "../../store/AppContext.js";
+import {featuresContext} from "../../store/AppContext.js";
 import {ToggleRouter} from "../../services/ToggleRouter.js";
-import {SketchBook} from "../../domain/model/SketchBook.js";
+import {Brush} from "../../domain/model/Brush.js";
+import {Palette} from "../../domain/model/Palette.js";
 import '@material/web/icon/icon.js'
 import '@material/web/slider/slider.js'
 import "./Eraser.js"
@@ -113,22 +114,19 @@ export class BrushOptions extends LitElement {
       height: 50px;
       background: transparent;
     }
-
   `;
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
   declare features: ToggleRouter
 
-  @consume({context: sketchBookContext, subscribe: true})
-  @property({attribute: false})
-  declare sketchBook: SketchBook
-
   @query('.background-color-input-button') backgroundInputButton: HTMLDivElement;
 
   @query('.background-color-input') backgroundInput: HTMLInputElement;
 
   @property() declare color: string;
+
+  @property() declare backgroundColor: string;
 
   @property() declare selectedBrush: string;
 
@@ -144,13 +142,18 @@ export class BrushOptions extends LitElement {
 
   constructor() {
     super();
-    this.color = "#000000";
     this.selectedBrush = 'pen';
     this.lineWidth = 3;
     this.lineWidthInput = 9;
+    this.color = "#000000";
+    this.backgroundColor = "#ffffff";
     this.previousColor1 = '#527474';
     this.previousColor2 = '#844ab2';
     this.previousColor3 = '#e89cb9';
+  }
+
+  protected firstUpdated() {
+    this.lineWidthInput = this.lineWidth * Math.PI;
   }
 
   protected changeLineWidth(event: InputEvent) {
@@ -160,7 +163,10 @@ export class BrushOptions extends LitElement {
     this.dispatchEvent(new CustomEvent(
       'linewidthchanged',
       {
-        detail: this.lineWidth,
+        detail: {
+          type: this.selectedBrush,
+          width: this.lineWidth,
+        } as Brush,
       }
     ));
   }
@@ -174,7 +180,13 @@ export class BrushOptions extends LitElement {
     this.dispatchEvent(new CustomEvent(
       'colorchanged',
       {
-        detail: this.color,
+        detail: {
+          primaryColor: this.color,
+          backgroundColor: this.backgroundColor,
+          secondaryColor1: this.previousColor1,
+          secondaryColor2: this.previousColor2,
+          secondaryColor3: this.previousColor3,
+        } as Palette,
       }
     ));
   }
@@ -188,17 +200,30 @@ export class BrushOptions extends LitElement {
     this.dispatchEvent(new CustomEvent(
       'colorchanged',
       {
-        detail: this.color,
+        detail: {
+          primaryColor: this.color,
+          backgroundColor: this.backgroundColor,
+          secondaryColor1: this.previousColor1,
+          secondaryColor2: this.previousColor2,
+          secondaryColor3: this.previousColor3,
+        } as Palette,
       }
     ));
   }
 
   protected changeBackgroundColor(event: InputEvent) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
+    this.backgroundColor = input.value;
     this.dispatchEvent(new CustomEvent(
       'backgroundcolorchanged',
       {
-        detail: input.value,
+        detail: {
+          primaryColor: this.color,
+          backgroundColor: input.value,
+          secondaryColor1: this.previousColor1,
+          secondaryColor2: this.previousColor2,
+          secondaryColor3: this.previousColor3,
+        } as Palette,
       }
     ));
   }
@@ -218,7 +243,10 @@ export class BrushOptions extends LitElement {
     this.dispatchEvent(new CustomEvent(
       'brushselected',
       {
-        detail: this.selectedBrush,
+        detail: {
+          type: this.selectedBrush,
+          width: this.lineWidth,
+        } as Brush,
       }
     ));
 
@@ -257,9 +285,15 @@ export class BrushOptions extends LitElement {
           class="background-color rounded"
           type="color"
           @change=${this.changeBackgroundColor}
-          .value=${this.sketchBook.background}
+          .value=${this.backgroundColor}
         />
-        <input class="rounded" type="color" @change=${this.changeColor} .value=${this.color} />
+        <input
+          class="rounded"
+          type="color"
+          @change=${this.changeColor}
+          autocomplete
+          .value=${this.color}
+        />
         ${this.renderSecondaryColorPickers()}
       `
     }
@@ -283,19 +317,19 @@ export class BrushOptions extends LitElement {
           .value=${this.lineWidthInput}
         ></md-slider>
         <brush-pen
-          class="brush pen selected"
+          class="brush pen ${this.selectedBrush === 'pen' ? 'selected' : ''}"
           data-value="pen"
           @click=${this.selectBrush}
           .selection=${this.selectedBrush}
         ></brush-pen>
         <brush-pencil
-          class="brush pencil"
+          class="brush pencil ${this.selectedBrush === 'pencil' ? 'selected' : ''}"
           data-value="pencil"
           @click=${this.selectBrush}
           .selection=${this.selectedBrush}
         ></brush-pencil>
         <brush-eraser
-          class="brush eraser"
+          class="brush eraser ${this.selectedBrush === 'eraser' ? 'selected' : ''}"
           data-value="eraser"
           @click=${this.selectBrush}
           .selection=${this.selectedBrush}

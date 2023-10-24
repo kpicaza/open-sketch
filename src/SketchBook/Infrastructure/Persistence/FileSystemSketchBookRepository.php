@@ -7,10 +7,15 @@ namespace OpenSketch\SketchBook\Infrastructure\Persistence;
 use App\Models\SketchBookReference;
 use Illuminate\Support\Facades\Storage;
 use OpenSketch\SketchBook\Domain\Exception\MissedSketchBookReference;
+use OpenSketch\SketchBook\Domain\Model\Brush;
+use OpenSketch\SketchBook\Domain\Model\Palette;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
 
+/**
+ * @phpstan-import-type SketchBookNormalized from SketchBook
+ */
 final class FileSystemSketchBookRepository implements SketchBookRepository
 {
     public function save(SketchBook $sketchBook): void
@@ -35,21 +40,16 @@ final class FileSystemSketchBookRepository implements SketchBookRepository
         }
 
         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-        /**
-         * @var array{
-         *   id: string,
-         *   sketches: array<array{id: string, image: string}>,
-         *   background: string
-         * }|null $sketchBookSerialized
-         */
-        $sketchBookSerialized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        /** @var SketchBookNormalized|null $sketchBookNormalized */
+        $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
 
         return new SketchBook(
             $sketchBookReference->id,
             $sketchBookReference->storage_path,
-            Sketch::fromNormalizedSketches($sketchBookSerialized['sketches'] ?? []),
-            $sketchBookSerialized['background'] ?? '#ffffff'
+            Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []),
+            Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array)Brush::default()),
+            Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array)Palette::default())
         );
     }
 }

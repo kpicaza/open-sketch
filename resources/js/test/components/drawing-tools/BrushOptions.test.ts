@@ -3,15 +3,16 @@ import {expect} from "@esm-bundle/chai";
 import {html} from "lit";
 import {ToggleRouter} from "../../../src/services/ToggleRouter.js";
 import {Feature} from "../../../src/types/Feature.js";
-import {SketchBook} from "../../../src/domain/model/SketchBook.js";
+import {defaultSketchBook} from "../../../src/domain/model/SketchBook.js";
 import {BrushOptions} from "../../../src/components/drawing-tools/BrushOptions.js";
 import "../../../src/components/drawing-tools/BrushOptions.js";
 
 describe('<brush-options> components.', () => {
 
   it('should have different brush types', async () => {
+    const sketchBook = defaultSketchBook();
     const el: BrushOptions = await fixture(
-      html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
+      html` <brush-options .features=${new ToggleRouter([])} .sketchBook=${sketchBook}></brush-options> `
     );
 
     const brushes: Array<HTMLDivElement> = el.shadowRoot.querySelectorAll('.brush') as Array<HTMLDivElement>;
@@ -36,8 +37,9 @@ describe('<brush-options> components.', () => {
   });
 
   it('should have a color picker', async () => {
+    const sketchBook = defaultSketchBook();
     const el: BrushOptions = await fixture(
-      html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
+      html` <brush-options .features=${new ToggleRouter([])} .sketchBook=${sketchBook}></brush-options> `
     );
 
     const colorPicker: HTMLDivElement = el.shadowRoot.querySelector('.color');
@@ -46,13 +48,14 @@ describe('<brush-options> components.', () => {
   });
 
   it('should have a brush line width slider', async () => {
+    const sketchBook = defaultSketchBook();
     const el: BrushOptions = await fixture(
-      html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
+      html` <brush-options .features=${new ToggleRouter([])} .sketchBook=${sketchBook}></brush-options> `
     );
     await elementUpdated(el);
 
     const lineWidthSlider: HTMLInputElement = el.shadowRoot.querySelector('.brush-width-slider');
-    expect(lineWidthSlider.value).to.be.equal(9);
+    expect(lineWidthSlider.value).to.be.equal(9.42477796076938);
     expect(el.lineWidth).to.be.equal(3);
   });
 
@@ -64,9 +67,7 @@ describe('<brush-options> components.', () => {
         enabled: true
       } as Feature
     ]);
-    const sketchBook = {
-      background: '#ffffff'
-    } as SketchBook
+    const sketchBook = defaultSketchBook();
     const el: BrushOptions = await fixture(
       html` <brush-options .features=${toggleRouter} .sketchBook=${sketchBook}></brush-options> `
     );
@@ -83,8 +84,9 @@ describe('<brush-options> components.', () => {
   });
 
   it('should have three secondary color pickers', async () => {
+    const sketchBook = defaultSketchBook();
     const el: BrushOptions = await fixture(
-      html` <brush-options .features=${new ToggleRouter([])}></brush-options> `
+      html` <brush-options .features=${new ToggleRouter([])} .sketchBook=${sketchBook}></brush-options> `
     );
     const pickers: Array<HTMLInputElement> = await el.shadowRoot.querySelectorAll('.rounded') as Array<HTMLInputElement>;
     expect(el.color).to.be.equal('#000000');

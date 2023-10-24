@@ -5,6 +5,8 @@ namespace Unit\SketchBook\Domain\Handler;
 use OpenSketch\SketchBook\Domain\Command\DownloadSketchCommand;
 use OpenSketch\SketchBook\Domain\Handler\DownloadSketch;
 use OpenSketch\SketchBook\Domain\ImageManipulation;
+use OpenSketch\SketchBook\Domain\Model\Brush;
+use OpenSketch\SketchBook\Domain\Model\Palette;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -27,7 +29,8 @@ class DownloadSketchTest extends TestCase
                 [
                     new Sketch(1, 'data:,')
                 ],
-                '#000000'
+                Brush::default(),
+                Palette::default()
             ))
         ;
 

@@ -33,7 +33,17 @@ class GetSketchBookTest extends TestCase
             'id' => $sketchBookId,
             'storage_path' => '/home/fake/sketch-book.json',
             'sketches' => $sketches,
-            'background' => '#ffffff'
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ], JSON_THROW_ON_ERROR));
 
         SketchBookReference::firstOrNew([
@@ -53,7 +63,17 @@ class GetSketchBookTest extends TestCase
                     "image" => "data:,"
                 ]
             ],
-            'background' => '#ffffff'
+            'brush' => [
+                'type' => 'pencil',
+                'width' => 6,
+            ],
+            'palette' => [
+                'primaryColor' => '#000000',
+                'backgroundColor' => '#ffffff',
+                'secondaryColor1' => '#00ffff',
+                'secondaryColor2' => '#ff00ff',
+                'secondaryColor3' => '#ffff00',
+            ]
         ]);
     }
 }

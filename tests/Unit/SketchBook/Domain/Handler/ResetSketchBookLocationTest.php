@@ -4,6 +4,8 @@ namespace Tests\Unit\SketchBook\Domain\Handler;
 
 use OpenSketch\SketchBook\Domain\Command\ResetSketchBookLocationCommand;
 use OpenSketch\SketchBook\Domain\Handler\ResetSketchBookLocation;
+use OpenSketch\SketchBook\Domain\Model\Brush;
+use OpenSketch\SketchBook\Domain\Model\Palette;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -24,7 +26,9 @@ class ResetSketchBookLocationTest extends TestCase
                 '/home/fake/old-location.json',
                 [
                     new Sketch(1, 'data:,')
-                ]
+                ],
+                Brush::default(),
+                Palette::default()
             ))
         ;
         $repository->expects($this->once())
@@ -54,7 +58,9 @@ class ResetSketchBookLocationTest extends TestCase
                 '/home/fake/location.json',
                 [
                     new Sketch(1, 'data:,')
-                ]
+                ],
+                Brush::default(),
+                Palette::default()
             ))
         ;
         $repository->expects($this->once())

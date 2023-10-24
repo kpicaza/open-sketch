@@ -8,6 +8,7 @@ import {FeatureFlagsRepository} from "../../src/domain/FeatureFlagsRepository.js
 import {SketchBookRepository} from "../../src/domain/SketchBookRepository.js";
 import {OpenSketch} from "../../src/pages/OpenSketch.js";
 import "../../src/pages/open-sketch.js";
+import {defaultSketchBook} from "../../src/domain/model/SketchBook.js";
 
 
 registerTranslateConfig({
@@ -21,11 +22,7 @@ registerTranslateConfig({
 
 serviceContainer.init({
   'sketchbook.repository': {
-    get: async (sketchBookId) => ({
-        id: sketchBookId,
-        sketches: [],
-        background: '#ffffff',
-      })
+    get: async () => (defaultSketchBook())
   } as SketchBookRepository,
   'feature.flags.repository': {
     all: async () => []

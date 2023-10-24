@@ -17,10 +17,9 @@ final class CreateNewSketchBook
 
     public function handle(CreateNewSketchBookCommand $command): void
     {
-        $sketchBook = new SketchBook(
+        $sketchBook = SketchBook::new(
             $command->sketchBookId,
-            $command->storagePath,
-            []
+            $command->storagePath
         );
 
         $this->repository->save($sketchBook);

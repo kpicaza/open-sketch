@@ -1,5 +1,4 @@
 export interface Brush {
-  lineWidth: number,
-  color: string,
+  width: number,
   type: string,
 }

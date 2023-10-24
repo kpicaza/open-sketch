@@ -4,6 +4,8 @@ namespace Tests\Unit\SketchBook\Domain\Handler;
 
 use OpenSketch\SketchBook\Domain\Command\SaveSketchBookCommand;
 use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
+use OpenSketch\SketchBook\Domain\Model\Brush;
+use OpenSketch\SketchBook\Domain\Model\Palette;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\SketchBook\Domain\SketchBookRepository;
@@ -25,7 +27,8 @@ class SaveSketchBookTest extends TestCase
                 [
                     new Sketch(1, 'data:,')
                 ],
-                '#000000'
+                Brush::default(),
+                Palette::default()
             ))
         ;
         $repository->expects($this->once())
@@ -38,7 +41,8 @@ class SaveSketchBookTest extends TestCase
                     new Sketch(2, 'data:2'),
                     new Sketch(3, 'data:3'),
                 ],
-                '#ffffff'
+                Brush::default(),
+                Palette::default()
             ));
 
         $createNeSketchBook = new SaveSketchBook(
@@ -52,7 +56,8 @@ class SaveSketchBookTest extends TestCase
                 ['id' => '2', 'image' => 'data:2'],
                 ['id' => '3', 'image' => 'data:3'],
             ],
-            '#ffffff'
+            (array)Brush::default(),
+            (array)Palette::default()
         ));
     }
 }

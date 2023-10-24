@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\SketchBook\Domain\Model;
 
+use OpenSketch\SketchBook\Domain\Model\Brush;
+use OpenSketch\SketchBook\Domain\Model\Palette;
 use OpenSketch\SketchBook\Domain\Model\Sketch;
 use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use PHPUnit\Framework\TestCase;
@@ -15,28 +17,31 @@ class SketchBookTest extends TestCase
         $sketches = [
             new Sketch(1, 'data:,')
         ];
+        $brush = Brush::default();
+        $palette = Palette::default();
         $sketchBook = new SketchBook(
             $id,
             '/test.json',
             $sketches,
-            '#ffff00'
+            $brush,
+            $palette
         );
 
         $this->assertSame([
             'id' => $id,
             'storage_path' => '/test.json',
             'sketches' => $sketches,
-            'background' => '#ffff00'
+            'brush' => $brush,
+            'palette' => $palette,
         ], $sketchBook->jsonSerialize());
     }
 
     public function testCreateSketchBookWithoutSketches(): void
     {
         $id = Uuid::uuid4()->toString();
-        $sketchBook = new SketchBook(
+        $sketchBook = SketchBook::new(
             $id,
-            '/test.json',
-            []
+            '/test.json'
         );
 
         $this->assertCount(1, $sketchBook->sketches());

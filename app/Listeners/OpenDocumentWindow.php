@@ -13,11 +13,15 @@ use OpenSketch\SketchBook\Domain\Exception\MissedSketchBookReference;
 use OpenSketch\SketchBook\Domain\Handler\CreateNewSketchBook;
 use OpenSketch\SketchBook\Domain\Handler\ResetSketchBookLocation;
 use OpenSketch\SketchBook\Domain\Handler\SaveSketchBook;
+use OpenSketch\SketchBook\Domain\Model\SketchBook;
 use OpenSketch\Window\Domain\Command\OpenWindowCommand;
 use OpenSketch\Window\Domain\Handler\OpenFileDialog;
 use OpenSketch\Window\Domain\Handler\OpenWindow;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @phpstan-import-type SketchBookNormalized from SketchBook
+ */
 final class OpenDocumentWindow
 {
     private const JSON_DEPTH = 512;
@@ -42,11 +46,7 @@ final class OpenDocumentWindow
         }
 
         /**
-         * @var array{
-         *   id: string,
-         *   sketches: array<array{id: string, image: string}>,
-         *   background: string|null
-         * } $sketchBookData
+         * @var SketchBookNormalized $sketchBookData
          */
         $sketchBookData = json_decode(
             $fileContents,
@@ -73,7 +73,8 @@ final class OpenDocumentWindow
                 SaveSketchBookCommand::from(
                     $sketchBookId,
                     $sketchBookData['sketches'],
-                    $sketchBookData['background'] ?? '#ffffff',
+                    $sketchBookData['brush'],
+                    $sketchBookData['palette'],
                 )
             );
         }
