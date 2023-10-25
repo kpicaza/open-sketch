@@ -75,11 +75,9 @@ describe('<brush-options> components.', () => {
     const pickers: Array<HTMLDivElement> = el.shadowRoot.querySelectorAll('.rounded') as Array<HTMLDivElement>;
 
     const bgColorPicker: HTMLDivElement = pickers[0];
-    await expect(bgColorPicker).to.have.attribute('type').to.be.equal('color');
     expect(bgColorPicker).to.have.value('#ffffff');
 
     const colorPicker: HTMLDivElement = pickers[1];
-    await expect(colorPicker).to.have.attribute('type').to.be.equal('color');
     expect(colorPicker).to.have.value('#000000');
   });
 

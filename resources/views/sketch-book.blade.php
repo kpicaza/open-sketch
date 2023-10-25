@@ -16,7 +16,7 @@
         </style>
         <title>Open Sketch</title>
     </head>
-    <body class="antialiased">
+    <body class="antialiased sl-theme-dark">
         <open-sketch sketchBookId="{{$sketchBookId}}" language="{{ app()->currentLocale() }}"></open-sketch>
         @vite(['resources/css/app.css', 'resources/js/src/pages/open-sketch.ts'])
     </body>
