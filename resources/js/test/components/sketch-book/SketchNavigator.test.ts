@@ -85,7 +85,6 @@ describe('<sketch-nav> component.', () => {
     await elementUpdated(el);
     await new Promise(resolve => {setTimeout(resolve, 100)});
     expect(el.showLeftArrow).to.be.true;
-    console.log(el.previewScrollPosition)
 
     const leftArrow: HTMLDivElement = await el.shadowRoot.querySelector('.left-previews');
     leftArrow.click();

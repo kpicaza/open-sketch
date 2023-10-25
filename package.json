@@ -15,6 +15,7 @@
   "dependencies": {
     "@lit/context": "^1.0.0",
     "@material/web": "^1.0.0",
+    "@shoelace-style/shoelace": "^2.11.0",
     "lit": "^2.0.2",
     "lit-translate": "^2.0.1"
   },

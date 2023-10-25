@@ -5,8 +5,8 @@ import {featuresContext} from "../../store/AppContext.js";
 import {ToggleRouter} from "../../services/ToggleRouter.js";
 import {Brush} from "../../domain/model/Brush.js";
 import {Palette} from "../../domain/model/Palette.js";
-import '@material/web/icon/icon.js'
 import '@material/web/slider/slider.js'
+import "@shoelace-style/shoelace/dist/components/color-picker/color-picker.js"
 import "./Eraser.js"
 import "./Pen.js"
 import "./Pencil.js"
@@ -14,107 +14,185 @@ import "./Pencil.js"
 @customElement('brush-options')
 export class BrushOptions extends LitElement {
   static styles = css`
-    .brush {
-      display: block;
-      position: fixed;
-      left: 0;
-      top: 0;
-      background: #218BC3;
-      height: 120px;
-      width: 100px;
-      cursor: pointer;
-      animation:moveUp .25s;
-    }
-    .brush:hover, .brush.selected {
-      animation:moveDown .25s;
-      top: 15px;
-    }
-    @keyframes moveDown{
-      from {top: 0px;}
-      to{top:15px;}
-    }
-    @keyframes moveUp{
-      from {top: 15px;}
-      to{top:0px;}
-    }
-    .pen {
-      margin-top: -150px;
-      overflow: visible;
-    }
-    .pencil {
-      margin-top: -150px;
-      left: 70px;
-    }
-    .eraser {
-      left: 240px;
-      margin-top: -170px;
-    }
+      :host {
 
-    .brush-width-slider {
-      position: fixed;
-      left: 475px;
-      top: 70px;
-    }
+      }
 
-    input.color[type="color"] {
-      cursor: pointer;
-      position: absolute;;
-      top: -10px;
-      left: 0;
-      -webkit-appearance: none;
-      border: none;
-      width: 60px;
-      height: 60px;
-    }
-    input.color[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
+      .brush {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: #218BC3;
+        height: 120px;
+        width: 100px;
+        cursor: pointer;
+        animation: moveUp .25s;
+      }
 
-    input.color[type="color"]::-webkit-color-swatch {
-      border: none;
-    }
-    input.rounded[type="color"] {
-      cursor: pointer;
-      position: absolute;;
-      top: 0px;
-      left: 0;
-      -webkit-appearance: none;
-      border: none;
-      width: 50px;
-      height: 50px;
-      background: transparent;
-    }
-    input.rounded.background-color[type="color"] {
-      top: -20px;
-      left: -20px;
-      width: 90px;
-      height: 90px;
-    }
-    input.rounded[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-    input.rounded[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 50%;
-    }
-    input.rounded.background-color[type="color"]::-webkit-color-swatch {
-      border: 1px black solid;
-      border-radius: 50%;
-    }
-    input.rounded.secondary-1[type="color"],
-    input.rounded.secondary-2[type="color"],
-    input.rounded.secondary-3[type="color"] {
-      position: relative;
-      display: inline-flex;
-      top: -15px;
-      left: 50px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      background: transparent;
-    }
-  `;
+      .brush:hover, .brush.selected {
+        animation: moveDown .25s;
+        top: 15px;
+      }
+
+      @keyframes moveDown {
+        from {
+          top: 0px;
+        }
+        to {
+          top: 15px;
+        }
+      }
+      @keyframes moveUp {
+        from {
+          top: 15px;
+        }
+        to {
+          top: 0px;
+        }
+      }
+
+      .pen {
+        margin-top: -150px;
+        overflow: visible;
+      }
+
+      .pencil {
+        margin-top: -150px;
+        left: 70px;
+      }
+
+      .eraser {
+        left: 240px;
+        margin-top: -170px;
+      }
+
+      .brush-width-slider {
+        position: fixed;
+        left: 475px;
+        top: 70px;
+      }
+
+      input.color[type="color"] {
+        cursor: pointer;
+        position: absolute;;
+        top: -10px;
+        left: 0;
+        -webkit-appearance: none;
+        border: none;
+        width: 60px;
+        height: 60px;
+      }
+
+      input.color[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      input.color[type="color"]::-webkit-color-swatch {
+        border: none;
+      }
+
+      .rounded, input.rounded[type="color"] {
+        cursor: pointer;
+        position: absolute;;
+        top: 0px;
+        left: 0;
+        -webkit-appearance: none;
+        border: none;
+        width: 50px;
+        height: 50px;
+        background: transparent;
+        --sl-input-border-color: transparent;
+        --sl-color-neutral-0: transparent;
+      }
+
+      .rounded.background-color {
+        top: -16px;
+        left: -20px;
+        --sl-input-height-large: 90px;
+        height: 90px;
+        --sl-input-border-color: #000000;
+        --sl-color-neutral-0: currentcolor;
+      }
+
+      input.rounded[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      input.rounded[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 50%;
+      }
+
+      input.rounded.background-color[type="color"]::-webkit-color-swatch {
+        border: 1px black solid;
+        border-radius: 50%;
+      }
+
+      input.color[type="color"]::-webkit-color-swatch {
+        border: none;
+      }
+
+      input.rounded[type="color"] {
+        cursor: pointer;
+        position: absolute;;
+        top: 0px;
+        left: 0;
+        -webkit-appearance: none;
+        border: none;
+        width: 50px;
+        height: 50px;
+        background: transparent;
+      }
+
+      input.rounded.background-color[type="color"] {
+        top: -20px;
+        left: -20px;
+        width: 90px;
+        height: 90px;
+      }
+
+      input.rounded[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      input.rounded[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 50%;
+      }
+
+      input.rounded.background-color[type="color"]::-webkit-color-swatch {
+        border: 1px black solid;
+        border-radius: 50%;
+      }
+
+      input.rounded.secondary-1[type="color"],
+      input.rounded.secondary-2[type="color"],
+      input.rounded.secondary-3[type="color"] {
+        position: relative;
+        display: inline-flex;
+        top: -15px;
+        left: 50px;
+        cursor: pointer;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        background: transparent;
+      }
+
+    \` ;
+
+        position: relative;
+        display: inline-flex;
+        top: -15px;
+        left: 50px;
+        cursor: pointer;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        background: transparent;
+      }
+    `;
 
   @consume({context: featuresContext, subscribe: true})
   @property({attribute: false})
@@ -122,7 +200,7 @@ export class BrushOptions extends LitElement {
 
   @query('.background-color-input-button') backgroundInputButton: HTMLDivElement;
 
-  @query('.background-color-input') backgroundInput: HTMLInputElement;
+  @query('.background-color') backgroundInput: HTMLInputElement;
 
   @property() declare color: string;
 
@@ -193,6 +271,7 @@ export class BrushOptions extends LitElement {
 
   private changeToPreviousColor(event: InputEvent) {
     event.preventDefault();
+    event.stopPropagation();
     const input = event.target as HTMLInputElement;
     const newColor = input.value;
     input.value = this.color;
@@ -281,19 +360,21 @@ export class BrushOptions extends LitElement {
 
     if (canvasBackgroundColor) {
       return html `
-        <input
+        <sl-color-picker
           class="background-color rounded"
-          type="color"
-          @change=${this.changeBackgroundColor}
           .value=${this.backgroundColor}
-        />
-        <input
+          size="large"
+          label="Select a color"
+          @sl-blur=${this.changeBackgroundColor}
+        ></sl-color-picker>
+        <sl-color-picker
           class="rounded"
-          type="color"
-          @change=${this.changeColor}
-          autocomplete
           .value=${this.color}
-        />
+          size="large"
+          label="Select a color"
+          @sl-blur=${this.changeColor}
+        ></sl-color-picker>
+
         ${this.renderSecondaryColorPickers()}
       `
     }
@@ -306,7 +387,8 @@ export class BrushOptions extends LitElement {
 
   protected render() {
     return html`
-      <div class="brushes">
+      <div
+        class="brushes">
         ${this.renderColorPicker()}
         <md-slider
           class="brush-width-slider"
