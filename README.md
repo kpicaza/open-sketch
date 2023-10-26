@@ -46,7 +46,7 @@ provides the tools you need.
 * [ ] Background Image
 
 ### Drawing Palette
-[README.md](README.md)
+
 * [x] "Pen" Brush
 * [x] "Pencil" Brush
 * [x] "Eraser" Brush
