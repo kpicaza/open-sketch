@@ -18,6 +18,7 @@ export class SketchNavigator extends LitElement {
       flex-wrap: nowrap;
       -webkit-overflow-scrolling: touch;
     }
+
     .app-footer {
       position: fixed;
       bottom: 0;
@@ -26,6 +27,7 @@ export class SketchNavigator extends LitElement {
       background: #1a202c;
       z-index: 20;
     }
+
     .arrow-button {
       cursor: pointer;
       color: #FFFFFF;
@@ -39,18 +41,35 @@ export class SketchNavigator extends LitElement {
       font-weight: 700;
       opacity: 0.5;
     }
+
     .arrow-button:hover {
       background-color: #4a5568;
     }
+
     .left-previews {
       position: fixed;
       left: 10px;
       bottom: 50px;
     }
+
     .right-previews {
       position: fixed;
       right: 10px;
       bottom: 50px;
+    }
+
+    .drop-zone.dropable {
+      background: #6a6a6a;
+      margin-left: -3px;
+      margin-right: -3px;
+      border: #ededed dashed 3px;
+      border-radius: 8px;
+      padding-bottom: 15px;
+      opacity: .5;
+    }
+
+    .dragging {
+      opacity: .25;
     }
   `;
 
@@ -174,19 +193,79 @@ export class SketchNavigator extends LitElement {
     return result;
   }
 
+  private allowDrop(event: DragEvent) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    const sketchWrapper: HTMLDivElement = event.target as HTMLDivElement;
+    if (!sketchWrapper.classList.contains('preview')) {
+      return;
+    }
+    const dropZones = this.shadowRoot.querySelectorAll('.drop-zone')
+    for (const dropZone of dropZones) {
+      dropZone.classList.remove('dropable');
+    }
+    sketchWrapper.parentElement.classList.add('dropable');
+  }
+
+  private stopDragging() {
+    const dropZones = this.shadowRoot.querySelectorAll('.dropable')
+    for (const dropZone of dropZones) {
+      dropZone.classList.remove('dropable');
+    }
+  }
+
+  private drag(event: DragEvent) {
+    const sketchBookDiv = event.target as HTMLDivElement;
+    sketchBookDiv.classList.add('dragging')
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text", sketchBookDiv.dataset.id);
+  }
+
+  private drop(event: DragEvent) {
+    event.preventDefault();
+    const sketchId = event.dataTransfer.getData("text");
+    const sketchWrapper: HTMLDivElement = event.target as HTMLDivElement;
+    this.stopDragging();
+    const dragging = this.shadowRoot.querySelectorAll('.dragging')
+    for (const drag of dragging) {
+      drag.classList.remove('dragging');
+    }
+
+    this.dispatchEvent(new CustomEvent(
+      'sketchesreordered',
+      {
+        detail: {
+          drag: sketchId,
+          drop: sketchWrapper.dataset.id
+        }
+      }
+    ))
+  }
+
   protected render() {
     return html`
       <div class="app-footer">
         <div class="horizontal-scroll-wrapper">
           ${this.sketchBook.sketches.map((sketch: Sketch) => html`
-            <sketch-preview
-              .sketchId=${sketch.id}
-              .image=${sketch.image}
-              .background=${this.sketchBook.palette.backgroundColor}
-              @sketchselected=${this.goToSelectedSketch}
-              @sketchdeleted=${this.deleteSketch}
-              @sketchdownloaded=${this.downloadSketch}
-            ></sketch-preview>
+            <div
+              class="drop-zone"
+              data-id=${sketch.id}
+              @drop=${this.drop}
+              @dragover=${this.allowDrop}
+              @dragleave=${this.stopDragging}
+            >
+              <sketch-preview
+                class="preview"
+                data-id=${sketch.id}
+                .sketchId=${sketch.id}
+                .image=${sketch.image}
+                .background=${this.sketchBook.palette.backgroundColor}
+                @sketchselected=${this.goToSelectedSketch}
+                @sketchdeleted=${this.deleteSketch}
+                @sketchdownloaded=${this.downloadSketch}
+                @dragstart=${this.drag}
+              ></sketch-preview>
+            </div>
           `)}
         </div>
         ${this.renderPreviewArrows()}

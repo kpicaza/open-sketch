@@ -46,7 +46,7 @@ provides the tools you need.
 * [ ] Background Image
 
 ### Drawing Palette
-
+[README.md](README.md)
 * [x] "Pen" Brush
 * [x] "Pencil" Brush
 * [x] "Eraser" Brush
@@ -61,6 +61,7 @@ provides the tools you need.
 * [x] Add new Sketch to the Sketch Book
 * [x] Remove Sketch from the Sketch Book
 * [x] Add Sketch navigator inside Sketch Book
+* [x] Re-order sketches in a Sketch Book (Drag and drop)
 
 ### Export Sketches
 

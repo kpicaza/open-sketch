@@ -124,11 +124,14 @@ export class SketchPreview extends LitElement {
     if (this.image.toString() === "data:,") {
       return html`
         <div class="preview">
-          <div class="buttons">
+          <div
+            draggable="false"
+            class="buttons">
             ${this.renderDownloadButton()}
             ${this.renderCloseButton()}
           </div>
           <div
+            draggable="true"
             style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
             class="image"
             @click=${this.selectSketch}
@@ -145,6 +148,7 @@ export class SketchPreview extends LitElement {
           ${this.renderCloseButton()}
         </div>
         <img
+          draggable="true"
           style="background:${canvasBackgroundColor ? this.background : '#ffffff'}"
           alt="canvas"
           class="image"

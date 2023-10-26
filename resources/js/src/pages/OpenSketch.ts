@@ -256,7 +256,7 @@ export class OpenSketch extends LitElement {
   private async restart()
   {
     await fetch(
-      `/api/restart/${  this.sketchBookId}`,
+      `/api/restart/${this.sketchBookId}`,
       {
         method: 'POST',
         headers: {
@@ -265,6 +265,37 @@ export class OpenSketch extends LitElement {
       }
     );
 
+  }
+
+  private move(from: number, to: number, sketches: Array<Sketch>): Array<Sketch> {
+    const newSketches: Array<Sketch> = [];
+    sketches.splice(to, 0, sketches.splice(from, 1)[0]);
+
+    let index = 1;
+    for(const sketch of sketches) {
+      sketch.id = index;
+      newSketches.push(sketch);
+      index += 1
+    }
+
+    return newSketches;
+  };
+
+  private async reorderSketches(event: CustomEvent) {
+
+    const sketchId: number = event.detail.drag as number;
+    const newSketchId: number = event.detail.drop as number;
+    const sketches: Array<Sketch> = this.move(sketchId - 1, newSketchId - 1, this.sketchBook.sketches);
+
+    this.sketchBook = {
+      id: this.sketchBook.id,
+      sketches,
+      brush: this.sketchBook.brush,
+      palette: this.sketchBook.palette,
+    } as SketchBook
+
+    this.resetCanvas = true;
+    await saveSketchBook(this.sketchBook);
   }
 
   protected render() {
@@ -311,6 +342,7 @@ export class OpenSketch extends LitElement {
           @sketchselected=${this.goToSelectedSketch}
           @sketchdeleted=${this.deleteSketch}
           @sketchdownloaded=${this.downloadSketch}
+          @sketchesreordered=${this.reorderSketches}
         >
         </sketch-nav>
       </footer>
