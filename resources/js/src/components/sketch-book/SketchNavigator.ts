@@ -195,7 +195,8 @@ export class SketchNavigator extends LitElement {
 
   private allowDrop(event: DragEvent) {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
+    const {dataTransfer} = event;
+    dataTransfer.dropEffect = "move";
     const sketchWrapper: HTMLDivElement = event.target as HTMLDivElement;
     if (!sketchWrapper.classList.contains('preview')) {
       return;
@@ -217,8 +218,9 @@ export class SketchNavigator extends LitElement {
   private drag(event: DragEvent) {
     const sketchBookDiv = event.target as HTMLDivElement;
     sketchBookDiv.classList.add('dragging')
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text", sketchBookDiv.dataset.id);
+    const {dataTransfer} = event;
+    dataTransfer.effectAllowed = "move";
+    dataTransfer.setData("text", sketchBookDiv.dataset.id);
   }
 
   private drop(event: DragEvent) {

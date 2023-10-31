@@ -138,22 +138,7 @@ Escaped mutants:
          }
 
 
-10) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:44    [M] DecrementInteger
-
---- Original
-+++ New
-@@ @@
-         }
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var SketchBookNormalized|null $sketchBookNormalized */
--        $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-+        $sketchBookNormalized = json_decode($content, true, 511, JSON_THROW_ON_ERROR);
-         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
-     }
- }
-
-
-11) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:44    [M] IncrementInteger
+10) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:44    [M] IncrementInteger
 
 --- Original
 +++ New
@@ -163,6 +148,21 @@ Escaped mutants:
          /** @var SketchBookNormalized|null $sketchBookNormalized */
 -        $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 +        $sketchBookNormalized = json_decode($content, true, 513, JSON_THROW_ON_ERROR);
+         return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
+     }
+ }
+
+
+11) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:44    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var SketchBookNormalized|null $sketchBookNormalized */
+-        $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
++        $sketchBookNormalized = json_decode($content, true, 511, JSON_THROW_ON_ERROR);
          return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
      }
  }
@@ -182,21 +182,7 @@ Escaped mutants:
  }
 
 
-13) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:52    [M] Coalesce
-
---- Original
-+++ New
-@@ @@
-         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
-         /** @var SketchBookNormalized|null $sketchBookNormalized */
-         $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
--        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
-+        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized((array) Palette::default() ?? $sketchBookNormalized['palette']));
-     }
- }
-
-
-14) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:52    [M] CastArray
+13) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:52    [M] CastArray
 
 --- Original
 +++ New
@@ -206,6 +192,20 @@ Escaped mutants:
          $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 -        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
 +        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? Palette::default()));
+     }
+ }
+
+
+14) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/Persistence/FileSystemSketchBookRepository.php:52    [M] Coalesce
+
+--- Original
++++ New
+@@ @@
+         $content = Storage::get($sketchBookReference->storage_path) ?? '[]';
+         /** @var SketchBookNormalized|null $sketchBookNormalized */
+         $sketchBookNormalized = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+-        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized($sketchBookNormalized['palette'] ?? (array) Palette::default()));
++        return new SketchBook($sketchBookReference->id, $sketchBookReference->storage_path, Sketch::fromNormalizedSketches($sketchBookNormalized['sketches'] ?? []), Brush::fromNormalized($sketchBookNormalized['brush'] ?? (array) Brush::default()), Palette::fromNormalized((array) Palette::default() ?? $sketchBookNormalized['palette']));
      }
  }
 
@@ -284,24 +284,7 @@ Escaped mutants:
          Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
 
 
-20) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Identical
-
---- Original
-+++ New
-@@ @@
-         $window = Window::getFacadeRoot();
-         Window::open('welcome');
-         /** @phpstan-ignore-next-line */
--        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
-+        Window::close(Window::current()->id !== 'welcome' ? 'sketch-book' : Window::current()->id);
-         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
-         $window->maximize($command->openingWindowName);
-         Window::close('welcome');
-     }
- }
-
-
-21) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
+20) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Ternary
 
 --- Original
 +++ New
@@ -311,6 +294,23 @@ Escaped mutants:
          /** @phpstan-ignore-next-line */
 -        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
 +        Window::close(Window::current()->id === 'welcome' ? Window::current()->id : 'sketch-book');
+         Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
+         $window->maximize($command->openingWindowName);
+         Window::close('welcome');
+     }
+ }
+
+
+21) /home/kpicaza/server/open.sketch/dev/src/Window/Infrastructure/Electron/LaravelWindowProvider.php:19    [M] Identical
+
+--- Original
++++ New
+@@ @@
+         $window = Window::getFacadeRoot();
+         Window::open('welcome');
+         /** @phpstan-ignore-next-line */
+-        Window::close(Window::current()->id === 'welcome' ? 'sketch-book' : Window::current()->id);
++        Window::close(Window::current()->id !== 'welcome' ? 'sketch-book' : Window::current()->id);
          Window::open($command->openingWindowName)->title(sprintf('%s: %s', __('sketch_book'), $command->fileName()))->route($command->routeName, ['id' => $command->sketchBookId]);
          $window->maximize($command->openingWindowName);
          Window::close('welcome');
@@ -422,71 +422,456 @@ Skipped mutants:
 Not Covered mutants:
 ====================
 
-1) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Handler/DownloadSketch.php:34    [M] MethodCallRemoval
+1) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:18    [M] FalseValue
 
 --- Original
 +++ New
 @@ @@
-         if (empty($storagePath)) {
-             return;
-         }
--        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 1]->image, $storagePath);
-+        
-     }
- }
-
-
-2) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Handler/DownloadSketch.php:35    [M] DecrementInteger
-
---- Original
-+++ New
-@@ @@
-         if (empty($storagePath)) {
-             return;
-         }
--        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 1]->image, $storagePath);
-+        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 0]->image, $storagePath);
-     }
- }
-
-
-3) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Handler/DownloadSketch.php:35    [M] IncrementInteger
-
---- Original
-+++ New
-@@ @@
-         if (empty($storagePath)) {
-             return;
-         }
--        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 1]->image, $storagePath);
-+        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 2]->image, $storagePath);
-     }
- }
-
-
-4) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Domain/Handler/DownloadSketch.php:35    [M] Minus
-
---- Original
-+++ New
-@@ @@
-         if (empty($storagePath)) {
-             return;
-         }
--        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId - 1]->image, $storagePath);
-+        $this->imageManipulation->make($sketchBook->sketches()[$from->sketchId + 1]->image, $storagePath);
-     }
- }
-
-
-5) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:17    [M] MethodCallRemoval
-
---- Original
-+++ New
-@@ @@
-     {
          list(, $data) = explode(';', $base64Image);
          list(, $data) = explode(',', $data);
--        Storage::put($storagePath, base64_decode($data));
+         $image = imagecreatefromstring(base64_decode($data));
+-        if (false === $image) {
++        if (true === $image) {
+             return;
+         }
+         $colorRGB = sscanf($background, "#%02x%02x%02x");
+
+
+2) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:18    [M] Identical
+
+--- Original
++++ New
+@@ @@
+         list(, $data) = explode(';', $base64Image);
+         list(, $data) = explode(',', $data);
+         $image = imagecreatefromstring(base64_decode($data));
+-        if (false === $image) {
++        if (false !== $image) {
+             return;
+         }
+         $colorRGB = sscanf($background, "#%02x%02x%02x");
+
+
+3) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:24    [M] Identical
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         $colorRGB = sscanf($background, "#%02x%02x%02x");
+-        if (null === $colorRGB) {
++        if (null !== $colorRGB) {
+             return;
+         }
+         list($red, $green, $blue) = $colorRGB;
+
+
+4) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:33    [M] FalseValue
+
+--- Original
++++ New
+@@ @@
+         $width = imagesx($image);
+         $height = imagesy($image);
+         $finalImage = imagecreatetruecolor($width, $height);
+-        if (false === $finalImage) {
++        if (true === $finalImage) {
+             return;
+         }
+         $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
+
+
+5) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:33    [M] Identical
+
+--- Original
++++ New
+@@ @@
+         $width = imagesx($image);
+         $height = imagesy($image);
+         $finalImage = imagecreatetruecolor($width, $height);
+-        if (false === $finalImage) {
++        if (false !== $finalImage) {
+             return;
+         }
+         $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
+
+
+6) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:37    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+         if (false === $finalImage) {
+             return;
+         }
+-        $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
++        $color = imagecolorallocate($finalImage, $red, (int) $green, (int) $blue);
+         if (false === $color) {
+             return;
+         }
+
+
+7) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:37    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+         if (false === $finalImage) {
+             return;
+         }
+-        $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
++        $color = imagecolorallocate($finalImage, (int) $red, $green, (int) $blue);
+         if (false === $color) {
+             return;
+         }
+
+
+8) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:37    [M] CastInt
+
+--- Original
++++ New
+@@ @@
+         if (false === $finalImage) {
+             return;
+         }
+-        $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
++        $color = imagecolorallocate($finalImage, (int) $red, (int) $green, $blue);
+         if (false === $color) {
+             return;
+         }
+
+
+9) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:38    [M] FalseValue
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
+-        if (false === $color) {
++        if (true === $color) {
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+
+
+10) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:38    [M] Identical
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         $color = imagecolorallocate($finalImage, (int) $red, (int) $green, (int) $blue);
+-        if (false === $color) {
++        if (false !== $color) {
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+
+
+11) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:41    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         if (false === $color) {
+             return;
+         }
+-        imagefill($finalImage, 0, 0, $color);
++        imagefill($finalImage, -1, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+
+
+12) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:41    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         if (false === $color) {
+             return;
+         }
+-        imagefill($finalImage, 0, 0, $color);
++        imagefill($finalImage, 1, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+
+
+13) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:41    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         if (false === $color) {
+             return;
+         }
+-        imagefill($finalImage, 0, 0, $color);
++        imagefill($finalImage, 0, -1, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+
+
+14) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:41    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         if (false === $color) {
+             return;
+         }
+-        imagefill($finalImage, 0, 0, $color);
++        imagefill($finalImage, 0, 1, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+
+
+15) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:41    [M] FunctionCallRemoval
+
+--- Original
++++ New
+@@ @@
+         if (false === $color) {
+             return;
+         }
+-        imagefill($finalImage, 0, 0, $color);
++        
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+
+
+16) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, -1, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+17) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 1, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+18) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, -1, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+19) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, 1, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+20) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, 0, -1, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+21) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, 0, 1, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+22) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, 0, 0, -1, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+23) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        imagecopy($finalImage, $image, 0, 0, 0, 1, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+24) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:43    [M] FunctionCallRemoval
+
+--- Original
++++ New
+@@ @@
+             return;
+         }
+         imagefill($finalImage, 0, 0, $color);
+-        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
++        
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+25) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:45    [M] DecrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         imagefill($finalImage, 0, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+-        imagepng($finalImage, $storagePath, 0);
++        imagepng($finalImage, $storagePath, -1);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+26) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:45    [M] IncrementInteger
+
+--- Original
++++ New
+@@ @@
+         }
+         imagefill($finalImage, 0, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+-        imagepng($finalImage, $storagePath, 0);
++        imagepng($finalImage, $storagePath, 1);
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+27) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:45    [M] FunctionCallRemoval
+
+--- Original
++++ New
+@@ @@
+         }
+         imagefill($finalImage, 0, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+-        imagepng($finalImage, $storagePath, 0);
++        
+         imagedestroy($image);
+         imagedestroy($finalImage);
+     }
+ }
+
+
+28) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:46    [M] FunctionCallRemoval
+
+--- Original
++++ New
+@@ @@
+         imagefill($finalImage, 0, 0, $color);
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+-        imagedestroy($image);
++        
+         imagedestroy($finalImage);
+     }
+ }
+
+
+29) /home/kpicaza/server/open.sketch/dev/src/SketchBook/Infrastructure/GD/PNGImageManipulation.php:47    [M] FunctionCallRemoval
+
+--- Original
++++ New
+@@ @@
+         imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+         imagepng($finalImage, $storagePath, 0);
+         imagedestroy($image);
+-        imagedestroy($finalImage);
 +        
      }
  }

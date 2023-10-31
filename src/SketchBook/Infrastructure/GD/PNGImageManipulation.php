@@ -14,19 +14,36 @@ final class PNGImageManipulation implements ImageManipulation
         list(, $data) = explode(';', $base64Image);
         list(, $data) = explode(',', $data);
 
-        $image = imagecreatefromstring($data);
-        list($red, $green, $blue) = sscanf($background, "#%02x%02x%02x");
+        $image = imagecreatefromstring(base64_decode($data));
+        if (false === $image) {
+            return;
+        }
 
-        $color = imagecolorallocatealpha($image, $red, $green, $blue, 0);
-        $this->imagefillalpha($image, $color);
-        imagepng($image);
+        $colorRGB = sscanf($background, "#%02x%02x%02x");
+        ;
+        if (null === $colorRGB) {
+            return;
+        }
+        list($red, $green, $blue) = $colorRGB;
+
+        $width  = imagesx($image);
+        $height = imagesy($image);
+
+        $finalImage = imagecreatetruecolor($width, $height);
+        if (false === $finalImage) {
+            return;
+        }
+
+        $color = imagecolorallocate($finalImage, (int)$red, (int)$green, (int)$blue);
+        if (false === $color) {
+            return;
+        }
+        imagefill($finalImage, 0, 0, $color);
+
+        imagecopy($finalImage, $image, 0, 0, 0, 0, $width, $height);
+
+        imagepng($finalImage, $storagePath, 0);
         imagedestroy($image);
-
-        Storage::put($storagePath, $image);
-    }
-
-    private function imageFillAlpha($image, $color): void
-    {
-        imagefilledrectangle($image, 0, 0, imagesx($image), imagesy($image), $color);
+        imagedestroy($finalImage);
     }
 }
