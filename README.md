@@ -148,6 +148,12 @@ Run tests
 composer check-all
 ```
 
+Currently, NativePHP doesn't allow enabling PHP extensions. At this time, to manipulate images, we need to install
+the GD extension for image manipulation. Until this feature is available in NativePHP, we can compile our own PHP 
+and substitute it for the original one in `vendor/nativephp/php-bin`. **It is only required to Download Sketch 
+feature. Every other feature will work as expected with default PHP binary packed by NativePHP.**
+
+
 ## License
 
 This project is licensed under the BSD-3-Clause License. You are free to use, modify, and distribute this software as long 

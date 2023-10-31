@@ -33,7 +33,8 @@ final class DownloadSketch
 
         $this->imageManipulation->make(
             $sketchBook->sketches()[$from->sketchId - 1]->image,
-            $storagePath
+            $storagePath,
+            $sketchBook->background()
         );
     }
 }
