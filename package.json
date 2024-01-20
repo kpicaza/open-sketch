@@ -38,7 +38,7 @@
     "laravel-vite-plugin": "^0.8.0",
     "prettier": "^3.0.3",
     "typescript": "*",
-    "vite": "^4.0.0"
+    "vite": "^4.5.2"
   },
   "prettier": {
     "singleQuote": true,
